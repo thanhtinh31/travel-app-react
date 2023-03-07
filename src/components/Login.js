@@ -3,15 +3,37 @@ import { BsGoogle, BsEyeSlash, BsEye } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { LoginSocialFacebook } from 'reactjs-social-login';
+import { FacebookLoginButton } from 'react-social-login-buttons';
+
 function Login() {
   const [showpw, setShowpw] = useState(false);
   const [email, getEmail] = useState("");
   const [password, getPassword] = useState("");
-
+  const [profile, setProfile] = useState(null);
   const  navigate = useNavigate()
   const showPassword = () => {
     setShowpw(!showpw);
   };
+  const handleLoginFB=async(response)=>{
+    const userfb= {idFacebook:response.data.id,nameAccount:response.data.name,image:response.data.picture.data.url,typeAccount: 1};
+    
+
+    try{
+      const r = await axios.post('http://localhost:8080/account/loginFB', userfb);
+      console.log(r.data.account);
+      sessionStorage.setItem('user',JSON.stringify(r?.data.account));
+      
+      window.location="/home";
+      
+
+    }catch(err){
+      console.log(err);
+
+    }
+
+
+  }
   const handleLogin =async(e) => {
     e.preventDefault();
     let regObj = { email, password};
@@ -84,19 +106,23 @@ function Login() {
                   </span>
                 </button>
               </form>
-              <button
-                type="button"
-                className="text-white w-full justify-center bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
-              >
+              
                 <div className="flex items-center">
-                  <BsGoogle size={20} />
-                  <span className="px-2">Sign in with Google</span>
+                  
+                <LoginSocialFacebook appId='988527735837751' 
+                fieldsProfile='name,picture'
+                onResolve={(response) => {setProfile(response.data);handleLoginFB(response);}} 
+                onReject={(error)=>{alert("Login Facebook thất bại!");}}
+                >
+                <FacebookLoginButton />               
+                </LoginSocialFacebook >
                 </div>
-              </button>
+              
             </div>
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

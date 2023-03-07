@@ -7901,7 +7901,7 @@
     "strip-ansi" "^6.0.1"
     "text-table" "^0.2.0"
 
-"react-dom@^18.0.0", "react-dom@^18.2.0", "react-dom@>=16", "react-dom@>=16.8":
+"react-dom@^16 || ^17 || ^18", "react-dom@^18.0.0", "react-dom@^18.2.0", "react-dom@>=16", "react-dom@>=16.8":
   "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   "version" "18.2.0"
@@ -8009,6 +8009,11 @@
   optionalDependencies:
     "fsevents" "^2.3.2"
 
+"react-social-login-buttons@^3.6.1":
+  "integrity" "sha512-DIz30W+C147s7wxwt8zgwjx5pE+gTJwtUzTNKpKZO3bEY06eLjcY1zvZ8h35hQd1Yjd7b4rLkeuZBwlLURYIfg=="
+  "resolved" "https://registry.npmjs.org/react-social-login-buttons/-/react-social-login-buttons-3.6.1.tgz"
+  "version" "3.6.1"
+
 "react-toastify@^9.1.1":
   "integrity" "sha512-pkFCla1z3ve045qvjEmn2xOJOy4ZciwRXm1oMPULVkELi5aJdHCN/FHnuqXq8IwGDLB7PPk2/J6uP9D8ejuiRw=="
   "resolved" "https://registry.npmjs.org/react-toastify/-/react-toastify-9.1.1.tgz"
@@ -8016,12 +8021,17 @@
   dependencies:
     "clsx" "^1.1.1"
 
-"react@*", "react@^18.0.0", "react@^18.2.0", "react@>= 16", "react@>=16", "react@>=16.8":
+"react@*", "react@^15.0.0 || ^16.0.0 || ^17.x || ^18.x", "react@^16 || ^17 || ^18", "react@^18.0.0", "react@^18.2.0", "react@>= 16", "react@>=16", "react@>=16.8":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"
   dependencies:
     "loose-envify" "^1.1.0"
+
+"reactjs-social-login@^2.6.2":
+  "integrity" "sha512-7ngl3qMbnRkXJznsdd/fwCXLwE1wBpeLhaAZJlZF0Wki7tl9nwFL191t+uopZkSBnWuHRCBhmOGgT/y9KVSJAg=="
+  "resolved" "https://registry.npmjs.org/reactjs-social-login/-/reactjs-social-login-2.6.2.tgz"
+  "version" "2.6.2"
 
 "read-cache@^1.0.0":
   "integrity" "sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA=="
