@@ -1,0 +1,13 @@
+{
+  "user": [
+    {
+      "email": "tranvanhieu20032001@gmail.com",
+      "phone": "0961964263",
+      "username": "hieude",
+      "password": "123456",
+      "role": "user",
+      "stt": "active",
+      "id": 1
+    }
+  ]
+}
