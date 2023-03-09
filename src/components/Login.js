@@ -20,9 +20,9 @@ function Login() {
     
 
     try{
-      const r = await axios.post('http://localhost:8080/account/loginFB', userfb);
-      console.log(r.data.account);
-      sessionStorage.setItem('user',JSON.stringify(r?.data.account));
+      // const r = await axios.post('http://localhost:8080/account/loginFB', userfb);
+      // console.log(r.data.account);
+      // sessionStorage.setItem('user',JSON.stringify(r?.data.account));
       
       window.location="/home";
       
