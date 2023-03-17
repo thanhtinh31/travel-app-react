@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BsGoogle, BsEyeSlash, BsEye } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function Register() {
   const [showpw, setShowpw] = useState(false);
   // const [id, setId] = useState("")
@@ -15,24 +16,35 @@ function Register() {
     setShowpw(!showpw);
   };
   const navigate = useNavigate();
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    let regObj = { email, phone, username, password, role, stt };
-    console.log(regObj);
-    fetch("http://localhost:8000/user", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(regObj),
-    })
-      .then((res) => {
-        toast.success("Resgiter successfully");
-        setTimeout(()=>{
-          navigate('/login')
-        },5000)
-      })
-      .catch((err) => {
-        toast.error("Email đã được tạo bởi tài khoản khác");
-      });
+    let regObj = { email, phoneNumber:phone , nameAccount:username, password , status:1 };
+
+    const res = await axios.post('http://localhost:8080/account/register',regObj);
+    console.log(res?.data);
+    if(res?.data.status==="0"){
+        toast.error(res?.data.message);
+    }else
+    {
+        sessionStorage.setItem("verify",JSON.stringify(res?.data));
+       
+        navigate('/verify')
+    }
+    // fetch("http://localhost:8080/account/register", {
+    //   method: "POST",
+    //   headers: { "content-type": "application/json" },
+    //   body: JSON.stringify(regObj),
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //     toast.success("Resgiter successfully");
+    //     setTimeout(()=>{
+    //       navigate('/login')
+    //     },5000)
+    //   })
+    //   .catch((err) => {
+    //     toast.error("Không có kết nối");
+    //   });
   };
   return (
     <div className="bg-white h-[100vh] pt-8">
