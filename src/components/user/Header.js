@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDarkMode } from "../../layout/useDarkMode";
 import logo from "../../assets/greenhouse_logo.png"
 import { RiAdvertisementFill } from "react-icons/ri";
@@ -21,17 +21,22 @@ import {
   MdMenu,
 } from "react-icons/md";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import axios from "axios";
+import BaseUrl from "../../util/BaseUrl";
 
-function Header() {
+
+function  Header()  {
   // const navigate = useNavigate();
   const [togglebtn, setTogglebtn] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
   const [darkmode, toggleDarkMode] = useDarkMode();
+  let isLogin = (sessionStorage.getItem('user'))?true:false;
   const toggleNavbar = () => {
     setTogglebtn(!togglebtn);
   };
+  
+  
   const dropDownbtn = (id) => {
     id === 3 ? setDropdown(!dropdown) : setDropdown(false);
   };
@@ -78,6 +83,11 @@ function Header() {
       icon: <MdHistory size={20} />,
     },
   ];
+  const logout =(e)=>{
+      
+    sessionStorage.removeItem('user');
+    //Navigate("login");
+  }
   return (
     <div className="bg-[#0284c7] text-white w-full fixed z-50">
       <div className="flex justify-between px-2 lg:px-28 border-b-[1px]">
@@ -100,15 +110,15 @@ function Header() {
             <div className="flex">
               <div className="flex items-center px-2">
                 <img
-                  src={require("../../assets/anh7.png")}
+                  src={JSON.parse(sessionStorage.getItem('user')).image?JSON.parse(sessionStorage.getItem('user')).image:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
                   className="w-6 h-6 rounded-full"
                 />
-                <span className="text-md font-normal mx-1">Văn Hiếu</span>
+                <span className="text-md font-normal mx-1">{JSON.parse(sessionStorage.getItem('user')).nameAccount}</span>
               </div>
               <div className="flex items-center px-2">
                 <BiLogOut size={20} />
                 <span className="text-md font-normal mx-1">
-                  <Link to="/login">Đăng Xuất</Link>
+                  <Link onClick={logout} to="/login">Đăng Xuất</Link>
                 </span>
               </div>
             </div>
@@ -123,7 +133,7 @@ function Header() {
               <div className="flex items-center px-2">
                 <BsFillPersonFill size={20} />
                 <span className="text-md font-normal mx-1">
-                  <Link to="/register">Đăng xuất</Link>
+                <Link to="/login">Đăng ký</Link>
                 </span>
               </div>
             </div>
@@ -202,9 +212,9 @@ function Header() {
                 <Link to={path}>{title}</Link>
                 {dropdown && id === 3 && (
                   <div className="bg-white dark:bg-gray-800 text-slate-900 flex justify-center items-center flex-col absolute bottom-[-7rem] w-80 rounded-sm shadow-md dark:text-darksubtext">
-                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">Du lịch biển</div>
-                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">Du lịch miền núi</div>
-                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">Du lịch thôn quê</div>
+                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">1</div>
+                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">2</div>
+                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">3</div>
                   </div>
                 )}
               </li>
@@ -234,7 +244,7 @@ function Header() {
                 <Link to={path}>{title}</Link>
                 {dropdown && id === 3 && (
                   <div className="bg-white dark:bg-gray-500 text-slate-900 flex justify-center items-center flex-col md:hidden absolute z-30 bottom-[29%] w-[90%] rounded-sm shadow-md dark:text-darksubtext">
-                    <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center ">Du lịch biển</div>
+                    <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center ">Du lịch biển sdfdf 123</div>
                     <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center">Du lịch miền núi</div>
                     <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center">Du lịch thôn quê</div>
                   </div>
@@ -247,5 +257,6 @@ function Header() {
     </div>
   );
 }
+
 
 export default Header;

@@ -6,7 +6,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import BaseUrl from "../util/BaseUrl";
 import axios from "axios";
 import { LoginSocialFacebook } from 'reactjs-social-login';
-import { FacebookLoginButton } from 'react-social-login-buttons';
+
 function Login() {
   const reCaptCha = () => {
     setActive(true);
@@ -29,7 +29,7 @@ function Login() {
     
 
     try{
-      const r = await axios.post('http://localhost:8080/account/loginFB', userfb);
+      const r = await axios.post(BaseUrl+'account/loginFB', userfb);
       console.log(r.data.account);
       sessionStorage.setItem('user',JSON.stringify(r?.data.account));      
       window.location="/home";
@@ -45,12 +45,11 @@ function Login() {
     e.preventDefault();
     let regObj = { email, password};
     try{
-      const res= await axios.post(BaseUrl+'account/login', regObj);
-      
+      const res= await axios.post(BaseUrl+'account/login', regObj);      
       if(res?.data.status==='1') { 
        sessionStorage.setItem('user',JSON.stringify(res?.data.account));
        if(JSON.parse(sessionStorage.getItem('user')).typeAccount===0) window.location="/home"; 
-       else window.location='/user';}
+       else window.location='/home';}
       else toast.success(res?.data.message);
 
     }catch(err){
@@ -135,7 +134,7 @@ function Login() {
                   </div>
                   </div>
                 </div>
-                <button
+                <button onClick={handleLogin}
                   disabled={!active}
                   className="relative inline-flex w-full items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
                 >
@@ -144,21 +143,22 @@ function Login() {
                   </span>
                 </button>
               </form>
+              <LoginSocialFacebook appId='988527735837751' 
+                fieldsProfile='name,picture'
+                onResolve={(response) => {setProfile(response.data);handleLoginFB(response);}} 
+                onReject={(error)=>{alert("Login Facebook thất bại!");}}
+                >              
+                
               <button
                 type="button"
                 className="text-white w-full justify-center bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
               >
-                <div className="flex items-center">
-                <LoginSocialFacebook appId='988527735837751' 
-                fieldsProfile='name,picture'
-                onResolve={(response) => {setProfile(response.data);handleLoginFB(response);}} 
-                onReject={(error)=>{alert("Login Facebook thất bại!");}}
-                >
-                <FacebookLoginButton />               
-                </LoginSocialFacebook >
+                <div className="flex items-center"> 
+                <BsFacebook/>               
                   <span className="px-2">Sign in with Facebook</span>
                 </div>
               </button>
+              </LoginSocialFacebook >
             </div>
           </div>
         </div>

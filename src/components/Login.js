@@ -20,7 +20,7 @@ function Login() {
     
 
     try{
-      const r = await axios.post('http://localhost:8080/account/loginFB', userfb);
+      const r = await axios.post(BaseUrl+'account/loginFB', userfb);
       console.log(r.data.account);
       sessionStorage.setItem('user',JSON.stringify(r?.data.account));
       

@@ -1,59 +1,65 @@
 import React, { useState } from "react";
-import { BsGoogle, BsEyeSlash, BsEye } from "react-icons/bs";
+import { BsGoogle, BsEyeSlash, BsEye, BsFacebook } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LoginSocialFacebook } from 'reactjs-social-login';
+import BaseUrl from "../util/BaseUrl";
 function Register() {
-  const [showpw, setShowpw] = useState(false);
-  // const [id, setId] = useState("")
-  const [email, setEmail] = useState("");
-  const [nameAccount, setNameAccount] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [typeAccount, setTypeAccount] = useState(1);
-  const [status, setStt] = useState(1);
-  const showPassword = () => {
-    setShowpw(!showpw);
-  };
-  const navigate = useNavigate();
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    let regObj = { email, phoneNumber , nameAccount:username, password , status ,typeAccount };
-
-    const res = await axios.post('http://localhost:8080/account/register',regObj);
-    console.log(res?.data);
-    if(res?.data.status==="0"){
-        toast.error(res?.data.message);
-    }else
-    {
-        sessionStorage.setItem("verify",JSON.stringify(res?.data));
-       
-        navigate('/verify')
-    }
-    // fetch("http://localhost:8080/account/register", {
-    //   method: "POST",
-    //   headers: { "content-type": "application/json" },
-    //   body: JSON.stringify(regObj),
-    // })
-    //   .then((res) => {
-    //     console.log(res);
-    //     toast.success("Resgiter successfully");
-    //     setTimeout(()=>{
-    //       navigate('/login')
-    //     },5000)
-    //   })
-    //   .catch((err) => {
-    //     toast.error("Không có kết nối");
-    //   });
-  };
+    const [showpw, setShowpw] = useState(false);
+    // const [id, setId] = useState("")
+    const [email, setEmail] = useState("");
+    const [nameAccount, setNameAccount] = useState("");
+    const [password, setPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [typeAccount, setTypeAccount] = useState(1);
+    const [status, setStt] = useState(1);
+    const [profile, setProfile] = useState(null);
+    const showPassword = () => {
+      setShowpw(!showpw);
+    };
+    const navigate = useNavigate();
+    const handleRegister = async (e) => {
+      e.preventDefault();
+      let regObj = { email, phoneNumber , nameAccount, password , status ,typeAccount };
+  
+      const res = await axios.post(BaseUrl+'account/register',regObj);
+      console.log(res?.data);
+      if(res?.data.status==="0"){
+          toast.error(res?.data.message);
+      }else
+      {
+          sessionStorage.setItem("verify",JSON.stringify(res?.data));
+         
+          navigate('/verify')
+      }
+      
+    };
+    const handleLoginFB=async(response)=>{
+        const userfb= {idFacebook:response.data.id,nameAccount:response.data.name,image:response.data.picture.data.url,typeAccount: 1};
+        
+    
+        try{
+          const r = await axios.post(BaseUrl+'account/loginFB', userfb);
+          console.log(r.data.account);
+          sessionStorage.setItem('user',JSON.stringify(r?.data.account));      
+          window.location="/home";
+          
+        }catch(err){
+          console.log(err);
+    
+        }
+    
+    
+      }
   return (
-    <div className="bg-white h-[100vh] pt-8">
-      <div className="max-w-screen-md bg-[#ddeef8] my-auto mx-auto items-center shadow-lg p-4 rounded-md">
+    <div className=" h-[100vh] pt-40">
+      <div className="max-w-screen-md bg-[#ddeef8] dark:bg-[#a5d4f0] my-auto mx-auto items-center shadow-lg p-4 rounded-md">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
           <div className="hidden md:block bg-[url('./assets/login.jpg')] h-[80vh] bg-center bg-cover bg-no-repeat"></div>
           <div className="justify-center mx-auto w-[90%]">
-            <h2 className="font-bold text-3xl mb-4">Register</h2>
-            <p className="text-[#707070] my-4">
+            <h2 className="font-bold text-3xl dark:text-white mb-4">Register</h2>
+            <p className="text-[#707070] dark:text-white my-4">
               Welcome to <strong>Blue House Travel</strong>
             </p>
             <div>
@@ -70,7 +76,7 @@ function Register() {
                     placeholder=" "
                     required
                   />
-                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Email address
                   </label>
                 </div>
@@ -87,7 +93,7 @@ function Register() {
                     placeholder=" "
                     required
                   />
-                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Phone number
                   </label>
                 </div>
@@ -103,7 +109,7 @@ function Register() {
                     placeholder=" "
                     required
                   />
-                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     User name
                   </label>
                 </div>
@@ -122,9 +128,10 @@ function Register() {
                     id="floating_text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
+                    minLength={6}
                     required
                   />
-                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     New password
                   </label>
                 </div>
@@ -134,15 +141,22 @@ function Register() {
                   </span>
                 </button>
               </form>
+              <LoginSocialFacebook appId='988527735837751' 
+                fieldsProfile='name,picture'
+                onResolve={(response) => {setProfile(response.data);handleLoginFB(response);}} 
+                onReject={(error)=>{alert("Login Facebook thất bại!");}}
+                >              
+                
               <button
                 type="button"
                 className="text-white w-full justify-center bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
               >
-                <div className="flex items-center">
-                  <BsGoogle size={20} />
-                  <span className="px-2">Sign in with Google</span>
+                <div className="flex items-center"> 
+                <BsFacebook/>               
+                  <span className="px-2">Sign in with Facebook</span>
                 </div>
               </button>
+              </LoginSocialFacebook >
             </div>
           </div>
         </div>

@@ -22,16 +22,34 @@ import {
 } from "react-icons/md";
 import { FaUtensils } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Header from "../../components/user/Header";
 import UserLayout from "../../layout/UserLayout";
 import SlideComponent from "../../components/user/SlideComponent";
-
-
+import axios from "axios";
+import BaseUrl from "../../util/BaseUrl";
+import { useState } from "react";
+import { useEffect } from "react";
 function HomePage() {
-  console.log('session ', sessionStorage.getItem('user'))
+  
+  const [tour, setTour] = useState([]);
+  const [category,setCategory] = useState([]);
+  async function fetchData() {
+    try {
+      const categories = await axios.get(BaseUrl+'category?size=3')
+      const tours = await axios.get(BaseUrl+'tour?size=6')
+      setCategory(categories.data.content)
+      setTour(tours.data.content)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  console.log(category);
   return (
     <UserLayout>
-      <div className="pt-44 mx-auto w-10/12 h-max">
+      
       <div className="shadow-md rounded-sm">
         <Swiper
           className="relative group"
@@ -71,36 +89,20 @@ function HomePage() {
       </div>
 
       <div className="my-4 flex flex-col sm:flex-row flex-wrap justify-center md:justify-between">
+        { category.map((item) => {
+          return(
+        
         <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md">
           <img
-            src="https://cdn.pixabay.com/photo/2017/12/15/13/51/polynesia-3021072_960_720.jpg"
+            src={item.image}
             alt=""
           />
           <div className="banner-content w-40 md:w-48 flex items-center justify-center">
-            <div className="banner-title">Du lịch biển đảo</div>
+            <div className="banner-title">{item.name}</div>
           </div>
           <div className="hover_banner"></div>
         </div>
-        <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md">
-          <img
-            src="https://cdn.pixabay.com/photo/2019/05/19/04/16/agriculture-4213197_960_720.jpg"
-            alt=""
-          />
-          <div className="banner-content w-40 md:w-48 flex items-center justify-center">
-            <div className="banner-title">Du lịch miền núi</div>
-          </div>
-          <div className="hover_banner"></div>
-        </div>
-        <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md">
-          <img
-            src="https://cdn.pixabay.com/photo/2019/09/03/13/13/countryside-4449408_960_720.jpg"
-            alt=""
-          />
-          <div className="banner-content w-40 md:w-48 flex items-center justify-center">
-            <div className="banner-title">Du lịch miền quê</div>
-          </div>
-          <div className="hover_banner"></div>
-        </div>
+        )})}
       </div>
 
       <div className="">
@@ -108,6 +110,8 @@ function HomePage() {
           Khám Phá tour Du lịch
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        { tour.map((item) => {
+          return(
           <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
             <div className="h-full w-full lg:w-[55%]">
               <Link to="">
@@ -120,9 +124,9 @@ function HomePage() {
             </div>
             <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
               <div className="text-lg font-[600] p-1">
-                <a href="">Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo</a>
+                <a href="">{item.title}</a>
               </div>
-              <div className="px-1 text-md font-[500]"> 4 ngày - 3 đêm</div>
+              <div className="px-1 text-md font-[500]"> {item.inteval} </div>
               <div className="flex items-center  px-1 text-md font-[500]">
                 <span className="mr-2">Phương tiện: </span>
                 <BsFillCarFrontFill size={20} />
@@ -137,7 +141,7 @@ function HomePage() {
                 <BsBusFront />
               </div>
               <div className="text-md font-[500] text-red-600 p-1">
-                5.999.000 VDN/người
+                {item.price}
               </div>
               <div className="line-through text-sm font-[400] text-red-500 p-1">
                 6.499.000 VND/người
@@ -152,234 +156,10 @@ function HomePage() {
               <button className="button float-right m-2">Xem thêm</button>
             </div>
           </div>
-
-          <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
-            <div className="h-full w-full lg:w-[55%]">
-              <Link to="">
-                <img
-                  src="https://cdn.pixabay.com/photo/2019/09/03/13/13/countryside-4449408_960_720.jpg"
-                  alt=""
-                  className="p-2 rounded-md h-full"
-                />
-              </Link>
-            </div>
-            <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
-              <div className="text-lg font-[600] p-1">
-                <a href="">Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo</a>
-              </div>
-              <div className="px-1 text-md font-[500]"> 4 ngày - 3 đêm</div>
-              <div className="flex items-center  px-1 text-md font-[500]">
-                <span className="mr-2">Phương tiện: </span>
-                <BsFillCarFrontFill size={20} />
-                <MdTrain size={20} />
-                <MdAirplanemodeActive size={20} />
-              </div>
-              <div className="flex justify-around p-1">
-                <MdCheckCircle size={20} />
-                <FaUtensils size={20} />
-                <BsShieldFillCheck size={20} />
-                <BsTicketPerforatedFill size={20} />
-                <BsBusFront />
-              </div>
-              <div className="text-md font-[500] text-red-600 p-1">
-                5.999.000 VDN/người
-              </div>
-              <div className="line-through text-sm font-[400] text-red-500 p-1">
-                6.499.000 VND/người
-              </div>
-              <div className="flex text-yellow-500">
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-              </div>
-              <button className="button float-right m-2">Xem thêm</button>
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
-            <div className="h-full w-full lg:w-[55%]">
-              <Link to="">
-                <img
-                  src="https://cdn.pixabay.com/photo/2019/09/03/13/13/countryside-4449408_960_720.jpg"
-                  alt=""
-                  className="p-2 rounded-md h-full"
-                />
-              </Link>
-            </div>
-            <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
-              <div className="text-lg font-[600] p-1">
-                <a href="">Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo</a>
-              </div>
-              <div className="px-1 text-md font-[500]"> 4 ngày - 3 đêm</div>
-              <div className="flex items-center  px-1 text-md font-[500]">
-                <span className="mr-2">Phương tiện: </span>
-                <BsFillCarFrontFill size={20} />
-                <MdTrain size={20} />
-                <MdAirplanemodeActive size={20} />
-              </div>
-              <div className="flex justify-around p-1">
-                <MdCheckCircle size={20} />
-                <FaUtensils size={20} />
-                <BsShieldFillCheck size={20} />
-                <BsTicketPerforatedFill size={20} />
-                <BsBusFront />
-              </div>
-              <div className="text-md font-[500] text-red-600 p-1">
-                5.999.000 VDN/người
-              </div>
-              <div className="line-through text-sm font-[400] text-red-500 p-1">
-                6.499.000 VND/người
-              </div>
-              <div className="flex text-yellow-500">
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-              </div>
-              <button className="button float-right m-2">Xem thêm</button>
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
-            <div className="h-full w-full lg:w-[55%]">
-              <Link to="">
-                <img
-                  src="https://cdn.pixabay.com/photo/2019/09/03/13/13/countryside-4449408_960_720.jpg"
-                  alt=""
-                  className="p-2 rounded-md h-full"
-                />
-              </Link>
-            </div>
-            <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
-              <div className="text-lg font-[600] p-1">
-                <a href="">Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo</a>
-              </div>
-              <div className="px-1 text-md font-[500]"> 4 ngày - 3 đêm</div>
-              <div className="flex items-center  px-1 text-md font-[500]">
-                <span className="mr-2">Phương tiện: </span>
-                <BsFillCarFrontFill size={20} />
-                <MdTrain size={20} />
-                <MdAirplanemodeActive size={20} />
-              </div>
-              <div className="flex justify-around p-1">
-                <MdCheckCircle size={20} />
-                <FaUtensils size={20} />
-                <BsShieldFillCheck size={20} />
-                <BsTicketPerforatedFill size={20} />
-                <BsBusFront />
-              </div>
-              <div className="text-md font-[500] text-red-600 p-1">
-                5.999.000 VDN/người
-              </div>
-              <div className="line-through text-sm font-[400] text-red-500 p-1">
-                6.499.000 VND/người
-              </div>
-              <div className="flex text-yellow-500">
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-              </div>
-              <button className="button float-right m-2">Xem thêm</button>
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
-            <div className="h-full w-full lg:w-[55%]">
-              <Link to="">
-                <img
-                  src="https://cdn.pixabay.com/photo/2019/09/03/13/13/countryside-4449408_960_720.jpg"
-                  alt=""
-                  className="p-2 rounded-md h-full"
-                />
-              </Link>
-            </div>
-            <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
-              <div className="text-lg font-[600] p-1">
-                <a href="">Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo</a>
-              </div>
-              <div className="px-1 text-md font-[500]"> 4 ngày - 3 đêm</div>
-              <div className="flex items-center  px-1 text-md font-[500]">
-                <span className="mr-2">Phương tiện: </span>
-                <BsFillCarFrontFill size={20} />
-                <MdTrain size={20} />
-                <MdAirplanemodeActive size={20} />
-              </div>
-              <div className="flex justify-around p-1">
-                <MdCheckCircle size={20} />
-                <FaUtensils size={20} />
-                <BsShieldFillCheck size={20} />
-                <BsTicketPerforatedFill size={20} />
-                <BsBusFront />
-              </div>
-              <div className="text-md font-[500] text-red-600 p-1">
-                5.999.000 VDN/người
-              </div>
-              <div className="line-through text-sm font-[400] text-red-500 p-1">
-                6.499.000 VND/người
-              </div>
-              <div className="flex text-yellow-500">
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-              </div>
-              <button className="button float-right m-2">Xem thêm</button>
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
-            <div className="h-full w-full lg:w-[55%]">
-              <Link to="">
-                <img
-                  src="https://cdn.pixabay.com/photo/2019/09/03/13/13/countryside-4449408_960_720.jpg"
-                  alt=""
-                  className="p-2 rounded-md h-full"
-                />
-              </Link>
-            </div>
-            <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
-              <div className="text-lg font-[600] p-1">
-                <a href="">Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo</a>
-              </div>
-              <div className="px-1 text-md font-[500]"> 4 ngày - 3 đêm</div>
-              <div className="flex items-center  px-1 text-md font-[500]">
-                <span className="mr-2">Phương tiện: </span>
-                <BsFillCarFrontFill size={20} />
-                <MdTrain size={20} />
-                <MdAirplanemodeActive size={20} />
-              </div>
-              <div className="flex justify-around p-1">
-                <MdCheckCircle size={20} />
-                <FaUtensils size={20} />
-                <BsShieldFillCheck size={20} />
-                <BsTicketPerforatedFill size={20} />
-                <BsBusFront />
-              </div>
-              <div className="text-md font-[500] text-red-600 p-1">
-                5.999.000 VDN/người
-              </div>
-              <div className="line-through text-sm font-[400] text-red-500 p-1">
-                6.499.000 VND/người
-              </div>
-              <div className="flex text-yellow-500">
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-                <MdOutlineStar size={20} />
-              </div>
-              <button className="button float-right m-2">Xem thêm</button>
-            </div>
-          </div>
+          )})}
         </div>
       </div>
-    </div>
+    
     </UserLayout>
   );
 }
