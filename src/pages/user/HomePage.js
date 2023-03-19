@@ -141,10 +141,12 @@ function HomePage() {
                 <BsBusFront />
               </div>
               <div className="text-md font-[500] text-red-600 p-1">
-                {item.price}
+              
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price-item.price*item.sale)}
+                
               </div>
               <div className="line-through text-sm font-[400] text-red-500 p-1">
-                6.499.000 VND/người
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
               </div>
               <div className="flex text-yellow-500">
                 <MdOutlineStar size={20} />
