@@ -9,6 +9,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import BookingPage from "./pages/user/BookingPage";
 import IntroducePage from "./pages/user/IntroducePage";
+import CreateTourPage from "./pages/seller/CreateTourPage";
+import ListTourPage from "./pages/seller/ListTourPage";
+import EditTourPage from "./pages/seller/EditTourPage";
+
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
           <Route path="/verify" element={<VerifyPage/>}></Route>
           <Route path="/booking" element={<BookingPage/>}></Route>
           <Route path="/introduce" element={<IntroducePage/>}></Route>
+          <Route path="/addtour" element={<CreateTourPage/>}></Route>
+          <Route path="/listtour" element={<ListTourPage/>}></Route>
+          <Route path="/edittour" element={<EditTourPage/>}></Route>
+          <Route path="/upload" element={<UpLoad/>}></Route>
           {/* <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>

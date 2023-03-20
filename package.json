@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-tailwind/react": "^1.4.2",
     "@mui/material": "^5.11.13",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,6 +15,7 @@
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^2.1.0",
     "react-icons": "^4.8.0",
+    "react-js-pagination": "^3.0.3",
     "react-router-dom": "^6.9.0",
     "react-scripts": "^5.0.1",
     "react-social-login-buttons": "^3.6.1",

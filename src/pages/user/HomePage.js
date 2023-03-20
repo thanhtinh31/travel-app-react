@@ -46,7 +46,7 @@ function HomePage() {
     fetchData();
   }, []);
   
-  console.log(category);
+
   return (
     <UserLayout>
       
@@ -116,7 +116,7 @@ function HomePage() {
             <div className="h-full w-full lg:w-[55%]">
               <Link to="">
                 <img
-                  src="https://cdn.pixabay.com/photo/2019/09/03/13/13/countryside-4449408_960_720.jpg"
+                  src={item.image[0]}
                   alt=""
                   className="p-2 rounded-md h-full"
                 />
@@ -142,11 +142,11 @@ function HomePage() {
               </div>
               <div className="text-md font-[500] text-red-600 p-1">
               
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price-item.price*item.sale)}
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price-item.price*item.sale)} / người
                 
               </div>
               <div className="line-through text-sm font-[400] text-red-500 p-1">
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)} / người
               </div>
               <div className="flex text-yellow-500">
                 <MdOutlineStar size={20} />

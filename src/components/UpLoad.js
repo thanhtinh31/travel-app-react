@@ -15,8 +15,7 @@ function UpLoad() {
     }
   };
 
-  const handleMultifile =(e)=>{
-    
+  const handleMultifile =(e)=>{  
     console.log(e.target.files);
       setList(e.target.files);
       console.log(list);

@@ -1,33 +1,78 @@
 import { async } from '@firebase/util';
-import { Textarea } from '@material-tailwind/react';
 import axios from 'axios';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react'
 import { toast } from "react-toastify";
-import { storage } from '../../firebase';
 import AdminLayout from '../../layout/AdminLayout';
 import BaseUrl from '../../util/BaseUrl';
-
-const CreateTourPage = () => {
+import { useParams } from 'react-router-dom';
+import { Textarea } from '@material-tailwind/react';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../../firebase';
+const EditTourPage = () => {
   const [title,setTitle] = useState(null);
   const [subTitle,setSubTitle] = useState(null);
-  const [image,setImage] = useState(["anh1","anh2"]);
+  const [image,setImage] = useState([]);
   const [describe,setDescribe] = useState(null);
   const [interesting,setInteresting] = useState(null);
   const [address,setAddress] = useState(null);
   const [inteval,setInteval] = useState(null);
   const [vehicle,setVehicle] = useState(null);
-  const [price,setPrice] = useState(null);
+  const [price,setPrice] = useState(0);
   const [sale,setSale] = useState(null);
   const [status,setStatus] = useState(1);
   const [account,setAccount] = useState(null);
   const [idCategory,setIdCategory] = useState(null);
+  const [tour,setTour] =useState(null);
   const [categories,setCategories] = useState([]);
-
-  const [list,setList] = useState(null);
-  const images=[]
+  var url_string = window.location;
+  var urla = new URL(url_string);
+  var id = urla.searchParams.get("id");
 
   const [url, setUrl] = useState(null);
+  const [list,setList] = useState(null);
+  const images=[]
+  
+
+  const getTourById=async()=>{
+    console.log(BaseUrl+'tour/'+id);
+    try{
+        const res= await axios.get(BaseUrl+'tour/'+id);   
+        console.log(res?.data.image);
+        setTour(res?.data);  
+        setTitle(res?.data.title)
+        setSubTitle(res?.data.subTitle)
+        setImage(res?.data.image)
+        setDescribe(res?.data.describe)
+        setAddress(res?.data.address)
+        setInteval(res?.data.inteval)
+        setSale(res?.data.sale)
+        setPrice(res?.data.price)
+        setIdCategory(res?.data.idCategory)
+
+
+
+      }catch(err){
+        alert('Khong co ket noi');
+  
+                  }
+    
+  }
+  async function getlistcategory() {
+    try {
+      const categories = await axios.get(BaseUrl+'category?size=100')
+
+      setCategories(categories.data.content)
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  const onChange = (e) => {
+    setList(e.target.files)
+    
+  };
+
+
   const uploadImageHandle=(e)=>{
     e.preventDefault();
     uploadHandle(list);
@@ -42,7 +87,6 @@ const CreateTourPage = () => {
         getDownloadURL(imageRef)
           .then((url) => {
             setUrl(url);
-            
             images.push(url);
           })
           .catch((error) => {
@@ -57,69 +101,37 @@ const CreateTourPage = () => {
     }
     console.log(images);
     setImage(images);
-    // for(let i=0;i<e.length;i++){
-    //   const imageRef = ref(storage, "images/"+e[i].name);
-    // uploadBytes(imageRef, e.target.files[i])
-    //   .then(() => {
-    //     getDownloadURL(imageRef)
-    //       .then((url) => {
-    //         setUrl(url);
-            
-    //         images.push(url);
-    //         console.log(images);
-    //       })
-    //       .catch((error) => {
-    //         console.log(error.message, "error getting the image url");
-    //       });
-    //     setImage(null);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //   });
-    // }
-  }
-  const onChange = (e) => {
-    setList(e.target.files)
     
-  };
+  }
 
   const handSubmit = async(e)=>{
-
     e.preventDefault();
-    console.log(image);
+    let regObj = {id, title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,account,idCategory};
     
-
-    let regObj = { title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,account,idCategory};
     console.log(regObj);
     try{
-      const res= await axios.post(BaseUrl+'tour', regObj);    
-      console.log(res?.data);  
-      toast.success("thanhf cong")
-
-    }catch(err){
-      alert('Khong co ket noi');
-
-                }
-    }
+        const res= await axios.put(BaseUrl+'tour', regObj);    
+        console.log(res?.data);  
+        toast.success("thanh cong")
   
-    async function getlistcategory() {
-      try {
-        const categories = await axios.get(BaseUrl+'category?size=100')
-        setCategories(categories.data.content)
-      } catch (error) {
-        console.error(error);
-      }
-    }
+      }catch(err){
+        alert('Khong co ket noi');
+  
+                  }
+
+  }
   useState(() => {
+    
+    getTourById();
     getlistcategory();
     
-    
+
   }, []);
 
   return (
     <>
       <AdminLayout>
-      <form encType="multipart/form-data">
+      <form>
         Title
         <input
         value={title}
@@ -185,7 +197,8 @@ const CreateTourPage = () => {
         { categories.map((item) => {
           return(
         <option value={item.id} >{item.name}</option>
-          )})}
+          )})
+        }
         </select>
         <br/>
         image
@@ -193,13 +206,14 @@ const CreateTourPage = () => {
         type="file" multiple onChange={onChange}
         >
         </input>
-        <button onClick={uploadImageHandle} >Upload image to cloud</button>
+        <button onClick={uploadImageHandle} >Upload image to cloud</button> {(image!=null)?image.map((item) => {return(<img src={item}></img>)}):<></>}
         <br/>
-        <button  onClick={handSubmit}>Create</button> || <button >Cancle</button>
+        <button type='submit' onClick={handSubmit}>Update</button>
+        <button type='submit' >Cancle</button>
       </form>
       </AdminLayout>
     </>
   )
 }
 
-export default CreateTourPage
+export default EditTourPage
