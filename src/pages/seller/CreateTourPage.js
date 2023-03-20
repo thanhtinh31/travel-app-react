@@ -11,7 +11,7 @@ import BaseUrl from '../../util/BaseUrl';
 const CreateTourPage = () => {
   const [title,setTitle] = useState(null);
   const [subTitle,setSubTitle] = useState(null);
-  const [image,setImage] = useState(["anh1","anh2"]);
+  const [image,setImage] = useState([]);
   const [describe,setDescribe] = useState(null);
   const [interesting,setInteresting] = useState(null);
   const [address,setAddress] = useState(null);
@@ -193,7 +193,7 @@ const CreateTourPage = () => {
         type="file" multiple onChange={onChange}
         >
         </input>
-        <button onClick={uploadImageHandle} >Upload image to cloud</button>
+        <button onClick={uploadImageHandle} >Upload image to cloud</button> {(image!=null)?image.map((item) => {return(<img src={item}></img>)}):<></>}
         <br/>
         <button  onClick={handSubmit}>Create</button> || <button >Cancle</button>
       </form>
