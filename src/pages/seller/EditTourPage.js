@@ -31,10 +31,8 @@ const EditTourPage = () => {
   const [url, setUrl] = useState(null);
   const [list,setList] = useState(null);
   const images=[]
-  
 
   const getTourById=async()=>{
-    console.log(BaseUrl+'tour/'+id);
     try{
         const res= await axios.get(BaseUrl+'tour/'+id);   
         console.log(res?.data.image);
@@ -48,8 +46,6 @@ const EditTourPage = () => {
         setSale(res?.data.sale)
         setPrice(res?.data.price)
         setIdCategory(res?.data.idCategory)
-
-
 
       }catch(err){
         alert('Khong co ket noi');

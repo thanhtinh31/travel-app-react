@@ -12,6 +12,7 @@ import IntroducePage from "./pages/user/IntroducePage";
 import CreateTourPage from "./pages/seller/CreateTourPage";
 import ListTourPage from "./pages/seller/ListTourPage";
 import EditTourPage from "./pages/seller/EditTourPage";
+import DetailTourPage from "./pages/user/DetailTourPage";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/listtour" element={<ListTourPage/>}></Route>
           <Route path="/edittour" element={<EditTourPage/>}></Route>
           <Route path="/upload" element={<UpLoad/>}></Route>
+          <Route path="/detailtour" element={<DetailTourPage/>}></Route>
           {/* <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>

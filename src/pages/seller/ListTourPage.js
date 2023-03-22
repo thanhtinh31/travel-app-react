@@ -20,7 +20,6 @@ const ListTourPage = () => {
     }
     
   const editHandle=(e)=>{
-    console.log("edit"+e);
     window.location='/edittour?id='+e;
   }
   

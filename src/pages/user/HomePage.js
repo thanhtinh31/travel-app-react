@@ -21,7 +21,7 @@ import {
   MdTrain,
 } from "react-icons/md";
 import { FaUtensils } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import UserLayout from "../../layout/UserLayout";
 import SlideComponent from "../../components/user/SlideComponent";
 import axios from "axios";
@@ -32,6 +32,10 @@ function HomePage() {
   
   const [tour, setTour] = useState([]);
   const [category,setCategory] = useState([]);
+
+  const detailClick=(e)=>{
+    window.location='/detailtour?id='+e;
+  }
   async function fetchData() {
     try {
       const categories = await axios.get(BaseUrl+'category?size=3')
@@ -114,7 +118,7 @@ function HomePage() {
           return(
           <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
             <div className="h-full w-full lg:w-[55%]">
-              <Link to="">
+              <Link onClick={()=>detailClick(item.id)}>
                 <img
                   src={item.image[0]}
                   alt=""
