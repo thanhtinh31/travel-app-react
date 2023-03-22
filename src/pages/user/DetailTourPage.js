@@ -24,6 +24,8 @@ function DetailTourPage() {
         else{
             console.log(idSchedule);
             if(idSchedule=="0") toast.warning("Vui long chon ngay khoi hanh");
+            else
+            window.location='/booking?idSchedule='+idSchedule+'&sl='+people;
         }
     }
     async function getTourById() {

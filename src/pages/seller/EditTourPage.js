@@ -103,8 +103,7 @@ const EditTourPage = () => {
   const handSubmit = async(e)=>{
     e.preventDefault();
     let regObj = {id, title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,account,idCategory};
-    
-    console.log(regObj);
+
     try{
         const res= await axios.put(BaseUrl+'tour', regObj);    
         console.log(res?.data);  
