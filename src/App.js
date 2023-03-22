@@ -16,7 +16,7 @@ import EditTourPage from "./pages/seller/EditTourPage";
 
 function App() {
   return (
-    <div>
+    <div className="bg-slate-100 dark:bg-slate-400">
       <ToastContainer></ToastContainer>
       <BrowserRouter>
         <Routes>

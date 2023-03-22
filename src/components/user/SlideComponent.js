@@ -6,7 +6,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 function SlideComponent() {
   return (
-
             <div className="image relative">
               <img src={require("../../assets/bg1.jpg")} />
               <div className="hidden lg:block absolute left-20 top-[50%] bottom-0 text-white text-md">
@@ -25,7 +24,6 @@ function SlideComponent() {
                 <button className="px-[1rem] p-1 button">Chi tiết</button>
               </div>
             </div>
-        
   )
 }
 
