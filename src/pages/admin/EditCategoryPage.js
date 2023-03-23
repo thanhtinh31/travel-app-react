@@ -1,5 +1,4 @@
 import { async } from '@firebase/util';
-import { Textarea } from '@material-tailwind/react';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react'

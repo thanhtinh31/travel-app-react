@@ -214,7 +214,7 @@ function  Header()  {
                   <div className="bg-white dark:bg-gray-800 text-slate-900 flex justify-center items-center flex-col absolute bottom-[-7.5rem] w-80 rounded-sm shadow-md dark:text-darksubtext dropdownbtn">
                     <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center itemdrdown">Du lịch biển</div>
                     <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center itemdrdown">Du lịch miền núi</div>
-                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center itemdrdown">Du lịch thôn quê</div>
+                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center itemdrdown">Du lịch miền núi</div>
                   </div>
                 )}
               </li>

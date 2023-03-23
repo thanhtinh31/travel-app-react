@@ -8,7 +8,7 @@ const SellerLayout = ({title = "Title", className, children}) => {
   useEffect(()=>{
     const account  = sessionStorage.getItem('user');
     if(!account){
-      Navigate('/home');
+      //Navigate('/home');
     }
   })
   return (
@@ -18,7 +18,7 @@ const SellerLayout = ({title = "Title", className, children}) => {
     {children}
     </div>
     <Footer/>
-    </>  
+    </>
   );
 }
 

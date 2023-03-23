@@ -68,7 +68,6 @@ function UpLoad() {
       <br/>
       <input type="file" onChange={handleMultifile} multiple />
       <button onClick={handleSubmitMulti}>Submit</button>
-
     </div>
   );
 }

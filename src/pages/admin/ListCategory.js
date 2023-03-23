@@ -2,7 +2,7 @@ import { Button } from '@material-tailwind/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-import SellerLayout from '../../layout/SellerLayout'
+import AdminLayout from '../../layout/AdminLayout';
 import BaseUrl from '../../util/BaseUrl';
 
 function ListCategory() {
@@ -23,7 +23,6 @@ function ListCategory() {
     
     const  deleteHandle= async(e)=>{
       if(window.confirm("Xác nhận xóa")){
-      console.log(e);
       const xoa = await axios.delete(BaseUrl+'category/'+e)
       fetchData(page);
       toast.success(xoa?.data);
@@ -49,7 +48,7 @@ function ListCategory() {
     
     return (
       <>
-          <SellerLayout>
+          <AdminLayout>
             <Button onClick={(e)=>{window.location='/addcategory'}}>THêm Mới Danh Mục</Button>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       
@@ -126,7 +125,7 @@ function ListCategory() {
   </div>
   
   
-          </SellerLayout>
+          </AdminLayout>
       </>
     )
 }

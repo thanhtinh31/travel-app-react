@@ -5,7 +5,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react'
 import { toast } from "react-toastify";
 import { storage } from '../../firebase';
-import AdminLayout from '../../layout/AdminLayout';
+import SellerLayout from '../../layout/SellerLayout';
 import BaseUrl from '../../util/BaseUrl';
 
 const CreateTourPage = () => {
@@ -116,7 +116,7 @@ const CreateTourPage = () => {
 
   return (
     <>
-      <AdminLayout>
+      <SellerLayout>
       <form encType="multipart/form-data">
         Title
         <input
@@ -195,7 +195,7 @@ const CreateTourPage = () => {
         <br/>
         <button  onClick={handSubmit}>Create</button> || <button >Cancle</button>
       </form>
-      </AdminLayout>
+      </SellerLayout>
     </>
   )
 }

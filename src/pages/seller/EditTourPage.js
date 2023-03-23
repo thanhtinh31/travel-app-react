@@ -6,6 +6,7 @@ import AdminLayout from '../../layout/AdminLayout';
 import BaseUrl from '../../util/BaseUrl';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase';
+import SellerLayout from '../../layout/SellerLayout';
 const EditTourPage = () => {
   const [title,setTitle] = useState(null);
   const [subTitle,setSubTitle] = useState(null);
@@ -104,7 +105,7 @@ const EditTourPage = () => {
     }, []);
   return (
     <>
-      <AdminLayout>
+      <SellerLayout>
       <form>
         Title
         <input
@@ -188,7 +189,7 @@ const EditTourPage = () => {
         <button type='submit' onClick={handSubmit}>Update</button>
         <button type='submit' >Cancle</button>
       </form>
-      </AdminLayout>
+      </SellerLayout>
     </>
   )
 }

@@ -74,15 +74,18 @@ function HomePage() {
           onSwiper={(swiper) => console.log(swiper)}
           onSlideChange={() => console.log("slide change")}
         >
+
+          {category.map((item) => {
+          return (
           <SwiperSlide>
+            <SlideComponent dataFromParent={item} />
+          </SwiperSlide>)})}
+          {/* <SwiperSlide>
             <SlideComponent />
           </SwiperSlide>
           <SwiperSlide>
             <SlideComponent />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SlideComponent />
-          </SwiperSlide>
+          </SwiperSlide> */}
           <div className="top-[43%]  absolute z-10 button-next-slide group-hover:left-0 -left-[23rem] duration-500 text-sky-600 text-5xl w-[40px] h-[40px] bg-blend-normal">
             <BsArrowLeftCircleFill />
           </div>
