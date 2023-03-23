@@ -1,18 +1,16 @@
+import { Button } from '@material-tailwind/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import Pagination from 'react-js-pagination';
-import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import SellerLayout from '../../layout/SellerLayout'
 import BaseUrl from '../../util/BaseUrl';
 
 const ListTourPage = () => {
-    const [page,setPage] = useState(1);
+  const [page,setPage] = useState(1);
   const [tours, setTours] = useState([]);
   const [categories,setCategories] = useState([]);
-  
-  const [totalElements,setTotalElements] =useState(null);
+  const [totalElements,setTotalElements] =useState(1);
   const [totalPages,setTotalPages] =useState(1);
-
     const onHandlePage= async (e)=>{
     console.log(e);
     setPage(e);
@@ -22,30 +20,38 @@ const ListTourPage = () => {
   const editHandle=(e)=>{
     window.location='/edittour?id='+e;
   }
+  const  deleteHandle= async(e)=>{    
+    if(window.confirm("Xác nhận xóa")){
+    console.log(e);
+    const xoa = await axios.delete(BaseUrl+'tour/'+e)
+    fetchData(page);
+    toast.success(xoa?.data);
+    }
+  }
+  const viewHandle=(e)=>{
+    window.location='/edittour?id='+e;
+  }
   
   async function fetchData(p) {
-    try {
-      
+    try {  
       const categories = await axios.get(BaseUrl+'category')
       const tours = await axios.get(BaseUrl+'tour?size=10&page='+p)
       setCategories(categories.data.content)
       setTours(tours.data.content)
       setTotalElements(tours.data.totalElements)
       setTotalPages(tours.data.totalPages)
-      console.log(page);
     } catch (error) {
       console.error(error);
     }
   }
   useState(() => {
-    
     fetchData(1);
-
   }, []);
   
   return (
     <>
         <SellerLayout>
+        <Button onClick={(e)=>{window.location='/addtour'}}>Thêm Mới Tour</Button>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -72,7 +78,7 @@ const ListTourPage = () => {
         <tbody>
 
             {tours.map((item) => {
-          return(<tr id={item.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          return(<tr key={item.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {item.title}
@@ -88,7 +94,8 @@ const ListTourPage = () => {
                 </td>
                 <td class="px-6 py-4">
                     <button onClick={()=>editHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button> / 
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+                    <button onClick={()=>viewHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</button>/
+                    <button onClick={()=>deleteHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</button>
                 </td>
             </tr>)})}
            

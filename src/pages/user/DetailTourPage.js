@@ -4,7 +4,11 @@ import { toast } from 'react-toastify';
 import UserLayout from '../../layout/UserLayout'
 import BaseUrl from '../../util/BaseUrl';
 
+
 function DetailTourPage() {
+
+    
+    
     var url_string = window.location;
     var urla = new URL(url_string);
     var id = urla.searchParams.get("id");
@@ -28,12 +32,13 @@ function DetailTourPage() {
             window.location='/booking?idSchedule='+idSchedule+'&sl='+people;
         }
     }
+     
     async function getTourById() {
         try{
             const res= await axios.get(BaseUrl+'tour/'+id);
             setTour(res?.data);   
             setImages(res?.data.image);
-            console.log(res?.data);
+            
         }catch(err){alert('Khong co ket noi');}        
     }
     async function getScheduleByIdTour() {
@@ -41,13 +46,15 @@ function DetailTourPage() {
             
             const res= await axios.get(BaseUrl+'schedule/active/'+id); 
             setListSchedule(res?.data);  
-            console.log(res?.data);
+            
         }catch(err){alert('Khong co ket noi');}        
     }
 
     useEffect(() => {
         getTourById();
         getScheduleByIdTour();
+        const re=axios.get('https://www.dongabank.com.vn/exchange/export');
+        console.log(re);
       }, []);
     
   return (

@@ -211,10 +211,10 @@ function  Header()  {
                 {icon}
                 <Link to={path}>{title}</Link>
                 {dropdown && id === 3 && (
-                  <div className="bg-white dark:bg-gray-800 text-slate-900 flex justify-center items-center flex-col absolute bottom-[-7rem] w-80 rounded-sm shadow-md dark:text-darksubtext">
-                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">1</div>
-                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">2</div>
-                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center ">3</div>
+                  <div className="bg-white dark:bg-gray-800 text-slate-900 flex justify-center items-center flex-col absolute bottom-[-7.5rem] w-80 rounded-sm shadow-md dark:text-darksubtext dropdownbtn">
+                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center itemdrdown">Du lịch biển</div>
+                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center itemdrdown">Du lịch miền núi</div>
+                    <div className="py-1 hover:bg-slate-200 dark:hover:bg-slate-400 hover:dark:text-darkmaintext w-full flex justify-center items-center itemdrdown">Du lịch thôn quê</div>
                   </div>
                 )}
               </li>
@@ -236,17 +236,17 @@ function  Header()  {
                   dropDownbtn(id);
                 }}
                 key={id}
-                className={`flex justify-center items-center mx-1 cursor-pointer capitalize font-medium text-lg py-2 my-6 duration-200 ${
+                className={`flex justify-center items-center mx-1 cursor-pointer capitalize font-medium text-lg py-2 my-2 duration-200 itemdrdown ${
                   id === 1 ? "active" : ""
                 } ${link}`}
               >
                 {icon}
                 <Link to={path}>{title}</Link>
                 {dropdown && id === 3 && (
-                  <div className="bg-white dark:bg-gray-500 text-slate-900 flex justify-center items-center flex-col md:hidden absolute z-30 bottom-[29%] w-[90%] rounded-sm shadow-md dark:text-darksubtext">
-                    <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center ">Du lịch biển sdfdf 123</div>
-                    <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center">Du lịch miền núi</div>
-                    <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center">Du lịch thôn quê</div>
+                  <div className="bg-white dark:bg-gray-500 text-slate-900 flex justify-center items-center flex-col md:hidden absolute z-30 bottom-[calc(40%-5rem)] w-[90%] rounded-sm shadow-md dark:text-darksubtext dropdownbtn">
+                    <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center itemdrdown">Du lịch biển</div>
+                    <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center itemdrdown">Du lịch miền núi</div>
+                    <div className="py-1 hover:bg-slate-200 w-full dark:hover:bg-slate-400 hover:dark:text-darksubtext flex justify-center items-center itemdrdown">Du lịch thôn quê</div>
                   </div>
                 )}
               </li>

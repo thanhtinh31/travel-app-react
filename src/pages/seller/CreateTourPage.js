@@ -17,16 +17,14 @@ const CreateTourPage = () => {
   const [address,setAddress] = useState(null);
   const [inteval,setInteval] = useState(null);
   const [vehicle,setVehicle] = useState(null);
-  const [price,setPrice] = useState(null);
-  const [sale,setSale] = useState(null);
-  const [status,setStatus] = useState(1);
+  const [price,setPrice] = useState(0);
+  const [sale,setSale] = useState(0);
+  const [status,setStatus] = useState(true);
   const [account,setAccount] = useState(null);
   const [idCategory,setIdCategory] = useState(null);
   const [categories,setCategories] = useState([]);
-
   const [list,setList] = useState(null);
   const images=[]
-
   const [url, setUrl] = useState(null);
   const uploadImageHandle=(e)=>{
     e.preventDefault();

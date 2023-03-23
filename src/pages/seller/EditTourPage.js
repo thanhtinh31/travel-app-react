@@ -4,8 +4,6 @@ import React, { useState } from 'react'
 import { toast } from "react-toastify";
 import AdminLayout from '../../layout/AdminLayout';
 import BaseUrl from '../../util/BaseUrl';
-import { useParams } from 'react-router-dom';
-import { Textarea } from '@material-tailwind/react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase';
 const EditTourPage = () => {
@@ -13,13 +11,13 @@ const EditTourPage = () => {
   const [subTitle,setSubTitle] = useState(null);
   const [image,setImage] = useState([]);
   const [describe,setDescribe] = useState(null);
-  const [interesting,setInteresting] = useState(null);
+  const [interesting,setInteresting] = useState("");
   const [address,setAddress] = useState(null);
   const [inteval,setInteval] = useState(null);
   const [vehicle,setVehicle] = useState(null);
   const [price,setPrice] = useState(0);
-  const [sale,setSale] = useState(null);
-  const [status,setStatus] = useState(1);
+  const [sale,setSale] = useState(0);
+  const [status,setStatus] = useState(true);
   const [account,setAccount] = useState(null);
   const [idCategory,setIdCategory] = useState(null);
   const [tour,setTour] =useState(null);
@@ -37,6 +35,7 @@ const EditTourPage = () => {
         const res= await axios.get(BaseUrl+'tour/'+id);   
         console.log(res?.data.image);
         setTour(res?.data);  
+        setInteresting(res?.data.interesting)
         setTitle(res?.data.title)
         setSubTitle(res?.data.subTitle)
         setImage(res?.data.image)
@@ -46,28 +45,19 @@ const EditTourPage = () => {
         setSale(res?.data.sale)
         setPrice(res?.data.price)
         setIdCategory(res?.data.idCategory)
-
-      }catch(err){
-        alert('Khong co ket noi');
-  
-                  }
+      }catch(err){alert('Khong co ket noi'); }
     
   }
   async function getlistcategory() {
     try {
       const categories = await axios.get(BaseUrl+'category?size=100')
-
-      setCategories(categories.data.content)
-      
-    } catch (error) {
-      console.error(error);
-    }
+      setCategories(categories.data.content) 
+    } catch (error) {console.error(error);}
   }
   const onChange = (e) => {
     setList(e.target.files)
     
   };
-
 
   const uploadImageHandle=(e)=>{
     e.preventDefault();
@@ -97,32 +87,21 @@ const EditTourPage = () => {
     }
     console.log(images);
     setImage(images);
-    
   }
-
   const handSubmit = async(e)=>{
     e.preventDefault();
     let regObj = {id, title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,account,idCategory};
-
     try{
+      console.log(regObj);
         const res= await axios.put(BaseUrl+'tour', regObj);    
         console.log(res?.data);  
         toast.success("thanh cong")
-  
-      }catch(err){
-        alert('Khong co ket noi');
-  
-                  }
-
+      }catch(err){alert('Khong co ket noi');}
   }
-  useState(() => {
-    
+  useState(() => {  
     getTourById();
     getlistcategory();
-    
-
-  }, []);
-
+    }, []);
   return (
     <>
       <AdminLayout>
@@ -166,7 +145,7 @@ const EditTourPage = () => {
         <br/>
         Interesting
         <input
-        type={Textarea}
+        type={Text}
         value={interesting}
         onChange={(e)=>{setInteresting(e.target.value)}}>
         </input>
@@ -189,6 +168,7 @@ const EditTourPage = () => {
         <select  className="form-control"
         value={idCategory}
         onChange={(e) => setIdCategory(e.target.value)}>
+          <option >Danh mục tour</option>
         { categories.map((item) => {
           return(
         <option value={item.id} >{item.name}</option>
@@ -202,6 +182,8 @@ const EditTourPage = () => {
         >
         </input>
         <button onClick={uploadImageHandle} >Upload image to cloud</button> {(image!=null)?image.map((item) => {return(<img src={item}></img>)}):<></>}
+        <br/>
+          <input type="checkbox" id="action" value="1" checked={status} onChange={()=>{setStatus(!status);console.log(status)}}/> <label>active</label>
         <br/>
         <button type='submit' onClick={handSubmit}>Update</button>
         <button type='submit' >Cancle</button>

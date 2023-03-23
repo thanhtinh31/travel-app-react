@@ -13,6 +13,9 @@ import CreateTourPage from "./pages/seller/CreateTourPage";
 import ListTourPage from "./pages/seller/ListTourPage";
 import EditTourPage from "./pages/seller/EditTourPage";
 import DetailTourPage from "./pages/user/DetailTourPage";
+import ListCategory from "./pages/admin/ListCategory";
+import AddCategoryPage from "./pages/admin/AddCategoryPage";
+import EditCategoryPage from "./pages/admin/EditCategoryPage";
 
 
 function App() {
@@ -33,6 +36,9 @@ function App() {
           <Route path="/edittour" element={<EditTourPage/>}></Route>
           <Route path="/upload" element={<UpLoad/>}></Route>
           <Route path="/detailtour" element={<DetailTourPage/>}></Route>
+          <Route path="/listcategory" element={<ListCategory/>}></Route>
+          <Route path="/addcategory" element={<AddCategoryPage/>}></Route>
+          <Route path="/editcategory" element={<EditCategoryPage/>}></Route>
           {/* <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
