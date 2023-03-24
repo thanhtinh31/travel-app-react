@@ -87,31 +87,29 @@ const CreateTourPage = () => {
     console.log(image);
     
 
-    let regObj = { title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,account,idCategory};
+    let regObj = { title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,idAccount:"123",idCategory:checked};
     console.log(regObj);
     try{
-      const res= await axios.post(BaseUrl+'tour', regObj);    
-      console.log(res?.data);  
-      toast.success("thanhf cong")
-
-    }catch(err){
-      alert('Khong co ket noi');
-
-                }
-    }
-  
-    async function getlistcategory() {
-      try {
-        const categories = await axios.get(BaseUrl+'category?size=100')
-        setCategories(categories.data.content)
-      } catch (error) {
-        console.error(error);
+      const res= await axios.post(BaseUrl+'tour', regObj);     
+      toast.success(res?.data.message)
+    }catch(err){alert('Khong co ket noi');}}
+    const [checkList,setCheckList] = useState([]);
+    const [checked, setChecked] = useState([]);
+    const handleCheck = (event) => {
+      var updatedList = [...checked];
+      if (event.target.checked) {
+        updatedList = [...checked, event.target.value];
+      } else {
+        updatedList.splice(checked.indexOf(event.target.value), 1);
       }
-    }
-  useState(() => {
-    getlistcategory();
-    
-    
+      setChecked(updatedList);
+      console.log(updatedList);
+    };
+  
+  useState(async() => {
+    const res= await axios.get(BaseUrl+'category');
+    setCheckList(res?.data.content)
+    console.log(checked);
   }, []);
 
   return (
@@ -177,14 +175,15 @@ const CreateTourPage = () => {
         </input>
         <br/>
         Category
-        <select  className="form-control"
-        value={idCategory}
-        onChange={(e) => setIdCategory(e.target.value)}>
-        { categories.map((item) => {
-          return(
-        <option value={item.id} >{item.name}</option>
-          )})}
-        </select>
+        <div className="list-container">
+      {checkList.map((item, index) => (
+         <div key={index}>
+           <input value={item.id} type="checkbox" onChange={handleCheck} checked={checked.includes(item.id)}/>
+           <span>{item.name}</span>
+         </div>
+      ))}
+    </div>
+
         <br/>
         image
         <input

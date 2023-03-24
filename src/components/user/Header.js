@@ -31,12 +31,23 @@ function  Header()  {
   const [togglebtn, setTogglebtn] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [darkmode, toggleDarkMode] = useDarkMode();
+  const [key,setKey]=useState("");
   let isLogin = (sessionStorage.getItem('user'))?true:false;
+  var url_string = window.location;
+  var url = new URL(url_string);
+  var keys = url.searchParams.get("key");
   const toggleNavbar = () => {
     setTogglebtn(!togglebtn);
   };
   
-  
+  const handleSearch=(e)=>{
+    e.preventDefault();
+    console.log('a')
+    window.location="/search?key="+key;
+  }
+  useState(async() => {  
+     setKey(keys);
+  }, []);
   const dropDownbtn = (id) => {
     id === 3 ? setDropdown(!dropdown) : setDropdown(false);
   };
@@ -46,6 +57,7 @@ function  Header()  {
     const nav = document.querySelector("." + props);
     nav.classList.add("active");
   };
+  
   const links = [
     {
       id: 1,
@@ -166,16 +178,20 @@ function  Header()  {
             >
               {togglebtn ? <MdClose size={30} /> : <MdMenu size={30} />}
             </div>
+            <form onSubmit={handleSearch}>
             <div className="flex items-center">
               <input
                 className="h-10 sm:w-96 rounded-l-sm outline-none text-slate-800 pl-2"
                 type="text"
+                value={key}
+                onChange={(e)=>setKey(e.target.value)}
                 placeholder="Tìm kiếm..."
               />
               <span className="flex justify-center items-center w-10 h-10 bg-white text-slate-800 rounded-r-sm border-l-[1px] border-gray-500">
-                <BsSearch />
+                <BsSearch/>
               </span>
             </div>
+            </form>
             <div className="flex justify-center items-center w-9 h-9 m-2">
               <MdFilterListAlt size={30} />
             </div>

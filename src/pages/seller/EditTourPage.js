@@ -20,9 +20,10 @@ const EditTourPage = () => {
   const [sale,setSale] = useState(0);
   const [status,setStatus] = useState(true);
   const [account,setAccount] = useState(null);
-  const [idCategory,setIdCategory] = useState(null);
+
   const [tour,setTour] =useState(null);
-  const [categories,setCategories] = useState([]);
+  const [checkList,setCheckList] = useState([]);
+  const [checked, setChecked] = useState([]);
   var url_string = window.location;
   var urla = new URL(url_string);
   var id = urla.searchParams.get("id");
@@ -45,16 +46,11 @@ const EditTourPage = () => {
         setInteval(res?.data.inteval)
         setSale(res?.data.sale)
         setPrice(res?.data.price)
-        setIdCategory(res?.data.idCategory)
+        setChecked(res?.data.idCategory)
       }catch(err){alert('Khong co ket noi'); }
     
   }
-  async function getlistcategory() {
-    try {
-      const categories = await axios.get(BaseUrl+'category?size=100')
-      setCategories(categories.data.content) 
-    } catch (error) {console.error(error);}
-  }
+  
   const onChange = (e) => {
     setList(e.target.files)
     
@@ -84,14 +80,13 @@ const EditTourPage = () => {
       .catch((error) => {
         console.log(error.message);
       });
-
     }
     console.log(images);
     setImage(images);
   }
   const handSubmit = async(e)=>{
     e.preventDefault();
-    let regObj = {id, title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,account,idCategory};
+    let regObj = {id, title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,account,idCategory:checked};
     try{
       console.log(regObj);
         const res= await axios.put(BaseUrl+'tour', regObj);    
@@ -99,9 +94,22 @@ const EditTourPage = () => {
         toast.success("thanh cong")
       }catch(err){alert('Khong co ket noi');}
   }
-  useState(() => {  
+    
+    const handleCheck = (event) => {
+      var updatedList = [...checked];
+      if (event.target.checked) {
+        updatedList = [...checked, event.target.value];
+      } else {
+        updatedList.splice(checked.indexOf(event.target.value), 1);
+      }
+      setChecked(updatedList);
+      console.log(updatedList);
+    };
+
+  useState(async() => {  
     getTourById();
-    getlistcategory();
+    const res= await axios.get(BaseUrl+'category');
+    setCheckList(res?.data.content)
     }, []);
   return (
     <>
@@ -166,16 +174,15 @@ const EditTourPage = () => {
         </input>
         <br/>
         Category
-        <select  className="form-control"
-        value={idCategory}
-        onChange={(e) => setIdCategory(e.target.value)}>
-          <option >Danh mục tour</option>
-        { categories.map((item) => {
-          return(
-        <option value={item.id} >{item.name}</option>
-          )})
-        }
-        </select>
+        <div className="list-container">
+      {checkList.map((item, index) => (
+         <div key={index}>
+           <input value={item.id} type="checkbox" onChange={handleCheck} checked={checked.includes(item.id)}/>
+           <span>{item.name}</span>
+         </div>
+      ))}
+    </div>
+
         <br/>
         image
         <input
