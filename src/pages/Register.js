@@ -53,7 +53,7 @@ function Register() {
     
       }
   return (
-    <div className=" h-[100vh] pt-40">
+    <div className="h-[100vh]">
       <div className="max-w-screen-md bg-[#ddeef8] dark:bg-[#a5d4f0] my-auto mx-auto items-center shadow-lg p-4 rounded-md">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
           <div className="hidden md:block bg-[url('./assets/login.jpg')] h-[80vh] bg-center bg-cover bg-no-repeat"></div>
