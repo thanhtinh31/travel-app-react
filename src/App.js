@@ -16,6 +16,7 @@ import DetailTourPage from "./pages/user/DetailTourPage";
 import ListCategory from "./pages/admin/ListCategory";
 import AddCategoryPage from "./pages/admin/AddCategoryPage";
 import EditCategoryPage from "./pages/admin/EditCategoryPage";
+import AddSchedulePage from "./pages/seller/AddSchedulePage";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/listcategory" element={<ListCategory/>}></Route>
           <Route path="/addcategory" element={<AddCategoryPage/>}></Route>
           <Route path="/editcategory" element={<EditCategoryPage/>}></Route>
+          <Route path="/addschedule" element={<AddSchedulePage/>}></Route>
           {/* <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
