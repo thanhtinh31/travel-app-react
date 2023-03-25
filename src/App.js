@@ -19,6 +19,7 @@ import EditCategoryPage from "./pages/admin/EditCategoryPage";
 import AddSchedulePage from "./pages/seller/AddSchedulePage";
 import ItemTour from "./components/user/ItemTour";
 import SearchPage from "./pages/user/SearchPage";
+import Test from "./pages/user/Test";
 
 
 function App() {
@@ -45,6 +46,8 @@ function App() {
           <Route path="/addschedule" element={<AddSchedulePage/>}></Route>
           <Route path="/test" element={<ItemTour/>}></Route>
           <Route path="/search" element={<SearchPage/>}></Route>
+          <Route path="/te" element={<Test/>}></Route>
+          
           {/* <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
