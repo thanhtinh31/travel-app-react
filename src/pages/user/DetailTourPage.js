@@ -377,35 +377,7 @@ function DetailTourPage() {
     </div>
 
 
-      <div>
-        title-{tour.title} <br/>
-        image-{images.map((img)=>{return(<img src={img}></img>)})}<br/>
-        price-{tour.price}<br/>
-        sale-{tour.sale}<br/>
-        address-{tour.address}<br/>
-      </div>
-      <div>
-        <form>
-        <select  className="form-control"
-        value={idSchedule}
-        onChange={(e) => {setIdSchedule(e.target.value)}}>
-            
-            <option value="0">Chọn ngày xuất phát</option>
-        { listSchedule.map((item) => { 
-          return(
-        <option value={item.id} >{item.dayStart} -- {item.tourGuide}</option> 
-          )})
-        }
-        </select>
-        <br/>Số lượng người
-        <input
-        type={Number}
-        value={people}
-        onChange={(e)=>{setPeople(e.target.value)}}>
-        </input>
-        <button onClick={handleBooking}>Đặt tour</button>
-        </form>
-      </div>
+     
     </UserLayout>
   )
 }

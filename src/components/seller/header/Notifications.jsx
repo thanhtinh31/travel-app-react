@@ -2,19 +2,22 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Transition from '../../../util/Transition';
 
-function Notifications() {
+function Notifications({noti}) {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  
   const trigger = useRef(null);
   const dropdown = useRef(null);
-
+  console.log(noti)
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!dropdownOpen || dropdown.current.contains(target) || trigger.current.contains(target)) return;
       setDropdownOpen(false);
     };
+      
+      
+    
     document.addEventListener('click', clickHandler);
     return () => document.removeEventListener('click', clickHandler);
   });
@@ -63,36 +66,20 @@ function Notifications() {
         >
           <div className="text-xs font-semibold text-slate-400 uppercase pt-1.5 pb-2 px-4">Notifications</div>
           <ul>
-            <li className="border-b border-slate-200 last:border-0">
+          {noti.map((item) => (
+            <li className="border-b border-slate-200 last:border-0" key={item.id}>
               <Link
                 className="block py-2 px-4 hover:bg-slate-50"
                 to="#0"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                <span className="block text-sm mb-2">📣 <span className="font-medium text-slate-800">Edit your information in a swipe</span> Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</span>
+                <span className="block text-sm mb-2">📣 <span className="font-medium text-slate-800">{item.type}</span> {item.text}.</span>
                 <span className="block text-xs font-medium text-slate-400">Feb 12, 2021</span>
               </Link>
+
             </li>
-            <li className="border-b border-slate-200 last:border-0">
-              <Link
-                className="block py-2 px-4 hover:bg-slate-50"
-                to="#0"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                <span className="block text-sm mb-2">📣 <span className="font-medium text-slate-800">Edit your information in a swipe</span> Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</span>
-                <span className="block text-xs font-medium text-slate-400">Feb 9, 2021</span>
-              </Link>
-            </li>
-            <li className="border-b border-slate-200 last:border-0">
-              <Link
-                className="block py-2 px-4 hover:bg-slate-50"
-                to="#0"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                <span className="block text-sm mb-2">🚀<span className="font-medium text-slate-800">Say goodbye to paper receipts!</span> Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</span>
-                <span className="block text-xs font-medium text-slate-400">Jan 24, 2020</span>
-              </Link>
-            </li>
+          ))}
+            
           </ul>
         </div>
       </Transition>

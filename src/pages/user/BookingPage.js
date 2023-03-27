@@ -70,7 +70,6 @@ function BookingPage() {
       window.location=pay?.data;
       //
     }catch(err){alert('Khong co ket noi');}
-
   }
   const HandleBookTour=async(e)=>{  
     e.preventDefault();

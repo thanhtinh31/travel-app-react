@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Sidebar from "../components/seller/Sidebar";
 import Header from "../components/seller/Header";
 import Banner from "../components/seller/Banner";
-import { collection, limit, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
 const SellerLayout = ({title = "Title", className, children}) => {
@@ -25,8 +25,8 @@ const SellerLayout = ({title = "Title", className, children}) => {
       let messages = [];
       let count1=0;
       QuerySnapshot.forEach((doc) => {
-        messages.push({ ...doc.data(), id: doc.id });
-        if(doc.data().status==0) count1=count1+1;
+        
+        if(doc.data().status==0) {count1=count1+1; messages.push({ ...doc.data(), id: doc.id });}
       });
       setMessages(messages);
       setCount(count1);
@@ -34,6 +34,8 @@ const SellerLayout = ({title = "Title", className, children}) => {
     });
     return () => unsubscribe;
   }, []);
+  
+
   return (
     <div className="flex h-screen overflow-hidden">
 
@@ -44,7 +46,7 @@ const SellerLayout = ({title = "Title", className, children}) => {
     <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
       {/*  Site header */}
-      <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} notification={messages}/>
 
       <main>
         <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
