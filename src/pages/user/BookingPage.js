@@ -80,7 +80,6 @@ function BookingPage() {
       sendNotification();
       toast.success("Đặt tour thành công")
     }catch(err){alert('Khong co ket noi');}
-    
   }
   useEffect(() => {
     getScheduleById();   

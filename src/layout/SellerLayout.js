@@ -30,7 +30,7 @@ const SellerLayout = ({title = "Title", className, children}) => {
       });
       setMessages(messages);
       setCount(count1);
-      if(count1!=0) toast.success("ban co "+count1);
+      if(count1!=0) toast.success("Bạn có "+count1 +" thông báo mới!");
     });
     return () => unsubscribe;
   }, []);
