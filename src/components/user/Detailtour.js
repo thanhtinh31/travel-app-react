@@ -1,8 +1,4 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify';
-import UserLayout from '../../layout/UserLayout'
-import BaseUrl from '../../util/BaseUrl';
+import React from "react";
 import {
   BsArrowLeftCircleFill,
   BsArrowRightCircleFill,
@@ -34,59 +30,12 @@ import { GrSchedule } from "react-icons/gr";
 import { AiFillSchedule, AiOutlineFileProtect } from "react-icons/ai";
 import { GiKnifeFork, GiRotaryPhone } from "react-icons/gi";
 
-function DetailTourPage() {
-    var url_string = window.location;
-    var urla = new URL(url_string);
-    var id = urla.searchParams.get("id");
-    const [tour,setTour] =useState({});
-    const [listSchedule,setListSchedule]=useState([]);
-    const [images,setImages] =useState([]);
-    const [idSchedule,setIdSchedule] = useState("0");
-    const [schedule,setSchedule] = useState({});
-    const [people,setPeople] =useState(1);
-    const handleBooking = async(e)=>{
-        e.preventDefault();
-        const account  = sessionStorage.getItem('user');
-        if(!account){
-            alert("vui long dang nhap de dat tour")
-            window.location='/login';
-        }
-        else{
-            console.log(idSchedule);
-            if(idSchedule=="0") toast.warning("Vui long chon ngay khoi hanh");
-            else
-            window.location='/booking?idSchedule='+idSchedule+'&sl='+people;
-        }
-    }
-    async function getTourById() {
-        try{
-            const res= await axios.get(BaseUrl+'tour/'+id);
-            setTour(res?.data);   
-            setImages(res?.data.image);
-            
-        }catch(err){alert('Khong co ket noi');}        
-    }
-    async function getScheduleByIdTour() {
-        try{
-            
-            const res= await axios.get(BaseUrl+'schedule/active/'+id); 
-            setListSchedule(res?.data);  
-            
-        }catch(err){alert('Khong co ket noi');}        
-    }
-
-    useEffect(() => {
-        getTourById();
-        getScheduleByIdTour();
-        const re=axios.get('https://www.dongabank.com.vn/exchange/export');
-        console.log(re);
-      }, []);
-    
+function Detailtour() {
   return (
-    <UserLayout>
-      <div className="max-w-screen-lg mx-auto bg-white shadow-lg">
+    <div className="max-w-screen-lg mx-auto bg-white shadow-lg">
       <h1 className="font-[700] text-xl mx-2 py-4 text-mainbg">
-        {tour.title} | {tour.subTitle}
+        Tour Hà Giang 4 ngày 3 đêm từ TPHCM | Đồng Văn - Mã Pí Lèng - Dinh Thự
+        vua Mèo
       </h1>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-[60%] p-3">
@@ -106,31 +55,44 @@ function DetailTourPage() {
             onSwiper={(swiper) => console.log(swiper)}
             onSlideChange={() => console.log("slide change")}
           >
-            {images.map((img)=>{return(
-            <SwiperSlide key={img}>
+            <SwiperSlide>
               <div className="w-full h-80">
                 <img
-                  src={img}
+                  src="https://cdn.pixabay.com/photo/2018/04/28/03/13/vietnam-3356516_960_720.jpg"
                   className="w-full h-full"
                 />
               </div>
             </SwiperSlide>
-            )})}
-
+            <SwiperSlide>
+              <div className="w-full h-80">
+                <img
+                  src="https://motogo.vn/wp-content/uploads/2020/02/dong-van-ha-giang-7.jpg"
+                  className="w-full h-full"
+                />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="w-full h-80">
+                <img
+                  src="https://image.vietgoing.com/article/12-dia-diem-tham-quan-o-dong-van-khong-di-la-tiec-ca-doi.jpg"
+                  className="w-full h-full"
+                />
+              </div>
+            </SwiperSlide>
           </Swiper>
           <div className="text-mainbg">
             <h2 className="text-maintext font-[600]">Mã Tour: 12345</h2>
             <div className="flex justify-between text-sm my-2">
               <div className="flex items-center">
                 <MdLocationOn size={20} />{" "}
-                <span className="ml-2">{tour.address}</span>
+                <span className="ml-2">Hồ chí minh</span>
               </div>
               <div className="flex items-center">
                 <BsClockFill size={20} />
-                <span className="ml-2">{tour.inteval}</span>
+                <span className="ml-2">4 ngày 3 đêm</span>
               </div>
               <div className="flex items-center">
-                <span className="mr-2">{tour.vehicle}</span>{" "}
+                <span className="mr-2">Phương tiện</span>{" "}
                 <BsFillCarFrontFill size={20} />
                 <MdTrain size={20} />
                 <MdAirplanemodeActive size={20} />
@@ -169,7 +131,11 @@ function DetailTourPage() {
               </div>
             </div>
             <p className="text-sm font-[500] text-justify">
-              {tour.describe}
+              Đặt mua tour Hà Giang 4 ngày 3 đêm từ TPHCM trọn gói giá rẻ của
+              ThanhTinh Travel quý khách sẽ được khám phá tỉnh Hà Giang nổi
+              tiếng công viên địa chất toàn cầu - cao nguyên đá Đông Văn. Trải
+              nghiệm nhiều hoạt động thú vị và ý nghĩa trong suốt cuộc hành
+              trình
             </p>
 
             <hr className="my-3" />
@@ -178,8 +144,7 @@ function DetailTourPage() {
               Tour có gì hấp dẫn
             </h2>
             <ul className="pl-6 text-sm">
-              {tour.interesting}
-              {/* <li className="list-disc">
+              <li className="list-disc">
                 Tận mắt ngắm nhìn cao nguyên đá với phong cảnh hùng vĩ nhất của
                 Việt Nam
               </li>
@@ -200,7 +165,7 @@ function DetailTourPage() {
               </li>
               <li className="list-disc">
                 Trải nghiệm ẩm thực địa phương độc đáo
-              </li> */}
+              </li>
             </ul>
           </div>
           <hr className="my-3" />
@@ -213,30 +178,20 @@ function DetailTourPage() {
         <div className="w-full my-3">
           <div className="bg-[#12092e] p-3 h-80 mx-2">
             <div className="text-xl font-[500] text-[#f8d000]">
-            {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(tour.price - tour.price * tour.sale)}{" "} /1 nguoi
+              5 900 000 VND
             </div>
             <div className="line-through text-md text-[#f8d000]">
-            {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(tour.price)}{" "} / 1 nguoi
+              6 900 000 VND
             </div>
             <div className="flex justify-around my-4">
               <label for="select-time" className="text-white">
                 Khởi hành
               </label>
-              <select   name="select-time" className="border-2 text-sm w-[50%]"
-                       value={idSchedule}
-                        onChange={(e) => {setIdSchedule(e.target.value)}}>
-            
-                  <option value="0">Chọn ngày xuất phát</option>
-                  { listSchedule.map((item) => { 
-                  return(
-                  <option value={item.id} >{item.dayStart} -- {item.tourGuide}</option> 
-                   )})}
+              <select name="select-time" className="border-2 text-sm w-[50%]">
+                <option value="">Thời gian khởi hành</option>
+                <option value="1">01/01/2022</option>
+                <option value="2">02/02/2022</option>
+                <option value="3">03/03/2022</option>
               </select>
             </div>
 
@@ -246,9 +201,7 @@ function DetailTourPage() {
               </label>
               <input
                 className="w-[50%] text-sm px-2"
-                type={Number}
-                value={people}
-                onChange={(e)=>{setPeople(e.target.value)}}
+                type={"number"}
                 min={1}
                 max={50}
               />
@@ -261,7 +214,7 @@ function DetailTourPage() {
               </span>
             </div>
             <div className="flex justify-center items-center my-8">
-              <button className="button" onClick={handleBooking}>Đặt tour</button>
+              <button className="button">Đặt tour</button>
             </div>
           </div>
 
@@ -375,39 +328,7 @@ function DetailTourPage() {
         </div>
       </div>
     </div>
-
-
-      <div>
-        title-{tour.title} <br/>
-        image-{images.map((img)=>{return(<img src={img}></img>)})}<br/>
-        price-{tour.price}<br/>
-        sale-{tour.sale}<br/>
-        address-{tour.address}<br/>
-      </div>
-      <div>
-        <form>
-        <select  className="form-control"
-        value={idSchedule}
-        onChange={(e) => {setIdSchedule(e.target.value)}}>
-            
-            <option value="0">Chọn ngày xuất phát</option>
-        { listSchedule.map((item) => { 
-          return(
-        <option value={item.id} >{item.dayStart} -- {item.tourGuide}</option> 
-          )})
-        }
-        </select>
-        <br/>Số lượng người
-        <input
-        type={Number}
-        value={people}
-        onChange={(e)=>{setPeople(e.target.value)}}>
-        </input>
-        <button onClick={handleBooking}>Đặt tour</button>
-        </form>
-      </div>
-    </UserLayout>
-  )
+  );
 }
 
-export default DetailTourPage
+export default Detailtour;

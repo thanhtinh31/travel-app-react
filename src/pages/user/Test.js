@@ -11,18 +11,15 @@ function Test() {
   function connect() {
   var sock = new SockJS('http://localhost:8080/data');
   stompClient = Stomp.over(sock);
-  
   stompClient.connect({}, function (frame) {
     //setConnected(true);
     console.log('Connected: ' + frame);
     stompClient.subscribe('/topic/greetings', function (greeting) {
         console.log(JSON.parse(greeting.body).content);
         setM(JSON.parse(greeting.body).content);
-       // toast.success(JSON.parse(greeting.body).content);
       });
-});
-  
-}
+  });
+  }
 useEffect(() => {
     connect();
     toast.success(m);

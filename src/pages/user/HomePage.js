@@ -18,6 +18,7 @@ import {
 import {
   MdAirplanemodeActive,
   MdCheckCircle,
+  MdLocationOn,
   MdOutlineStar,
   MdTrain,
 } from "react-icons/md";
@@ -30,13 +31,18 @@ import BaseUrl from "../../util/BaseUrl";
 import { useState } from "react";
 import { useEffect } from "react";
 import Slidecmt from "../../components/user/Slidecmt";
+import Lasttour from "../../components/user/Lasttour";
+import ItemTour from "../../components/user/ItemTour";
 function HomePage() {
   const [tour, setTour] = useState([]);
   const [category, setCategory] = useState([]);
+  const [listSchedule,setListSchedule] = useState([]);
   async function fetchData() {
     try {
       const categories = await axios.get(BaseUrl + "category?size=3");
       const tours = await axios.get(BaseUrl + "tour?size=6");
+      const res= await axios.get(BaseUrl+'schedule/all/active');
+      setListSchedule(res?.data)
       setCategory(categories.data.content);
       setTour(tours.data.content);
     } catch (error) {
@@ -108,6 +114,21 @@ function HomePage() {
           );
         })}
       </div>
+      
+
+      <div className="">
+        <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">
+          KHÁM PHÁ TOUR DU LỊCH
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {listSchedule.map((item) => (
+         <div key={item.id}>
+           <ItemTour data={item}></ItemTour>
+         </div>
+      ))}
+      </div>
+      </div>
+
 
       <div className="">
         <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">

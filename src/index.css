@@ -136,3 +136,14 @@
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
 }
+
+.cmm::before{
+  content: "";
+  position: absolute;
+  z-index: 100;
+  top: 30%;
+  left: -7px;
+  border-right: 10px solid #e5e7eb;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}

@@ -10,6 +10,9 @@ import {
 } from "react-icons/bs";
 import { AiFillSchedule } from "react-icons/ai";
 import { MdAirplanemodeActive, MdLocationOn, MdTrain } from "react-icons/md";
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { Navigate } from 'react-router-dom';
 
 function BookingPage() {
   const [payments, setPayments] = useState(false);
@@ -36,6 +39,16 @@ function BookingPage() {
     console.log("ATM");
     setPayments(true);
   };
+  const sendNotification = async () => {
+    await addDoc(collection(db, "notification"), {
+      text: "Đặt tour thành công",
+      account:JSON.parse(account).nameAccount,
+      type:"invoice",
+      status:0,
+      createdAt: serverTimestamp()
+    });
+  };
+
   async function getScheduleById() {
     try{        
         const res= await axios.get(BaseUrl+'schedule/getschedule?idSchedule='+idSchedule); 
@@ -50,26 +63,24 @@ function BookingPage() {
     let amount=((tour.price)-tour.sale*tour.price)*sl/25000;
     let regObj = {fullName,email,phone,note,people:sl,amount,idSchedule,idAccount:JSON.parse(account).id,status:0}; 
     try{
-      const res= await axios.post(BaseUrl+'invoice', regObj); 
-        
-      const pay= await axios.post(BaseUrl+'pay/paypal', res?.data.invoice);   
-      console.log(res?.data.invoice)
+      const res= await axios.post(BaseUrl+'invoice', regObj);
+      sendNotification(); 
+      const pay= await axios.post(BaseUrl+'pay/paypal', res?.data.invoice);
       window.location=pay?.data;
       //
     }catch(err){alert('Khong co ket noi');}
 
   }
-  const HandleBookTour=async(e)=>{
+  const HandleBookTour=async(e)=>{  
     e.preventDefault();
     let amount=((tour.price)-tour.sale*tour.price)*sl/25000;
     let regObj = {fullName,email,phone,note,people:sl,amount,idSchedule,idAccount:JSON.parse(account).id,status:0};
     try{
       const res= await axios.post(BaseUrl+'invoice', regObj);
-      console.log(res?.data.res);
+      sendNotification();
       toast.success("Đặt tour thành công")
-      window.location='/home';
     }catch(err){alert('Khong co ket noi');}
-
+    
   }
   useEffect(() => {
     getScheduleById();   
@@ -250,7 +261,7 @@ function BookingPage() {
                         <div>156 Nguyễn thị thập, Thanh Khuê</div>
                       </div>
                     </div>
-                    <button className="button" onClick={HandleBookTour}>Xác nhận và đặt tour</button>
+                    <button className="button" onClick={HandleBookTour} >Xác nhận và đặt tour</button>
                   </div>)}
                 </div>
 

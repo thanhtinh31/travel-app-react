@@ -82,17 +82,16 @@ const CreateTourPage = () => {
   };
 
   const handSubmit = async(e)=>{
-
     e.preventDefault();
     console.log(image);
-    
-
     let regObj = { title, subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,idAccount:"123",idCategory:checked};
     console.log(regObj);
     try{
       const res= await axios.post(BaseUrl+'tour', regObj);     
       toast.success(res?.data.message)
-    }catch(err){alert('Khong co ket noi');}}
+    }catch(err){alert('Khong co ket noi');}
+  }
+
     const [checkList,setCheckList] = useState([]);
     const [checked, setChecked] = useState([]);
     const handleCheck = (event) => {
