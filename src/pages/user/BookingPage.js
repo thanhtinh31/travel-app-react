@@ -12,7 +12,7 @@ import { AiFillSchedule } from "react-icons/ai";
 import { MdAirplanemodeActive, MdLocationOn, MdTrain } from "react-icons/md";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function BookingPage() {
   const [payments, setPayments] = useState(false);
@@ -28,6 +28,7 @@ function BookingPage() {
   var url_string = window.location;
   var url = new URL(url_string);
   var sl = url.searchParams.get("sl");
+  const navigate = useNavigate();
   var idSchedule=url.searchParams.get("idSchedule");
   const account  = sessionStorage.getItem('user');
   const taiquay = () => {
@@ -39,8 +40,8 @@ function BookingPage() {
     console.log("ATM");
     setPayments(true);
   };
-  const sendNotification = async () => {
-    await addDoc(collection(db, "notification"), {
+  const sendNotification =  () => {
+     addDoc(collection(db, "notification"), {
       text: "Đặt tour thành công",
       account:JSON.parse(account).nameAccount,
       type:"invoice",
@@ -80,6 +81,7 @@ function BookingPage() {
       sendNotification();
       toast.success("Đặt tour thành công")
     }catch(err){alert('Khong co ket noi');}
+    navigate("/home")
   }
   useEffect(() => {
     getScheduleById();   
