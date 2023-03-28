@@ -40,12 +40,13 @@ function BookingPage() {
     console.log("ATM");
     setPayments(true);
   };
-  const sendNotification =  () => {
+  function sendNotification (mess,type) {
      addDoc(collection(db, "notification"), {
-      text: "Đặt tour thành công",
+      text: mess,
       account:JSON.parse(account).nameAccount,
-      type:"invoice",
+      type:type,
       status:0,
+      dayCreate:new Date().toDateString(),
       createdAt: serverTimestamp()
     });
   };
@@ -65,19 +66,20 @@ function BookingPage() {
     let regObj = {fullName,email,phone,note,people:sl,amount,idSchedule,idAccount:JSON.parse(account).id,status:0}; 
     try{
       const res= await axios.post(BaseUrl+'invoice', regObj);
-      sendNotification(); 
+      sendNotification("Booking & Thanh toan thanh cong","invoice"); 
       const pay= await axios.post(BaseUrl+'pay/paypal', res?.data.invoice);
       window.location=pay?.data;
       //
     }catch(err){alert('Khong co ket noi');}
   }
+  
   const HandleBookTour=async(e)=>{  
     e.preventDefault();
     let amount=((tour.price)-tour.sale*tour.price)*sl/25000;
     let regObj = {fullName,email,phone,note,people:sl,amount,idSchedule,idAccount:JSON.parse(account).id,status:0};
     try{
       const res= await axios.post(BaseUrl+'invoice', regObj);
-      sendNotification();
+      sendNotification("Booking thanh cong","invoice");
       toast.success("Đặt tour thành công")
     }catch(err){alert('Khong co ket noi');}
     navigate("/home")
@@ -88,6 +90,7 @@ function BookingPage() {
     setFullName(JSON.parse(account).nameAccount)
     setPhone(JSON.parse(account).phoneNumber)
     setAddress(JSON.parse(account).address)
+    
   }, []);
 
   return (

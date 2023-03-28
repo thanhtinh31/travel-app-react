@@ -16,7 +16,6 @@ const ListTourPage = () => {
     setPage(e);
     fetchData(e);
     }
-    
   const editHandle=(e)=>{
     window.location='/edittour?id='+e;
   }
@@ -51,7 +50,7 @@ const ListTourPage = () => {
   return (
     <>
         <SellerLayout>
-        <Button onClick={(e)=>{window.location='/addtour'}}>Thêm Mới Tour</Button>
+        <Button className='button' onClick={(e)=>{window.location='/addtour'}}>Thêm Mới Tour</Button>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -93,8 +92,8 @@ const ListTourPage = () => {
                     {item.sale}
                 </td>
                 <td class="px-6 py-4">
-                    <button onClick={()=>editHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button> / 
-                    <button onClick={()=>viewHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</button>/
+                    <button onClick={()=>editHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View & Edit</button> / 
+                    <button onClick={()=>viewHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Schedule</button> /
                     <button onClick={()=>deleteHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</button>
                 </td>
             </tr>)})}

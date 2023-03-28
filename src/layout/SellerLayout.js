@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Footer from "../components/user/Footer";
 
 import SockJS from 'sockjs-client';
@@ -15,18 +15,24 @@ const SellerLayout = ({title = "Title", className, children}) => {
   const [messages, setMessages] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [count, setCount] = useState(0);
+  const navigate = useNavigate();
   useEffect(() => {    
+    const account  = sessionStorage.getItem('user');
+    if(!account){
+      
+      navigate('/login')
+    }
     const q = query(
       collection(db, "notification"),
       orderBy("createdAt"),
-      limit(10)
+      limit(50)
     );
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       let messages = [];
       let count1=0;
-      QuerySnapshot.forEach((doc) => {
-        
-        if(doc.data().status==0) {count1=count1+1; messages.push({ ...doc.data(), id: doc.id });}
+      QuerySnapshot.forEach((doc) => {  
+        if(doc.data().status==0) {count1=count1+1;}
+         messages.push({ ...doc.data(), id: doc.id });
       });
       setMessages(messages);
       setCount(count1);

@@ -20,8 +20,9 @@ import AddSchedulePage from "./pages/seller/AddSchedulePage";
 import ItemTour from "./components/user/ItemTour";
 import SearchPage from "./pages/user/SearchPage";
 import Test from "./pages/user/Test";
-import Detailtour from "./components/user/Detailtour";
+import UserProfile from "./pages/user/UserProfile";
 import Lasttour from "./components/user/Lasttour";
+
 
 
 function App() {
@@ -49,7 +50,8 @@ function App() {
           <Route path="/test" element={<ItemTour/>}></Route>
           <Route path="/search" element={<SearchPage/>}></Route>
           <Route path="/checkoutsuccess" element={<CheckoutSuccess/>}></Route>
-          <Route path="/te" element={<Lasttour/>}></Route>
+          <Route path="/profile" element={<UserProfile/>}></Route>
+          {/* <Route path="/te" element={<MapExample/>}></Route> */}
           
           {/* <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>

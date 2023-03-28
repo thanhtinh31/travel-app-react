@@ -33,6 +33,7 @@ import { useEffect } from "react";
 import Slidecmt from "../../components/user/Slidecmt";
 import Lasttour from "../../components/user/Lasttour";
 import ItemTour from "../../components/user/ItemTour";
+import Recommend from "../../components/user/Recommend";
 function HomePage() {
   const [tour, setTour] = useState([]);
   const [category, setCategory] = useState([]);
@@ -196,6 +197,10 @@ function HomePage() {
           })}
         </div>
       </div>
+
+
+          
+
 
       <div className="my-14">
         <div className="flex justify-center items-center mb-2 text-3xl font-[500] text-maintext dark:text-darkmaintext">

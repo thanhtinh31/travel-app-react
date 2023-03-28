@@ -66,7 +66,7 @@ function Notifications({noti}) {
         >
           <div className="text-xs font-semibold text-slate-400 uppercase pt-1.5 pb-2 px-4">Notifications</div>
           <ul>
-          {noti.map((item) => (
+          {noti.map((item) =>{return item.status==0?
             <li className="border-b border-slate-200 last:border-0" key={item.id}>
               <Link
                 className="block py-2 px-4 hover:bg-slate-50"
@@ -74,11 +74,10 @@ function Notifications({noti}) {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 <span className="block text-sm mb-2">📣 <span className="font-medium text-slate-800">{item.type}</span> {item.text}.</span>
-                <span className="block text-xs font-medium text-slate-400">Feb 12, 2021</span>
+                <span className="block text-xs font-medium text-slate-400">{item.dayCreate}</span>
               </Link>
-
-            </li>
-          ))}
+            </li>:<></>}
+          )}
             
           </ul>
         </div>

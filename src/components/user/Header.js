@@ -120,6 +120,7 @@ function  Header()  {
         <div className="flex">
           {isLogin ? (
             <div className="flex">
+              <Link to="/profile">
               <div className="flex items-center px-2">
                 <img
                   src={JSON.parse(sessionStorage.getItem('user')).image?JSON.parse(sessionStorage.getItem('user')).image:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
@@ -127,6 +128,7 @@ function  Header()  {
                 />
                 <span className="text-md font-normal mx-1">{JSON.parse(sessionStorage.getItem('user')).nameAccount}</span>
               </div>
+              </Link>
               <div className="flex items-center px-2">
                 <BiLogOut size={20} />
                 <span className="text-md font-normal mx-1">
