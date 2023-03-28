@@ -34,6 +34,7 @@ import Slidecmt from "../../components/user/Slidecmt";
 import Lasttour from "../../components/user/Lasttour";
 import ItemTour from "../../components/user/ItemTour";
 import Recommend from "../../components/user/Recommend";
+import Hero from "../../components/user/Hero";
 function HomePage() {
   const [tour, setTour] = useState([]);
   const [category, setCategory] = useState([]);
@@ -61,7 +62,7 @@ function HomePage() {
 
   return (
     <UserLayout>
-      <div className="shadow-md rounded-sm">
+      {/* <div className="shadow-md rounded-sm">
         <Swiper
           className="relative group"
           modules={[Autoplay, Navigation, Pagination, Scrollbar, A11y]}
@@ -87,12 +88,7 @@ function HomePage() {
           <SwiperSlide>
             <SlideComponent dataFromParent={item} />
           </SwiperSlide>)})}
-          {/* <SwiperSlide>
-            <SlideComponent />
-          </SwiperSlide>
-          <SwiperSlide>
-            <SlideComponent />
-          </SwiperSlide> */}
+    
           <div className="top-[43%]  absolute z-10 button-next-slide group-hover:left-0 -left-[23rem] duration-500 text-sky-600 text-5xl w-[40px] h-[40px] bg-blend-normal">
             <BsArrowLeftCircleFill />
           </div>
@@ -100,8 +96,8 @@ function HomePage() {
             <BsArrowRightCircleFill />
           </div>
         </Swiper>
-      </div>
-
+      </div> */}
+      <Hero></Hero>
       <div className="my-4 flex flex-col sm:flex-row flex-wrap justify-center md:justify-between">
         {category.map((item) => {
           return (

@@ -19,12 +19,12 @@ const SellerLayout = ({title = "Title", className, children}) => {
   useEffect(() => {    
     const account  = sessionStorage.getItem('user');
     if(!account){
-      
+    
       navigate('/login')
     }
     const q = query(
       collection(db, "notification"),
-      orderBy("createdAt"),
+      orderBy("createdAt","desc"),
       limit(50)
     );
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
