@@ -14,6 +14,8 @@ import ListTourPage from "./pages/seller/ListTourPage";
 import EditTourPage from "./pages/seller/EditTourPage";
 import Detailtour from "./components/user/Detailtour";
 import Lasttour from "./components/user/Lasttour";
+import DetailsBooking from "./pages/user/DetailsBooking"
+import Historybooking from "./components/user/Historybooking";
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
           <Route path="/edittour" element={<EditTourPage/>}></Route>
           <Route path="/upload" element={<UpLoad/>}></Route>
           <Route path="/lasttour" element={<Lasttour/>}></Route>
+          <Route path="/detailsbooking" element={<DetailsBooking/>}></Route>
+          <Route path="/historybooking" element={<Historybooking/>}></Route>
           {/* <Route path="/detail" element={<Detailtour/>}></Route> */}
           {/* <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>

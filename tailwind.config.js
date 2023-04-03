@@ -12,6 +12,9 @@ module.exports = {
         "mainbg": "#0284c7",
       },
     },
+    fontFamily: {
+      signature: ["Great Vibes"],
+    },
   },
   plugins: [],
 };
