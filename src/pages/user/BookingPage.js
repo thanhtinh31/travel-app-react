@@ -13,13 +13,14 @@ import { MdAirplanemodeActive, MdLocationOn, MdTrain } from "react-icons/md";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 
 function BookingPage() {
   const [payments, setPayments] = useState(false);
   const[schedule,setSchedule] =useState({});
   const[tour,setTour] =useState({});
   const [invoice,setInvoice]=useState({});
-  const [image,setImgage]=useState([]);
+  const [image,setImgage]=useState();
   const [fullName,setFullName]= useState("");
   const [address,setAddress]= useState("");
   const [email,setEmail]= useState("");
@@ -56,8 +57,8 @@ function BookingPage() {
         const res= await axios.get(BaseUrl+'schedule/getschedule?idSchedule='+idSchedule); 
         setSchedule(res?.data.schedule);
         setTour(res?.data.tour);  
-        setImgage(res?.data.tour.image)
-        console.log(res?.data);
+        setImgage(res?.data.tour.image[0].url)
+        console.log(res?.data.tour.image[0].url);
     }catch(err){alert('Khong co ket noi');}        
   }
   const handlePayPal = async(e)=>{
@@ -94,7 +95,7 @@ function BookingPage() {
   }, []);
 
   return (
-    <UserLayout>   
+    
         <div className="shadow-md p-3 bg-white my-4 rounded-md">
         <div className="flex justify-center items-center font-[700] text-3xl text-maintext uppercase">
           Booking tour
@@ -227,7 +228,7 @@ function BookingPage() {
                       </div>
 
                     </div>
-                  <button className="button" onClick={handlePayPal}>Xác nhận tour & Thanh toán</button>
+                  <Button type='primary' onClick={handlePayPal}>Xác nhận tour & Thanh toán</Button>
                   </div> 
                   ):(<div className="flex flex-col text-maintext m-3">
                     <div className="flex w-full bg-[#f1f5f9] my-2 shadow-md">
@@ -264,7 +265,7 @@ function BookingPage() {
                         <div>156 Nguyễn thị thập, Thanh Khuê</div>
                       </div>
                     </div>
-                    <button className="button" onClick={HandleBookTour} >Xác nhận và đặt tour</button>
+                    <Button type='primary' onClick={HandleBookTour} >Xác nhận và đặt tour</Button>
                   </div>)}
                 </div>
 
@@ -275,7 +276,7 @@ function BookingPage() {
             <div className="mt-16 md:mt-2">
               <div className="w-full md:w-80 lg:w-96">
                 <img
-                  src={image[0]}
+                  src={image}
                   className="rounded-t-md"
                 />
               </div>
@@ -342,7 +343,7 @@ function BookingPage() {
           </div>
         </div>
       </div>
-    </UserLayout>
+    
   )
 }
 

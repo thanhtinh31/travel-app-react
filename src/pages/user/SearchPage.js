@@ -22,7 +22,7 @@ function SearchPage() {
         fetchData(k);
       }, []);
   return (
-    <UserLayout>
+      <>
         {tours.map((item) => {
             return(
                 <div>
@@ -30,7 +30,7 @@ function SearchPage() {
                         Address: {item.address}
                 </div>
             )})}
-    </UserLayout>
+   </>
   )
 }
 export default SearchPage

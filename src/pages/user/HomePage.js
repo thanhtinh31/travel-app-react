@@ -35,6 +35,7 @@ import Lasttour from "../../components/user/Lasttour";
 import ItemTour from "../../components/user/ItemTour";
 import Recommend from "../../components/user/Recommend";
 import Hero from "../../components/user/Hero";
+import Post24h from "../../components/user/Post24h";
 function HomePage() {
   const [tour, setTour] = useState([]);
   const [category, setCategory] = useState([]);
@@ -61,7 +62,7 @@ function HomePage() {
 
 
   return (
-    <UserLayout>
+    <>
       {/* <div className="shadow-md rounded-sm">
         <Swiper
           className="relative group"
@@ -138,7 +139,7 @@ function HomePage() {
                 <div className="h-full w-full lg:w-[55%]">
                   <Link onClick={()=>detailClick(item.id)}>
                     <img
-                      src={item.image[0]}
+                      src={item.image[0].url}
                       alt=""
                       className="p-2 rounded-md h-full"
                     />
@@ -186,7 +187,7 @@ function HomePage() {
                     <MdOutlineStar size={20} />
                     <MdOutlineStar size={20} />
                   </div>
-                  <button className="button float-right m-2">Xem thêm</button>
+                  <button className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right m-2">Xem thêm</button>
                 </div>
               </div>
             );
@@ -203,7 +204,8 @@ function HomePage() {
           REVIEWS
         </div>
         <div className="">
-        <Swiper
+          <Post24h></Post24h>
+        {/* <Swiper
         slidesPerView={1}
         spaceBetween={30}
         loop={true}
@@ -236,10 +238,10 @@ function HomePage() {
         <SwiperSlide><Slidecmt/></SwiperSlide>
         <SwiperSlide><Slidecmt/></SwiperSlide>
         <SwiperSlide><Slidecmt/></SwiperSlide>
-      </Swiper>
+      </Swiper> */}
         </div>
       </div>
-    </UserLayout>
+    </>
   );
 }
 

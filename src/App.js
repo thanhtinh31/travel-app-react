@@ -22,45 +22,64 @@ import SearchPage from "./pages/user/SearchPage";
 import Test from "./pages/user/Test";
 import UserProfile from "./pages/user/UserProfile";
 import Lasttour from "./components/user/Lasttour";
+import ExchangeCurrency from "./pages/user/ExchangeCurrency";
+import PageSide from "./components/admin/PageSide";
+import QLTaiKhoan from "./components/admin/QLTaiKhoan";
+import HistoryBooking from "./components/user/HistoryBooking";
+import HistoryBookingPage from "./pages/user/HistoryBookingPage";
+import SchedulePage from "./pages/seller/SchedulePage";
+import { useState } from "react";
+import { useEffect } from "react";
+import { set } from "date-fns";
+import UserLayout from "./layout/UserLayout";
+import SellerLayout from "./layout/SellerLayout";
+import AdminLayout from "./layout/AdminLayout";
+import NotFoundPage from "./pages/NotFoundPage";
+import AuthorizedPage from "./pages/AuthorizedPage";
 
 
 
 function App() {
+  const [user,setUser] =useState(0);
+  useEffect(() => {
+    const account = sessionStorage.getItem('user');
+    if(account) {setUser(JSON.parse(account).typeAccount);
+    console.log(JSON.parse(account).typeAccount);}
+  }, []);
   return (
     <div>
+      {user}
       <ToastContainer></ToastContainer>
+      
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/login" element={<Login/>}></Route>
-          <Route path="/home" element={<HomePage />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/verify" element={<VerifyPage/>}></Route>
-          <Route path="/booking" element={<BookingPage/>}></Route>
-          <Route path="/introduce" element={<IntroducePage/>}></Route>
-          <Route path="/addtour" element={<CreateTourPage/>}></Route>
-          <Route path="/listtour" element={<ListTourPage/>}></Route>
-          <Route path="/edittour" element={<EditTourPage/>}></Route>
-          <Route path="/upload" element={<UpLoad/>}></Route>
-          <Route path="/detailtour" element={<DetailTourPage/>}></Route>
-          <Route path="/listcategory" element={<ListCategory/>}></Route>
-          <Route path="/addcategory" element={<AddCategoryPage/>}></Route>
-          <Route path="/editcategory" element={<EditCategoryPage/>}></Route>
-          <Route path="/addschedule" element={<AddSchedulePage/>}></Route>
-          <Route path="/test" element={<ItemTour/>}></Route>
-          <Route path="/search" element={<SearchPage/>}></Route>
-          <Route path="/checkoutsuccess" element={<CheckoutSuccess/>}></Route>
-          <Route path="/profile" element={<UserProfile/>}></Route>
-          {/* <Route path="/te" element={<MapExample/>}></Route> */}
-          
-          {/* <Route path="/home" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/checkoutsuccess" element={<CheckoutSuccess />}></Route>
-          <Route path="/verify" element={<VerifyPage/>}></Route>
-          <Route path="/upload" element={<UpLoad/>}></Route> */}
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/verify" element={<VerifyPage/>}/>
+        <Route path="/authorized" element={<AuthorizedPage/>}/>
+        <Route path="*" element={<NotFoundPage/>}/>
+        <Route path="/" element={<UserLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/home" element={<HomePage/>}/>
+          <Route path="detailtour" element={<DetailTourPage />} />
+          <Route path="booking" element={<BookingPage/>} />
+          <Route path="checkoutsuccess" element={<CheckoutSuccess/>} />
+          <Route path="profile" element={<UserProfile/>} />
+          <Route path="*" element={<NotFoundPage/>}/>
+        </Route>
+        <Route path="/admin/" element={<AdminLayout />}>
+          <Route index element={<ListCategory />} />
+          <Route path="listcategory" element={<ListCategory />} />
+          <Route path="listaccount" element={<ListCategory />} />
+        </Route>
+        <Route path="/seller/" element={<SellerLayout />}>
+          <Route index element={<ListTourPage />} />
+          <Route path="listtour" element={<ListTourPage />} />
+          <Route path="schedule" element={<SchedulePage />} />
+          <Route path="*" element={<NotFoundPage/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
     </div>
   );
 }

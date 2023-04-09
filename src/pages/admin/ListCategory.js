@@ -1,133 +1,206 @@
-import { Button } from '@material-tailwind/react';
+
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import AdminLayout from '../../layout/AdminLayout';
 import BaseUrl from '../../util/BaseUrl';
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Table, Modal, Input, Drawer, Space, Checkbox, Select, Upload, Form, Radio } from "antd";
+import firebase, { db, storage, storageRef } from '../../firebase';
+import TextArea from 'antd/es/input/TextArea';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+
+
 
 function ListCategory() {
-    const [page,setPage] = useState(1);
+    const [loading,setLoading] =useState(true);
+    const [id,setId] =useState(null);
+    const [name,setName] =useState(null);
+    const [content,setContent] =useState(null)
+    const [status,setStatus]=useState(true);
+    const [image,setImage] =useState(null);
+    const [open, setOpen] = useState(false);
+    const columns = [
+        {
+          title: 'Tên danh mục',
+          dataIndex: 'name',
+        },
+        {
+          title: 'Nội dung',
+          dataIndex: 'content',
+        },
+        {
+          title: 'Hình ảnh',
+          render: (record) => {
+            return (
+              <>
+               <img src={record.image} width='100px'></img>
+              </>
+            );
+          },
+        },
+        {
+          title: 'Status',
+          render: (record) => {
+            return (
+              record.status?<>Mở</>:<>Khóa</>
+            )}
+        },
+        {
+            key: "5",
+            title: "Actions",
+            render: (record) => {
+              return (
+                <>
+                  <EditOutlined
+                  onClick={() => {
+                  showDrawer(record)
+                }}
+                style={{ color: "green", marginLeft: 12,fontSize: '20px'}}
+                  />
+                  <DeleteOutlined
+                    onClick={() => {
+                        console.log(record.id)
+                      deleteHandle(record.id);
+                    }}
+                    style={{ color: "red", marginLeft: 12 ,fontSize: '20px'}}
+                  />
+                </>
+              );
+            },
+          },
+      ];      
+      const showDrawer =(record) => {
+        setId(record.id)
+        setImage(record.image);
+        setName(record.name)
+        setContent(record.content);
+        setStatus(record.status);
+        console.log(record.status)
+        setOpen(true);
+      };
+   
     const [categories, setCategories] = useState([]);
    // const [categories,setCategories] = useState([]);
-    const [totalElements,setTotalElements] =useState(1);
-    const [totalPages,setTotalPages] =useState(1);
-      const onHandlePage= async (e)=>{
-      console.log(e);
-      setPage(e);
-      fetchData(e);
-      }
-      
-    const editHandle=(e)=>{
-      window.location='/editcategory?id='+e;
-    }
-    
+
     const  deleteHandle= async(e)=>{
-      if(window.confirm("Xác nhận xóa")){
-      const xoa = await axios.delete(BaseUrl+'category/'+e)
-      fetchData(page);
-      toast.success(xoa?.data);
-      }  
-    }
-    const viewHandle=(e)=>{
-      window.location='/edittour?id='+e;
-    }
+        if(window.confirm("Xác nhận xóa")){
+        const xoa = await axios.delete(BaseUrl+'category/'+e)
+        fetchData()
+        toast.success(xoa?.data);
+        }  
+      }
     
-    async function fetchData(p) {
+    async function fetchData() {
       try {  
-        const categorie = await axios.get(BaseUrl+'category?size=10&page='+p)
+        const categorie = await axios.get(BaseUrl+'category?size=1000')
         setCategories(categorie?.data.content)
-        setTotalElements(categorie.data.totalElements)
-        setTotalPages(categorie.data.totalPages)
+        setLoading(false)
       } catch (error) {
         console.error(error);
       }
     }
     useState(() => {
-      fetchData(1);
+      fetchData();
     }, []);
     
-    return (
-      <>
-          <AdminLayout>
-            <Button onClick={(e)=>{window.location='/addcategory'}}>THêm Mới Danh Mục</Button>
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                  
-                  <th scope="col" class="px-6 py-3">
-                      Category
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                      Content
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                      image
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                      Status
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                      Action
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-  
-              {categories.map((item) => {
-            return(<tr key={item.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  
-                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {item.name}
-                  </th>
-                  <td class="px-6 py-4">
-                      {item.content}
-                  </td>
-                  <td class="px-6 py-4">
-                      <img width={'70px'} src={item.image}></img>
-                  </td>
-                  <td class="px-6 py-4">
-                      {item.status?"Mở":"Khóa"}
-                  </td>
-                  <td class="px-6 py-4">
-                      <button onClick={()=>editHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button> / 
-                      <button onClick={()=>viewHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</button>/
-                      <button onClick={()=>deleteHandle(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</button>
-                  </td>
-              </tr>)})}
-             
-          </tbody>
-      </table>
-      <nav class="flex items-center justify-between pt-4" aria-label="Table navigation">
-          <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Page {page} of {totalPages}</span>
-          
-          
-           <ul class="inline-flex items-center -space-x-px">
-              <li> <button onClick={()=>onHandlePage(page-1) } disabled={page<=1} >
-                  <a href="#" class="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                      <span class="sr-only">Previous</span>
-                      <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                  </a>
-                  </button>
-              </li>
-              <>___{page}___</>
-              
-              <li><button onClick={()=>onHandlePage(page+1)} disabled={page>=totalPages} >
-                  <a href="#" class="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                      <span class="sr-only">Next</span>
-                      <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                  </a>
-              </button>
-              </li>
-          </ul> 
-      </nav>
-  </div>
-  
-  
-          </AdminLayout>
+    const customUpload = async({ onError, onSuccess, file }) => {
+        const fileName = `uploads/images/${Date.now()}-${file.name}`;
+        const imageRef = ref(storage, fileName);
+      await uploadBytes(imageRef, file)
+        .then(() => {
+          getDownloadURL(imageRef)
+            .then((url) => {                         
+              setImage(url);
+            })
+            .catch((error) => {
+              console.log(error.message, "error getting the image url");
+            });
+          setImage(null);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      }
+    
+      const handSubmit = async(e)=>{
+        e.preventDefault();
+        if(window.confirm("Xác nhận cập nhật")){
+        let regObj = {id,name,content,image,status};
+        try{
+          console.log(regObj);
+            const res= await axios.put(BaseUrl+'category', regObj);    
+            console.log(res?.data);  
+             toast.success("thanh cong")
+             fetchData()
+             setOpen(false)
+          }catch(err){alert('Khong co ket noi');}
+        }
+      }
+      const uploadButton = (
+        <div>
+          <div className="ant-upload-text">Upload</div>
+        </div>
+        );
+    return <>
+      <Table rowKey={categories.id} columns={columns} dataSource={categories} loading={loading}/> 
+      <Modal
+        title="Chỉnh sửa danh mục"
+        okText='Save'
+        okType='primary'
+        centered
+        open={open}
+        onOk={(e) => handSubmit(e)}
+        onCancel={() => setOpen(false)}
+        width={1000}   
+      >         
+        
+      <Form
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 14 }}
+        layout="horizontal"
+        style={{ maxWidth: 600 }}
+      >
+       
+        <Form.Item label="Name">
+          <Input value={name} onChange={(e)=>{setName(e.target.value)}} />
+        </Form.Item>
+                 
+        <Form.Item label="Content" onChange={(e)=>{setContent(e.target.value)}}>
+          <TextArea rows={4} value={content}/>
+        </Form.Item>
+       
+        <Form.Item label="Image" valuePropName="fileList">
+          <Upload maxCount="1" fileList={[{url:image}]} listType="picture-card"
+           showUploadList={false}
+           customRequest={customUpload}>
+            <div>
+              {image ? <img src={image} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </div>
+          </Upload>
+        </Form.Item>
+        <Form.Item label="Status">
+        <Radio.Group
+        options={[
+          {
+            label: 'Mở',
+            value: true,
+          },
+          {
+            label: 'Khóa',
+            value: false,
+          },
+        ]}
+        onChange={(e)=>setStatus(e.target.value)}
+        value={status}
+        optionType="button"
+        buttonStyle="solid"
+        />
+        </Form.Item>
+      </Form>
+      </Modal>
       </>
-    )
 }
 
 export default ListCategory

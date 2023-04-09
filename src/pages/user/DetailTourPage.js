@@ -33,7 +33,11 @@ import {
 import { GrSchedule } from "react-icons/gr";
 import { AiFillSchedule, AiOutlineFileProtect } from "react-icons/ai";
 import { GiKnifeFork, GiRotaryPhone } from "react-icons/gi";
-
+import { Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import X2JS from 'x2js';
+import Post from '../../components/user/Post';
+import Post24h from '../../components/user/Post24h';
 function DetailTourPage() {
     var url_string = window.location;
     var urla = new URL(url_string);
@@ -44,18 +48,20 @@ function DetailTourPage() {
     const [idSchedule,setIdSchedule] = useState("0");
     const [schedule,setSchedule] = useState({});
     const [people,setPeople] =useState(1);
-    const handleBooking = async(e)=>{
-        e.preventDefault();
+    const [posts,setPosts] =useState();
+    const  navigate = useNavigate()
+    const [ran,setRan]=useState( Math.floor((Math.random() * (20))))
+    const handleBooking = async()=>{
         const account  = sessionStorage.getItem('user');
         if(!account){
             alert("vui long dang nhap de dat tour")
-            window.location='/login';
+            navigate("/login")
         }
         else{
             console.log(idSchedule);
             if(idSchedule=="0") toast.warning("Vui long chon ngay khoi hanh");
             else
-            window.location='/booking?idSchedule='+idSchedule+'&sl='+people;
+            navigate('/booking?idSchedule='+idSchedule+'&sl='+people);
         }
     }
     async function getTourById() {
@@ -63,27 +69,32 @@ function DetailTourPage() {
             const res= await axios.get(BaseUrl+'tour/'+id);
             setTour(res?.data);   
             setImages(res?.data.image);
-            
+            const r= await axios.get(BaseUrl+'schedule/active/'+id); 
+            setListSchedule(r?.data);  
         }catch(err){alert('Khong co ket noi');}        
     }
-    async function getScheduleByIdTour() {
-        try{
-            
-            const res= await axios.get(BaseUrl+'schedule/active/'+id); 
-            setListSchedule(res?.data);  
-            
-        }catch(err){alert('Khong co ket noi');}        
-    }
-
     useEffect(() => {
-        getTourById();
-        getScheduleByIdTour();
-        const re=axios.get('https://www.dongabank.com.vn/exchange/export');
-        console.log(re);
+      getTourById()
+        axios
+	      .get("https://cdn.24h.com.vn/upload/rss/dulich24h.rss", {
+		    "Content-Type": "application/xml; charset=utf-8"
+	      })
+	.then(function(response) {
+     let str=(response.data.split('<![CDATA[').join(''))
+     let string=str.split(']]>').join('')
+      var x2js = new X2JS();
+      var jsonObj = x2js.xml2js(string);
+     
+     setPosts(jsonObj.rss.channel.item)
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
+       
       }, []);
     
   return (
-    <UserLayout>
+   
       <div className="max-w-screen-lg mx-auto bg-white shadow-lg">
       <h1 className="font-[700] text-xl mx-2 py-4 text-mainbg">
         {tour.title} | {tour.subTitle}
@@ -103,14 +114,14 @@ function DetailTourPage() {
               disableOnInteraction: false,
             }}
             scrollbar={{ draggable: true }}
-            onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log("slide change")}
+            // onSwiper={(swiper) => console.log(swiper)}
+            // onSlideChange={() => console.log("slide change")}
           >
             {images.map((img)=>{return(
-            <SwiperSlide key={img}>
+            <SwiperSlide>
               <div className="w-full h-80">
                 <img
-                  src={img}
+                  src={img.url}
                   className="w-full h-full"
                 />
               </div>
@@ -261,7 +272,7 @@ function DetailTourPage() {
               </span>
             </div>
             <div className="flex justify-center items-center my-8">
-              <button className="button" onClick={handleBooking}>Đặt tour</button>
+              <Button type='primary' onClick={handleBooking}>Đặt tour</Button>
             </div>
           </div>
 
@@ -349,36 +360,15 @@ function DetailTourPage() {
         </h2>
         <div className="flex justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="relative w-72 h-48 text-maintext cursor-pointer rounded-md border-[1px] border-gray-500">
-            <img src='https://cdn.pixabay.com/photo/2023/03/18/16/08/mountain-7860877_960_720.jpg' className="w-full h-full rounded-md"/>
-            <div className="absolute z-10 bottom-0 text-sm bg-[rgba(255,255,255,0.41)] font-[500] p-2">
-            Tour Hà Giang 4 ngày 3 đêm từ TPHCM | Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo
-            </div>
-          </div>
+         
 
-          <div className="relative w-72 h-48 text-maintext cursor-pointer rounded-md border-[1px] border-gray-500">
-            <img src='https://cdn.pixabay.com/photo/2023/03/18/16/08/mountain-7860877_960_720.jpg' className="w-full h-full rounded-md"/>
-            <div className="absolute z-10 bottom-0 text-sm bg-[rgba(255,255,255,0.41)] font-[500] p-2">
-            Tour Hà Giang 4 ngày 3 đêm từ TPHCM | Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo
-            </div>
-          </div>
-
-          <div className="relative w-72 h-48 text-maintext cursor-pointer rounded-md border-[1px] border-gray-500">
-            <img src='https://cdn.pixabay.com/photo/2023/03/18/16/08/mountain-7860877_960_720.jpg' className="w-full h-full rounded-md"/>
-            <div className="absolute z-10 bottom-0 text-sm bg-[rgba(255,255,255,0.41)] font-[500] p-2">
-            Tour Hà Giang 4 ngày 3 đêm từ TPHCM | Đồng Văn - Mã Pí Lèng - Dinh Thự vua Mèo
-            </div>
-          </div>
+         <Post24h/>
 
         </div>
 
         </div>
       </div>
-    </div>
-
-
-     
-    </UserLayout>
+    </div>   
   )
 }
 

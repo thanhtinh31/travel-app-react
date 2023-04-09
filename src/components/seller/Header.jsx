@@ -1,67 +1,61 @@
-import React, { useState } from 'react';
-import SearchModal from './header/SearchModal';
-import Notifications from './header/Notifications';
-import Help from './header/Help';
-import UserMenu from './header/UserMenu';
-
+import React from 'react';
+import { DownOutlined, SmileOutlined,UserOutlined,NotificationTwoTone } from '@ant-design/icons';
+import { Avatar, Col, MenuProps, Row } from 'antd';
+import { Dropdown, Space } from 'antd';
+import Link from 'antd/es/typography/Link';
+const items: MenuProps['items'] = [
+  {
+    key: '1',
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        Thông tin tài khoản
+      </a>
+    ),
+    icon: <SmileOutlined />
+  },
+  {
+    key: '2',
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+        Đổi mật khẩu
+      </a>
+    ),
+    icon: <SmileOutlined />
+  },
+  {
+    key: '3',
+    danger: true,
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+        Thoát
+      </a>
+    ),
+    icon: <SmileOutlined />
+  },
+ 
+];
 function Header({
-  sidebarOpen,
-  setSidebarOpen,notification
+  
 }) {
 
-  const [searchModalOpen, setSearchModalOpen] = useState(false)
  
   return (
-    <header className="sticky top-0 bg-white border-b border-slate-200 z-30">
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 -mb-px">
-
-          {/* Header: Left side */}
-          <div className="flex">
-
-            {/* Hamburger button */}
-            <button
-              className="text-slate-500 hover:text-slate-600 lg:hidden"
-              aria-controls="sidebar"
-              aria-expanded={sidebarOpen}
-              onClick={(e) => { e.stopPropagation(); setSidebarOpen(!sidebarOpen); }}
-            >
-              <span className="sr-only">Open sidebar</span>
-              <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <rect x="4" y="5" width="16" height="2" />
-                <rect x="4" y="11" width="16" height="2" />
-                <rect x="4" y="17" width="16" height="2" />
-              </svg>
-            </button>
-
-          </div>
-
-          {/* Header: Right side */}
-          <div className="flex items-center">
-
-            <button
-              className={`w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 transition duration-150 rounded-full ml-3 ${searchModalOpen && 'bg-slate-200'}`}
-              onClick={(e) => { e.stopPropagation(); setSearchModalOpen(true); }}
-              aria-controls="search-modal"
-            >
-              <span className="sr-only">Search</span>
-              <svg className="w-4 h-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                <path className="fill-current text-slate-500" d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" />
-                <path className="fill-current text-slate-400" d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z" />
-              </svg>
-            </button>
-            <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen} setModalOpen={setSearchModalOpen} />
-            <Notifications noti={notification}/>
-            <Help />
-            {/*  Divider */}
-            <hr className="w-px h-6 bg-slate-200 mx-3" />
-            <UserMenu />
-
-          </div>
-
-        </div>
-      </div>
-    </header>
+    <Row>
+    <Col span={6} push={4}>
+        aa
+    </Col>
+    <Col span={1} push={14}> 
+      <Dropdown menu={{ items }}  placement="bottomRight" arrow={{ pointAtCenter: true }}>
+    <NotificationTwoTone />
+    </Dropdown></Col>
+    <Col span={1} push={15}>
+    <Dropdown menu={{ items }}  placement="bottomRight" arrow={{ pointAtCenter: true }}>
+    <Avatar size={'default'} src="https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680800027593-tour-maldives-5-ngay-4-dem-1.jpg?alt=media&token=afd369a3-8d29-4750-a0e2-84f3f0a6e544" >
+    </Avatar>
+    </Dropdown>
+    </Col>
+    
+    </Row>
   );
 }
 
