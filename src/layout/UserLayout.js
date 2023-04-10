@@ -14,7 +14,7 @@ const UserLayout = ({title = "Title", className, children}) => {
   return (
     <>
     <Header/>
-    <div className="pt-44 mx-auto w-10/12 h-max">      
+    <div className="mx-auto w-10/12 h-max">      
     {/* {children} */}
     <Outlet/>
     </div>

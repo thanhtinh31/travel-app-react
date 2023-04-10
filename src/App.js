@@ -48,7 +48,7 @@ function App() {
   }, []);
   return (
     <div>
-      {user}
+      {/* {user} */}
       <ToastContainer></ToastContainer>
       
       <BrowserRouter>
