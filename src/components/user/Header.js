@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDarkMode } from "../../layout/useDarkMode";
-import logo from "../../assets/greenhouse_logo.png"
+import logo from "../../assets/greenhouse_logo.png";
 import { RiAdvertisementFill } from "react-icons/ri";
 import { TbBrandBooking } from "react-icons/tb";
 import {
   BsFacebook,
+  BsFillCloudSunFill,
   BsFillPersonFill,
   BsInstagram,
   BsMoonStars,
@@ -24,40 +25,38 @@ import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
+import { FaBars, FaTimes } from "react-icons/fa";
 
-
-function  Header()  {
+function Header() {
   // const navigate = useNavigate();
   const [togglebtn, setTogglebtn] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
-  const [darkmode, toggleDarkMode] = useDarkMode();
-  const [key,setKey]=useState("");
-  let isLogin = (sessionStorage.getItem('user'))?true:false;
+
+  const [key, setKey] = useState("");
+  let isLogin = sessionStorage.getItem("user") ? true : false;
   var url_string = window.location;
   var url = new URL(url_string);
   var keys = url.searchParams.get("key");
   const toggleNavbar = () => {
     setTogglebtn(!togglebtn);
   };
-  
-  const handleSearch=(e)=>{
+
+  const handleSearch = (e) => {
     e.preventDefault();
-    console.log('a')
-    window.location="/search?key="+key;
-  }
-  useState(async() => {  
-     setKey(keys);
-  }, []);
-  const dropDownbtn = (id) => {
-    id === 3 ? setDropdown(!dropdown) : setDropdown(false);
+    console.log("a");
+    window.location = "/search?key=" + key;
   };
+  useState(async () => {
+    setKey(keys);
+  }, []);
+
+  const [nav, setNav] = useState(false);
   const setActive = (props) => {
     const active = document.querySelector(".active");
     active.classList.remove("active");
     const nav = document.querySelector("." + props);
     nav.classList.add("active");
   };
-  
+
   const links = [
     {
       id: 1,
@@ -68,107 +67,151 @@ function  Header()  {
     },
     {
       id: 2,
-      title: "Giới thiệu",
-      link: "introduce",
-      path: "/introduce",
-      icon: <RiAdvertisementFill size={20} />,
+      title: "Thời tiết",
+      link: "weather",
+      path: "weather",
+      icon: <BsFillCloudSunFill size={20} />,
     },
     {
       id: 3,
-      title: "Danh mục tour",
-      link: "category",
+      title: "Giới thiệu",
+      link: "introduce",
       path: "",
-      icon: <MdArrowDropDown size={20} />,
+      icon: <RiAdvertisementFill size={20} />,
     },
     {
       id: 4,
       title: "Booking",
       link: "booking",
-      path: "/booking",
+      path: "booking",
       icon: <TbBrandBooking size={20} />,
     },
     {
-      id: 5,
+      id: 4,
       title: "Lịch sử đặt tour",
       link: "history",
-      path: "/history",
+      path: "",
       icon: <MdHistory size={20} />,
     },
   ];
-  const logout =(e)=>{
-      
-    sessionStorage.removeItem('user');
+  const logout = (e) => {
+    sessionStorage.removeItem("user");
     //Navigate("login");
-  }
-  return(
-    
-<nav class="bg-white border-gray-200 dark:bg-gray-900">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-  <a href="https://flowbite.com/" class="flex items-center">
-      <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" />
-      <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-  </a>
-  <div class="flex items-center md:order-2">
-      <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-        <span class="sr-only">Open user menu</span>
-        <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo"/>
-      </button>
-      
-      <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-        <div class="px-4 py-3">
-          <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-          <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+  };
+  return (
+    <div className="flex justify-center items-center w-full h-20 text-white bg-mainbg shadow-sm shadow-gray-500 fixed top-0 z-20">
+      <div className="flex justify-between w-full max-w-screen-xl px-4 md:mx-2">
+        <div className="">
+          <a href="https://flowbite.com/" className="flex items-center">
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              className="h-8 mr-3"
+              alt="Flowbite Logo"
+            />
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              Flowbite
+            </span>
+          </a>
         </div>
-        <ul class="py-2" aria-labelledby="user-menu-button">
-          <li>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
-          </li>
-          <li>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-          </li>
-          <li>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
-          </li>
-          <li>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-          </li>
+        <ul className="hidden md:flex">
+          {links.map(({ id, title, link, path, icon }) => (
+            <li
+              key={id}
+              className={`${
+                id === 1 ? "active" : ""
+              } px-4 mx-1 cursor-pointer capitalize font-medium text-[1.25rem] text-white dark:text-lime-200 hover:scale-105 duration-200 main-text ${link}`}
+            >
+              <Link
+                onClick={() => setActive(link)}
+                // to={path}
+                smooth
+                duration={500}
+                className="flex items-center"
+              >
+                {icon}
+                {link}
+              </Link>
+            </li>
+          ))}
         </ul>
+        <div
+          onClick={() => setNav(!nav)}
+          className="cursor-pointer z-10 text-white md:hidden"
+        >
+          {nav ? <FaTimes size={30} /> : <FaBars size={30} />}
+        </div>
+        {nav && (
+          <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-black to-gray-800 text-white">
+            {links.map(({ id, title, link, path, icon }) => (
+              <li
+                key={id}
+                className="cursor-pointer capitalize font-medium py-6 hover:scale-110 duration-200"
+              >
+                <Link
+                  onClick={() => setActive(link)}
+                  // to={path}
+                  smooth
+                  duration={500}
+                  className="flex items-center"
+                >
+                  {icon}
+                  {link}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="flex absolute lg:relative top-0 right-0 text-maintext">
+          {isLogin ? (
+            <div className="flex">
+              <div className="flex items-center px-2">
+                <img
+                  src={
+                    JSON.parse(sessionStorage.getItem("user")).image
+                      ? JSON.parse(sessionStorage.getItem("user")).image
+                      : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                  }
+                  className="w-6 h-6 rounded-full"
+                />
+                <span className="text-md font-bold mx-1">
+                  {JSON.parse(sessionStorage.getItem("user")).nameAccount}
+                </span>
+              </div>
+              <div className="flex items-center px-2">
+                <BiLogOut size={20} />
+                <span className="text-md font-bold mx-1">
+                  <Link onClick={logout} to="/login">
+                    Đăng Xuất
+                  </Link>
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="flex">
+              <div className="flex items-center pr-1">
+                <BiLogIn size={20} />
+                <span className="text-md font-bold mx-1">
+                  <Link to="/login">Đăng nhập</Link>
+                </span>
+              </div>
+              <div className="flex items-center">
+                <BsFillPersonFill size={20} />
+                <span className="text-md font-bold mx-1">
+                  <Link to="/login">Đăng ký</Link>
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
-        <span class="sr-only">Open main menu</span>
-        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-    </button>
-  </div>
-  <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-    <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-      <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</a>
-      </li>
-      <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
-      </li>
-      <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
-      </li>
-      <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
-      </li>
-      <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-      </li>
-    </ul>
-  </div>
-  </div>
-</nav>
-
-
+    </div>
   );
-  // return (
+
   //   <div className="bg-[#0284c7] text-white w-full fixed z-50">
   //     <div className="flex justify-between px-2 lg:px-28 border-b-[1px]">
   //       <div>
   //         <ul className="hidden sm:flex items-center">
-  //           <span className="text-md font-normal">Theo dõi:</span>
+  //           <span className="text-md font-bold">Theo dõi:</span>
   //           <li className="mx-1">
   //             <BsFacebook size={20} />
   //           </li>
@@ -189,12 +232,12 @@ function  Header()  {
   //                 src={JSON.parse(sessionStorage.getItem('user')).image?JSON.parse(sessionStorage.getItem('user')).image:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
   //                 className="w-6 h-6 rounded-full"
   //               />
-  //               <span className="text-md font-normal mx-1">{JSON.parse(sessionStorage.getItem('user')).nameAccount}</span>
+  //               <span className="text-md font-bold mx-1">{JSON.parse(sessionStorage.getItem('user')).nameAccount}</span>
   //             </div>
   //             </Link>
   //             <div className="flex items-center px-2">
   //               <BiLogOut size={20} />
-  //               <span className="text-md font-normal mx-1">
+  //               <span className="text-md font-bold mx-1">
   //                 <Link onClick={logout} to="/login">Đăng Xuất</Link>
   //               </span>
   //             </div>
@@ -203,13 +246,13 @@ function  Header()  {
   //           <div className="flex">
   //             <div className="flex items-center px-2">
   //               <BiLogIn size={20} />
-  //               <span className="text-md font-normal mx-1">
+  //               <span className="text-md font-bold mx-1">
   //                 <Link to="/login">Đăng nhập</Link>
   //               </span>
   //             </div>
   //             <div className="flex items-center px-2">
   //               <BsFillPersonFill size={20} />
-  //               <span className="text-md font-normal mx-1">
+  //               <span className="text-md font-bold mx-1">
   //               <Link to="/login">Đăng ký</Link>
   //               </span>
   //             </div>
@@ -338,6 +381,5 @@ function  Header()  {
   //   </div>
   // );
 }
-
 
 export default Header;

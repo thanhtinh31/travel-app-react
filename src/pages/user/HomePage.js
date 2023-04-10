@@ -36,6 +36,7 @@ import ItemTour from "../../components/user/ItemTour";
 import Recommend from "../../components/user/Recommend";
 import Hero from "../../components/user/Hero";
 import Post24h from "../../components/user/Post24h";
+import { Col, Row } from "antd";
 function HomePage() {
   const [tour, setTour] = useState([]);
   const [category, setCategory] = useState([]);
@@ -118,13 +119,15 @@ function HomePage() {
         <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">
           KHÁM PHÁ TOUR DU LỊCH
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+     
+        <Row justify="center" gutter={100}>
       {listSchedule.map((item) => (
-         <div key={item.id}>
-           <ItemTour data={item}></ItemTour>
-         </div>
+         <Col className="gutter-row" span={8} key={item.id}>
+           <ItemTour  idTour={item.idTour} data={item}></ItemTour>
+         </Col>
       ))}
-      </div>
+      </Row>
       </div>
 
 

@@ -1,8 +1,13 @@
+import axios from 'axios';
 import React from 'react'
+import { useEffect } from 'react';
+import { useState } from 'react';
 import Countdown from 'react-countdown';
 import { BsBusFront, BsFillCarFrontFill, BsShieldFillCheck, BsTicketPerforatedFill } from 'react-icons/bs';
 import { FaUtensils } from 'react-icons/fa';
 import { MdAirplanemodeActive, MdCheckCircle, MdLocationOn, MdTrain } from 'react-icons/md';
+import BaseUrl from '../../util/BaseUrl';
+import { Link } from 'react-router-dom';
 const Completionist = () => <span>You are good to go!</span>;
 // Renderer callback with condition
 const renderer = ({total, days, hours, minutes, seconds, completed }) => {
@@ -17,12 +22,28 @@ const renderer = ({total, days, hours, minutes, seconds, completed }) => {
 
 function ItemTour(props) {
     var d = new Date(props.data.dayStart); 
+    var id = props.data.idTour;
+    const [tour,setTour] =useState();
+    async function fetchData() {
+      try {
+        console.log(id)
+        const res = await axios.get(BaseUrl +"tour/"+id);
+        setTour(res.data);
+        console.log(res?.data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    useEffect(() => {
+      fetchData();
+    }, []);
+  
     console.log(d.getDay())
   return (
-    <>
+    <Link to={"/detailtour?id="+id}>
     <div className="w-full md:w-72 p-2 bg-white rounded-sm relative">
         <img
-          src="https://cdn.pixabay.com/photo/2016/08/11/23/48/mountains-1587287_960_720.jpg"
+          src={tour?tour.image[0].url:""}
           className="w-full h-48"
         />
         <div className="absolute bg-[rgba(255,255,255,0.41)] text-red-600 top-3 font-[500] p-1">
@@ -32,12 +53,12 @@ function ItemTour(props) {
         /> 
         </div>
         <div className="flex items-center justify-center bg-mainbg text-white text-md font-[500] py-1">
-          <MdLocationOn size={20} /> <span className="ml-2">Hồ chí minh</span>
+          <MdLocationOn size={20} /> <span className="ml-2">{tour?tour.address:""}</span>
         </div>
         <h2 className="capitalize font-[500] text-maintext">
-          Tour du lịch An giang Cần thơ
+        {tour?tour.title:""}
         </h2>
-        <div className="px-1 text-md font-[500] text-maintext"> 4 ngày - 3 đêm</div>
+        <div className="px-1 text-md font-[500] text-maintext">{tour?tour.inteval:""}</div>
         <div className="flex items-center px-1 text-md font-[500] text-maintext">
           <span className="mr-2">Phương tiện: </span>
           <BsFillCarFrontFill size={20} />
@@ -52,24 +73,13 @@ function ItemTour(props) {
           <BsBusFront />
         </div>
         <div className="text-md font-[500] text-red-600 p-1">
-          5.999.000 VDN/người
+          {tour?tour.price:""} VDN/người
         </div>
         <div className="line-through text-sm font-[400] text-red-500 p-1">
-          6.499.000 VND/người
+        {tour?tour.price:""} VND/người
         </div>
       </div>
-
-      
-    {/* id tour: {props.data.id} 
-    <br/>
-    Hướng dẫn viên: {props.data.tourGuide}
-    <br/>
-    <Countdown
-    date={d}
-    renderer={renderer}
-    />
-    <br/><br/> */}
-  </>
+  </Link>
   )
 }
 

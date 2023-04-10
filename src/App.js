@@ -48,7 +48,6 @@ function App() {
   }, []);
   return (
     <div>
-      {user}
       <ToastContainer></ToastContainer>
       
       <BrowserRouter>
