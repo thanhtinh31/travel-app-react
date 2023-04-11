@@ -9,7 +9,6 @@ function Post(props) {
     // const [title,setTitle] =useState("");
     // const [image,setImage]=useState("");
     useEffect(() => {
-      
        setTitle(props.title)
        setImage(props.image)
        setLink(props.link)

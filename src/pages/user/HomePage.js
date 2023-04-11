@@ -53,14 +53,12 @@ function HomePage() {
       console.error(error);
     }
   }
-  
   const detailClick=(e)=>{
     window.location='/detailtour?id='+e;
   }
   useEffect(() => {
     fetchData();
   }, []);
-
 
   return (
     <>

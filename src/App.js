@@ -36,7 +36,8 @@ import SellerLayout from "./layout/SellerLayout";
 import AdminLayout from "./layout/AdminLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthorizedPage from "./pages/AuthorizedPage";
-
+import Chat from "./components/user/Chat";
+import ChatBoxPage from "./pages/seller/ChatBoxPage";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
       
       <BrowserRouter>
       <Routes>
+      
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verify" element={<VerifyPage/>}/>
@@ -75,6 +77,7 @@ function App() {
           <Route index element={<ListTourPage />} />
           <Route path="listtour" element={<ListTourPage />} />
           <Route path="schedule" element={<SchedulePage />} />
+          <Route path="chatbox" element={<ChatBoxPage />} />
           <Route path="*" element={<NotFoundPage/>}/>
         </Route>
       </Routes>
