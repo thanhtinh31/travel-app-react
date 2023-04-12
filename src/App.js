@@ -11,11 +11,11 @@ import BookingPage from "./pages/user/BookingPage";
 import IntroducePage from "./pages/user/IntroducePage";
 import CreateTourPage from "./pages/seller/CreateTourPage";
 import ListTourPage from "./pages/seller/ListTourPage";
-import EditTourPage from "./pages/seller/EditTourPage";
+
 import DetailTourPage from "./pages/user/DetailTourPage";
 import ListCategory from "./pages/admin/ListCategory";
 import AddCategoryPage from "./pages/admin/AddCategoryPage";
-import EditCategoryPage from "./pages/admin/EditCategoryPage";
+
 import AddSchedulePage from "./pages/seller/AddSchedulePage";
 import ItemTour from "./components/user/ItemTour";
 import SearchPage from "./pages/user/SearchPage";
