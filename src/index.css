@@ -13,10 +13,10 @@
 ::-webkit-scrollbar {
   display: none;
 }
-.active {
-  border-bottom: 4px solid #1f2937;
-  transition: all 0.3s linear;
-  color: #192a56;
+.active{
+  border: 1px solid;
+  border-radius: 4px;
+  background-color: rgba(240, 248, 255, 0.5);
 }
 .dark .active {
   border-bottom: 4px solid #0284c7;
@@ -129,8 +129,16 @@
 
 
 
+
+
 #components-layout-demo-responsive .logo {
   height: 32px;
   margin: 16px;
   background: rgba(255, 255, 255, 0.2);
 }
+
+
+
+
+
+

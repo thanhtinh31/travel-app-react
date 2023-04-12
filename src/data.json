@@ -1,0 +1,370 @@
+{
+    "categorydata": 
+      [
+          {
+              "id": "642ef89c35fb9622af8d6d46",
+              "name": "Du lịch nước ngoài",
+              "content": "Du lịch nước ngoài",
+              "image": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680800027593-tour-maldives-5-ngay-4-dem-1.jpg?alt=media&token=afd369a3-8d29-4750-a0e2-84f3f0a6e544",
+              "status": false
+          },
+          {
+              "id": "642ef89635fb9622af8d6d45",
+              "name": "Du lịch miền tây",
+              "content": "Du lịch miền tây",
+              "image": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681110071853-tour-mien-tay-2-ngay-1-dem-cho-khach-doan-1.jpg?alt=media&token=a31d0d3d-8edb-48cd-8c69-38711d1125cb",
+              "status": true
+          },
+          {
+              "id": "642ef89135fb9622af8d6d44",
+              "name": "Du lịch trong nước",
+              "content": "Du lịch trong nước",
+              "image": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680950558631-tour-tay-bac-4-ngay-3-dem-7.jpg?alt=media&token=99708060-d53e-4843-9e1d-cebd219d7e4f",
+              "status": true
+          }
+      ] ,
+      "tourdata":[
+        {
+            "id": "64360e2ae46738435be26b31",
+            "title": "Du lịch phú quốc",
+            "subTitle": "Du lịch",
+            "image": [
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681131778157-tour-mien-tay-2-ngay-1-dem-cho-khach-doan-4.jpg?alt=media&token=254e12cc-f36d-4ef1-bd6b-1cae0f7e3239",
+                    "uid": "__AUTO__1681131779974_1__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681131784807-Chua-Phat-Vang-Bangkok.jpg?alt=media&token=d0a2e302-b934-40f1-af5e-23b1314a55d6",
+                    "uid": "__AUTO__1681131787392_2__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681264233070-tour-tet-phan-thiet-mui-ne-2n1d-2.jpg?alt=media&token=d6e6e919-6246-49e7-948e-7293cf5c1983",
+                    "uid": "__AUTO__1681264236119_2__"
+                }
+            ],
+            "describe": "Du lịch xanh",
+            "interesting": null,
+            "address": "Đà Lạt",
+            "inteval": "d",
+            "vehicle": null,
+            "price": 120000.0,
+            "sale": 0.0,
+            "status": true,
+            "idAccount": "1",
+            "hanhtrinh": [
+                {
+                    "time": "10h",
+                    "todo": "tham quan"
+                },
+                {
+                    "time": "11h",
+                    "todo": "ăn trưa"
+                },
+                {
+                    "time": "12h",
+                    "todo": "ngủ"
+                }
+            ],
+            "idCategory": [
+                "640fd6e4f831e01f9efe4a2b",
+                "642ef89135fb9622af8d6d44",
+                "642ef89635fb9622af8d6d45"
+            ]
+        },
+        {
+            "id": "6433de34e830de07e889e6d1",
+            "title": "Du lịch đà lạt",
+            "subTitle": "Du lịch",
+            "image": [
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681264265258-tour-singapore-malaysia-tu-ha-noi-5-ngay-4-dem-9.jpg?alt=media&token=fb7ae46b-8c47-4b7c-83f4-d477e81e3558",
+                    "uid": "__AUTO__1681264267465_1__"
+                }
+            ],
+            "describe": "Du lịch xanh",
+            "interesting": null,
+            "address": "Đà Lạt",
+            "inteval": "d",
+            "vehicle": null,
+            "price": 120000.0,
+            "sale": 0.0,
+            "status": true,
+            "idAccount": "1",
+            "hanhtrinh": [
+                {
+                    "time": "10h",
+                    "todo": "tham quan"
+                },
+                {
+                    "time": "11h",
+                    "todo": "ăn trưa"
+                },
+                {
+                    "time": "12h",
+                    "todo": "ngủ"
+                }
+            ],
+            "idCategory": [
+                "640fd6e4f831e01f9efe4a2b",
+                "642ef89135fb9622af8d6d44",
+                "642ef89635fb9622af8d6d45"
+            ]
+        },
+        {
+            "id": "6433764dab39df181778a3ec",
+            "title": "Tour du lịch Mỹ Tho – Cần Thơ 2 ngày 1 đêm giá tốt",
+            "subTitle": "khởi hành từ TP.HCM",
+            "image": [
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681110450959-du-lich-my-tho-can-tho-2-ngay-1.jpg?alt=media&token=82e183af-38b8-4ebb-8177-b140ae4ae8b9",
+                    "uid": "__AUTO__1681110453506_0__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681110453983-du-lich-my-tho-can-tho-2-ngay-2.jpg?alt=media&token=43732c9e-28f4-4bb4-891d-ebf87b0b435a",
+                    "uid": "__AUTO__1681110456235_1__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681110459143-du-lich-my-tho-can-tho-2-ngay-3.jpg?alt=media&token=63672eb1-960b-4a4c-8f18-feebb56a51cd",
+                    "uid": "__AUTO__1681110461582_2__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681110462233-du-lich-my-tho-can-tho-2-ngay-4.jpg?alt=media&token=67285a57-3812-4ba9-8fe6-65c99e62b3f4",
+                    "uid": "__AUTO__1681110464735_3__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681110464766-du-lich-my-tho-can-tho-2-ngay-6.jpg?alt=media&token=8f316737-2e29-4b1a-9ea7-178221fc8f3b",
+                    "uid": "__AUTO__1681110466880_4__"
+                }
+            ],
+            "describe": "Tour Mỹ Tho Cần Thơ 2 ngày 1 đêm sẽ dẫn dắt quý khách đến những địa điểm xinh đẹp và thơ mộng của vùng đồng bằng sông Cửu Long. Ghé đến đây, chúng ta sẽ cùng hòa nhịp với nếp sống dân dã cửa người dân địa phương, thưởng thức các món đặc sản trứ danh của Nam Bộ.",
+            "interesting": "+Tham quan chùa Vĩnh Tràng, bè nuôi cá nổi, làng làm nghề hủ tiếu, thiền viện Trúc Lâm Phương Nam.\n+Khám phá sự đặc sắc của Cù Lao Thới Sơn - thưởng thức vườn cây với nhiều loại hoa quả và nghe đờn ca tài tử Nam Bộ. \n+ Du ngoạn đến chợ nổi Cái Răng - biểu tượng của miền Tây sông nước.\nVui chơi tại khu du lịch Việt Nhật và khu du lịch Mỹ Khánh.",
+            "address": "Mỹ tho",
+            "inteval": "2 ngày 1 đêm",
+            "vehicle": "Xe bus,Xe máy",
+            "price": 2190000.0,
+            "sale": 0.1,
+            "status": true,
+            "idAccount": "1",
+            "hanhtrinh": [
+                {
+                    "time": "Ngày 1 --",
+                    "todo": "TPHCM – MỸ THO (TIỀN GIANG) – CẦN THƠ (ĂN TRƯA/ TỐI)"
+                },
+                {
+                    "time": "Sáng:",
+                    "todo": "    Xe và hướng dẫn viên (HDV) Vietnam Booking đón du khách tại điểm khởi hành. Sau đó xuất phát đi đi Mỹ Tho, bắt đầu chương trình tour Mỹ Tho Cần Thơ 2 ngày 1 đêm. \n\n    Sau khi dùng bữa sáng (tự túc) thì đoàn bắt đầu chuyến hành trình đi tour du lịch miền Tây: \n\n+ Ngôi chùa Vĩnh Tràng:  xuất hiện từ thế kỷ XIX, do ông bà Bùi Công Đạt xây dựng nên. Đây là một trong các ngôi chùa có kiến trúc nổi bật, là sự kết hợp hài hòa giữa nét đẹp Á Đông và cái hồn của phương Tây.\n+ Cảng Du thuyền Mỹ Tho: quý khách có thể đứng trên tàu để chiêm ngưỡng vẻ đẹp của 4 cù lao nổi tiếng Long - Lân - Quy - Phụng.\nBè nuôi cá nổi: trong quá trình thuyền đi, quý khách sẽ được thấy những bè cá nổi và học hỏi được những kinh nghiệm của người dân bản địa về nuôi cá trên sông.\n+ Cù Lao Thới Sơn: khách có thể tham quan vườn và nhà dân thỏa thích, đi bộ và chụp hình tại nhiều nơi. Kế đến là tham quan trại nuôi ong mật, dùng mật ong chanh thượng hạng. Tiếp theo là vừa nghe Đờn Ca Tài Tử Nam Bộ, vừa dùng các  loại hoa quả miễn phí. \nLò kẹo dừa - Lò bánh tráng: men theo sông Tiền đến Bến Tre, quý khách sẽ được tận mắt nhìn thấy các công đoạn làm ra kẹo dừa và bánh tráng cực kỳ đặc sắc.\n  - Ngoài ra quý khách còn được ngồi trên xe ngựa quê, vi vu khắp mọi nẻo đường nơi thôn xóm dân dã."
+                },
+                {
+                    "time": "Trưa: ",
+                    "todo": "Đoàn dùng cơm trưa tại Khu du lịch sinh thái Việt Nhật, thưởng thức các đặc sản địa phương và nghỉ trưa."
+                },
+                {
+                    "time": "Chiều: ",
+                    "todo": " Tại KDL Việt Nhật có nhiều cảnh đẹp thiên nhiên cho du khách tìm tòi và khám phá. Bên cạnh đó còn được tham gia các trò chơi như đi bộ cầu khỉ, đu dây, đạp xe, chèo thuyền,...Quý khách nghỉ ngơi trên những chiếc võng tại khu vực nhà hàng hoặc tự túc tham quan đường làng bằng xe đạp.\n\nKết thúc một ngày vui chơi, du khách sẽ trở lại Mỹ Tho để tiếp tục chuyến đi đến du lịch \n  Cần Thơ, nhận phòng khách sạn theo sự sắp xếp của hướng dẫn viên."
+                },
+                {
+                    "time": "Tối: ",
+                    "todo": "   Quý khách sẽ được thưởng thức bữa tối ở nhà hàng khách sạn. Tiếp theo, mọi người được phép tự do di chuyến đến nơi mình muốn (chợ đêm Cần Thơ, bến Ninh Kiều,...).  Quý khách cũng có thể lên du thuyền trên sông Cần Thơ để cùng chìm đắm trong không gian âm nhạc đờn ca tài tử.\n\nQuý khách nghỉ đêm tại khách sạn ở Cần Thơ."
+                }
+            ],
+            "idCategory": [
+                "640fd6e4f831e01f9efe4a2b",
+                "642ef89635fb9622af8d6d45",
+                "642ef89135fb9622af8d6d44"
+            ]
+        },
+        {
+            "id": "643373cadc4322143fc54909",
+            "title": "Du lịch đà lạt",
+            "subTitle": "Du lịch",
+            "image": [
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/travel-app-5a749.appspot.com/o/images%2Fbao-tang-mo-Muang-Boran-Bangkok.jpg?alt=media&token=d831ffcd-3c71-42f2-b425-d8202602125b",
+                    "uid": "__AUTO__1681107777403_0__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681112683892-tour-maldives-5-ngay-4-dem-1.jpg?alt=media&token=4ea54573-889b-41a0-a987-631ffbbf983f",
+                    "uid": "__AUTO__1681112687339_1__"
+                }
+            ],
+            "describe": "Du lịch xanh",
+            "interesting": "khong co gi hap dan",
+            "address": "Đà Lạt",
+            "inteval": "3 ngày 2 đêm",
+            "vehicle": null,
+            "price": 120000.0,
+            "sale": 0.0,
+            "status": true,
+            "idAccount": "1",
+            "hanhtrinh": [
+                {
+                    "time": "7h sáng",
+                    "todo": "Lên xe"
+                },
+                {
+                    "time": "11h trưa",
+                    "todo": "ngủ nghĩ"
+                }
+            ],
+            "idCategory": [
+                "640fd6e4f831e01f9efe4a2b"
+            ]
+        },
+        {
+            "id": "641d6a7e7cfbdf0816171fd2",
+            "title": "Du lịch",
+            "subTitle": "Du lịch",
+            "image": [
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680935308477-tour-quy-nhon-tuy-hoa-4-ngay-3-dem.jpg?alt=media&token=f6adf913-f4d6-449b-964d-b9d94173f1c0",
+                    "uid": "__AUTO__1680935310027_2__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680935331350-Dao-Coral-Pattaya.jpg?alt=media&token=fdabf917-92bd-4dda-aaca-c15c83f99928",
+                    "uid": "__AUTO__1680935333640_1__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681112644091-tour-quy-nhon-tuy-hoa-4-ngay-3-dem-2.jpg?alt=media&token=9edc7910-24cd-40e4-9247-7ee0f92b512e",
+                    "uid": "__AUTO__1681112646922_2__"
+                }
+            ],
+            "describe": "Du lịch xanh",
+            "interesting": "+ Du lich abc\n+aaa",
+            "address": "Đà lạt",
+            "inteval": "2 ngày 1 đêm",
+            "vehicle": "Xe tang",
+            "price": 130000.0,
+            "sale": 0.1,
+            "status": true,
+            "idAccount": "1",
+            "hanhtrinh": [
+                {
+                    "time": "7h ",
+                    "todo": "Lên xe xuất phát"
+                },
+                {
+                    "time": "9h",
+                    "todo": "Tới nơi, Check in khách sạn"
+                },
+                {
+                    "time": "12h",
+                    "todo": "Ăn trưa"
+                },
+                {
+                    "time": "7h chiều",
+                    "todo": "Chương trình ca nhạc abc"
+                },
+                {
+                    "time": "12h",
+                    "todo": "+ Nghĩ ngơi ăn trưa\n+ Abc\n+ DEF"
+                }
+            ],
+            "idCategory": [
+                "642ef89135fb9622af8d6d44"
+            ]
+        },
+        {
+            "id": "64182f10b0ee4075d00776f9",
+            "title": "Du lịch đà lạt",
+            "subTitle": "Du lịch",
+            "image": [
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680882254222-tour-maldives-5-ngay-4-dem-3.jpg?alt=media&token=49df78a1-eef7-43c8-8f6a-8fbe72a0295c",
+                    "uid": "__AUTO__1680882256377_0__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680882260311-tour-tay-bac-4-ngay-3-dem-3.jpg?alt=media&token=e40b7f55-cc18-40b8-9571-be0b23b41180",
+                    "uid": "__AUTO__1680882263134_1__"
+                },
+                {
+                    "lable": null,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681029823190-tour-mien-tay-2-ngay-1-dem-cho-khach-doan-1.jpg?alt=media&token=522d91e7-0719-4f9b-b13c-c8c24c8d9cd4",
+                    "uid": "__AUTO__1681029827705_2__"
+                }
+            ],
+            "describe": "Du lịch xanh",
+            "interesting": "+a\n+b\n+c",
+            "address": "Đà Lạt",
+            "inteval": "2 ngay 3 dem",
+            "vehicle": null,
+            "price": 120000.0,
+            "sale": 0.1,
+            "status": true,
+            "idAccount": null,
+            "hanhtrinh": [
+                {
+                    "time": "7h sáng",
+                    "todo": "Lên xe xuất phát"
+                },
+                {
+                    "time": "10h",
+                    "todo": "Tới nơi"
+                },
+                {
+                    "time": "11h ",
+                    "todo": "ăn trưa nghĩ ngơi"
+                },
+                {
+                    "time": "1h",
+                    "todo": "Lên xe đi về"
+                },
+                {
+                    "time": "3h",
+                    "todo": "Tới nhà"
+                }
+            ],
+            "idCategory": [
+                "640fd6e4f831e01f9efe4a2b",
+                "641bed9a05191273857229e2"
+            ]
+        }
+    ],
+    "tourgiochot":[
+        {
+            "id": "641edf8d0e14cc3b56ea2996",
+            "tourGuide": "Tran Van a",
+            "phone": "0355520976",
+            "dayStart": "04/27/2023",
+            "addressStart": null,
+            "maxPeople": 0,
+            "daDat": 0,
+            "idTour": "641d6a7e7cfbdf0816171fd2"
+        },
+        {
+            "id": "641edf820e14cc3b56ea2995",
+            "tourGuide": "Tran Van R",
+            "phone": "0355520976",
+            "dayStart": "04/30/2023",
+            "addressStart": null,
+            "maxPeople": 0,
+            "daDat": 0,
+            "idTour": "641d6a7e7cfbdf0816171fd2"
+        },
+        {
+            "id": "641a52c12b15624418a0832e",
+            "tourGuide": "Tran Van A",
+            "phone": "0355520976",
+            "dayStart": "05/23/2023",
+            "addressStart": null,
+            "maxPeople": 0,
+            "daDat": 0,
+            "idTour": "64182f10b0ee4075d00776f9"
+        }
+    ]
+  }

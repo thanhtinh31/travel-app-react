@@ -1,14 +1,10 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
 import { useEffect, useState } from 'react';
-const onFinish = (values) => {
-  console.log('Received values of form:', values);
-};
 
 function Hanhtrinh(props) {
   const [form] = Form.useForm();
   form.setFieldsValue({hanhtrinh:props.hanhtrinh})
-  //const [hanhtrinh,setHanhtrinh]=useState([{"key":"1","time":"d12h","todo":"âcg"},{"key":"2","time":"d12h","todo":"âcg"}])
   useEffect(() => {
     console.log(props.hanhtrinh)
     form.setFieldsValue({hanhtrinh:props.hanhtrinh})

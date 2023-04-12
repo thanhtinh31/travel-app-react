@@ -4,9 +4,9 @@ import UserLayout from '../../layout/UserLayout'
 
 function HistoryBookingPage() {
     return (
-        <UserLayout>
+        
         <HistoryBooking/>
-        </UserLayout>
+   
       )
 }
 
