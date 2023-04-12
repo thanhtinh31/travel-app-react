@@ -62,46 +62,11 @@ function HomePage() {
 
   return (
     <>
-      {/* <div className="shadow-md rounded-sm">
-        <Swiper
-          className="relative group"
-          modules={[Autoplay, Navigation, Pagination, Scrollbar, A11y]}
-          loop={true}
-          spaceBetween={50}
-          slidesPerView={1}
-          navigation={{
-            nextEl: ".button-next-slide",
-            prevEl: ".button-prev-slide",
-          }}
-          pagination={{ clickable: true }}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          scrollbar={{ draggable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={() => console.log("slide change")}
-        >
-
-          {category.map((item) => {
-          return (
-          <SwiperSlide>
-            <SlideComponent dataFromParent={item} />
-          </SwiperSlide>)})}
-    
-          <div className="top-[43%]  absolute z-10 button-next-slide group-hover:left-0 -left-[23rem] duration-500 text-sky-600 text-5xl w-[40px] h-[40px] bg-blend-normal">
-            <BsArrowLeftCircleFill />
-          </div>
-          <div className="top-[43%]  absolute z-10 button-prev-slide group-hover:right-2 -right-[23rem] duration-500 text-sky-600 text-5xl w-[40px] h-[40px] bg-blend-normal">
-            <BsArrowRightCircleFill />
-          </div>
-        </Swiper>
-      </div> */}
       <Hero></Hero>
       <div className="my-4 flex flex-col sm:flex-row flex-wrap justify-center md:justify-between">
         {category.map((item) => {
           return (
-            <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md">
+            <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md" key={item.id}>
               <img src={item.image} alt="" />
               <div className="banner-content w-40 md:w-48 flex items-center justify-center">
                 <div className="banner-title">{item.name}</div>
@@ -112,10 +77,9 @@ function HomePage() {
         })}
       </div>
       
-
       <div className="">
         <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">
-          KHÁM PHÁ TOUR DU LỊCH
+          Tour Giờ Chót
         </div>
         
      
@@ -136,7 +100,7 @@ function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {tour.map((item) => {
             return (
-              <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
+              <div className="flex flex-col lg:flex-row bg-slate-200 shadow-md rounded-md " key={item.id}>
                 <div className="h-full w-full lg:w-[55%]">
                   <Link onClick={()=>detailClick(item.id)}>
                     <img
@@ -188,7 +152,7 @@ function HomePage() {
                     <MdOutlineStar size={20} />
                     <MdOutlineStar size={20} />
                   </div>
-                  <button className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right m-2">Xem thêm</button>
+                  <button onClick={()=>detailClick(item.id)} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right m-2">Chi tiết</button>
                 </div>
               </div>
             );
@@ -202,9 +166,9 @@ function HomePage() {
 
       <div className="my-14">
         <div className="flex justify-center items-center mb-2 text-3xl font-[500] text-maintext dark:text-darkmaintext">
-          REVIEWS
+          Tin Tức du lịch
         </div>
-        <div className="">
+        <div className=" flex justify-center items-center md:justify-around flex-col md:flex-row">
           <Post24h></Post24h>
         {/* <Swiper
         slidesPerView={1}

@@ -45,10 +45,10 @@ function ChatBox(props) {
      <div class="max-h-40 min-h-40 overflow-auto">
     {messages?.map((message) =>  {
         if(message.uid==JSON.parse(sessionStorage.getItem('user')).id)
-          return (<Row>
+          return (<Row key={message.id}>
             <Col  offset={20}>You: {message.text}</Col>
           </Row>)
-          else return( <Row>
+          else return( <Row key={message.id}>
             <Col  offset={0}>{message.name}:{message.text}</Col>
           </Row>)
         }    

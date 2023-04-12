@@ -26,10 +26,8 @@ function ItemTour(props) {
     const [tour,setTour] =useState();
     async function fetchData() {
       try {
-        console.log(id)
         const res = await axios.get(BaseUrl +"tour/"+id);
         setTour(res.data);
-        console.log(res?.data)
       } catch (error) {
         console.error(error);
       }
@@ -37,11 +35,9 @@ function ItemTour(props) {
     useEffect(() => {
       fetchData();
     }, []);
-  
-    console.log(d.getDay())
   return (
     <Link to={"/detailtour?id="+id}>
-    <div className="w-full md:w-72 p-2 bg-white rounded-sm relative">
+     <div className="w-full md:w-80 p-2 bg-slate-200 rounded-sm relative shadow-lg">
         <img
           src={tour?tour.image[0].url:""}
           className="w-full h-48"

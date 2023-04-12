@@ -7,9 +7,10 @@ import Post from './Post';
 
 function Post24h() {
     const [posts,setPosts] =useState();
-    const [ran1,setRan1]=useState( Math.floor((Math.random() * (20))))
-    const [ran2,setRan2]=useState( Math.floor((Math.random() * (20))))
-    const [ran3,setRan3]=useState( Math.floor((Math.random() * (20))))
+    const [ran1,setRan1]=useState( Math.floor((Math.random() * (24))))
+    const [ran2,setRan2]=useState( Math.floor((Math.random() * (24))))
+    const [ran3,setRan3]=useState( Math.floor((Math.random() * (24))))
+    const [ran4,setRan4]=useState( Math.floor((Math.random() * (24))))
     useEffect(() => {
         
           axios
@@ -30,10 +31,10 @@ function Post24h() {
         }, []);
   return (<>
     {posts?<>
-
         <Post title={posts[ran1].title} image={posts[ran1].description.a.img._src} link={posts[ran1].link}/>
         <Post title={posts[ran2].title} image={posts[ran2].description.a.img._src} link={posts[ran2].link}/>
         <Post title={posts[ran3].title} image={posts[ran3].description.a.img._src} link={posts[ran3].link}/>
+        <Post title={posts[ran4].title} image={posts[ran4].description.a.img._src} link={posts[ran4].link}/>
         </>:<></>}
         </>
     
