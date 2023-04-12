@@ -1,0 +1,25 @@
+
+
+    [
+        {
+            "id": "642ef89c35fb9622af8d6d46",
+            "name": "Du lịch nước ngoài",
+            "content": "Du lịch nước ngoài",
+            "image": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680800027593-tour-maldives-5-ngay-4-dem-1.jpg?alt=media&token=afd369a3-8d29-4750-a0e2-84f3f0a6e544",
+            "status": false
+        },
+        {
+            "id": "642ef89635fb9622af8d6d45",
+            "name": "Du lịch miền tây",
+            "content": "Du lịch miền tây",
+            "image": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1681110071853-tour-mien-tay-2-ngay-1-dem-cho-khach-doan-1.jpg?alt=media&token=a31d0d3d-8edb-48cd-8c69-38711d1125cb",
+            "status": true
+        },
+        {
+            "id": "642ef89135fb9622af8d6d44",
+            "name": "Du lịch trong nước",
+            "content": "Du lịch trong nước",
+            "image": "https://firebasestorage.googleapis.com/v0/b/test-chat-cca5c.appspot.com/o/uploads%2Fimages%2F1680950558631-tour-tay-bac-4-ngay-3-dem-7.jpg?alt=media&token=99708060-d53e-4843-9e1d-cebd219d7e4f",
+            "status": true
+        }
+    ] 

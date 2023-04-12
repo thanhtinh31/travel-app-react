@@ -8,8 +8,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import"swiper/css/autoplay"
 import {
-  BsArrowLeftCircleFill,
-  BsArrowRightCircleFill,
   BsBusFront,
   BsFillCarFrontFill,
   BsShieldFillCheck,
@@ -18,29 +16,25 @@ import {
 import {
   MdAirplanemodeActive,
   MdCheckCircle,
-  MdLocationOn,
   MdOutlineStar,
   MdTrain,
 } from "react-icons/md";
 import { FaUtensils } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import UserLayout from "../../layout/UserLayout";
-import SlideComponent from "../../components/user/SlideComponent";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
 import { useState } from "react";
 import { useEffect } from "react";
-import Slidecmt from "../../components/user/Slidecmt";
-import Lasttour from "../../components/user/Lasttour";
 import ItemTour from "../../components/user/ItemTour";
 import Recommend from "../../components/user/Recommend";
 import Hero from "../../components/user/Hero";
 import Post24h from "../../components/user/Post24h";
 import { Col, Row } from "antd";
+import data from '../../data.json'
 function HomePage() {
-  const [tour, setTour] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [listSchedule,setListSchedule] = useState([]);
+  const [tour, setTour] = useState(data.tourdata);
+  const [category, setCategory] = useState(data.categorydata);
+  const [listSchedule,setListSchedule] = useState(data.tourgiochot);
   async function fetchData() {
     try {
       const categories = await axios.get(BaseUrl + "category?size=3");
