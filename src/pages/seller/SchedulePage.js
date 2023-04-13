@@ -1,12 +1,13 @@
 import React from 'react'
 import { DownOutlined } from '@ant-design/icons';
-import { Badge, Dropdown, Space, Table } from 'antd';
+import { Badge, Button, Dropdown, Modal, Space, Table } from 'antd';
 import SellerLayout from '../../layout/SellerLayout';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import BaseUrl from '../../util/BaseUrl';
 import Schedule from '../../components/seller/Schedule';
+import DetailSchedule from '../../components/seller/DetailSchedule';
 const items = [
   {
     key: '1',
@@ -18,8 +19,10 @@ const items = [
   },
 ];
 function SchedulePage() {
+    const [open,setOpen] =useState(false)
     const [tours,setTours] =useState();
     const [loading,setLoading] =useState(true);
+    const [idTour,setIdTour] =useState();
     async function fetchData() {
         try {  
           const tour = await axios.get(BaseUrl+'tour?size=1000')
@@ -30,10 +33,14 @@ function SchedulePage() {
         }
         
       }
+      const xem=(e)=>{
+        setOpen(true)
+        setIdTour(e)
+      }
      
       useEffect(() => {
         fetchData();
-      }, []);
+      }, [idTour]);
 
       const columns = [
         {
@@ -62,22 +69,22 @@ function SchedulePage() {
           dataIndex: 'sale',
           key: 'sale',
         },
-        {
-          title: 'Date',
-          dataIndex: 'createdAt',
-          key: 'createdAt',
-        },
+        // {
+        //   title: 'Hành trình',
+        //   key:'10',
+        //   render: (record) => {
+        //     return (
+        //       <Button onClick={()=>{xem(record.id)}} >Xem</Button>
+        //     )}
+        // },
         {
           title: 'Action',
           key: 'operation',
           render: () => <a>Publish</a>,
         },
       ];
-      
-
   return (
-    
-    
+    <>
     <Table loading={loading}
       columns={columns}
       rowKey={(record)=> record.id}
@@ -91,6 +98,21 @@ function SchedulePage() {
       dataSource={tours}
       size="small"
     />
+    
+    <Modal
+        title={"THỐNG KÊ"}
+        footer={null}
+        okText=''
+        cancelText='Thoát'
+        okType='ghost'
+        centered
+        open={open}
+        onCancel={() => setOpen(false)}
+        width={800}   
+      >        
+      {idTour?<DetailSchedule id={idTour}/>:<></>}
+      </Modal>
+    </>
   )
 }
 

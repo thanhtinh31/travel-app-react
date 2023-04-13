@@ -1,18 +1,36 @@
-import { Badge, Button, Col, Dropdown, Row, Select, Space, Table } from 'antd';
+import { Badge, Button, Col, Dropdown, Modal, Row, Select, Space, Table } from 'antd';
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
 import BaseUrl from '../../util/BaseUrl';
 import { useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
+import DetailSchedule from './DetailSchedule';
+import AddSchedule from './AddSchedule';
+import { toast } from 'react-toastify';
 
 function Schedule(props) {
+    const [open,setOpen] =useState(false)
+    const [open1,setOpen1] =useState(false)
     const [schedules,setSchedules]=useState([]);
     const [loading,setLoading] =useState(true);
     const [status,setStaus] =useState("0");
+    const [idSchedule,setIdSchedule] =useState();
     const onChange=(e)=>{
       setStaus(e)
       fetchData(e);
+    }
+    const themmoi=(e)=>{
+      setOpen1(true)
+    }
+    const xem=(e)=>{
+      setOpen(true)
+      setIdSchedule(e)
+    }
+    const themmoithanhcong=()=>{
+      fetchData("0");
+      toast.success("them moi thanh cong")
+      setOpen1(false)
     }
     async function fetchData(st) {
         try {  
@@ -55,9 +73,12 @@ function Schedule(props) {
             } 
           },
           {
-            title: 'Upgrade Status',
-            dataIndex: 'upgradeNum',
-            key: 'upgradeNum',
+            title: 'Thống kê',
+            key:'10',
+            render: (record) => {
+              return (
+                <Button onClick={()=>{xem(record.id)}} >Xem</Button>
+              )}
           },
           {
             title: 'Action',
@@ -67,14 +88,12 @@ function Schedule(props) {
               <Space size="middle">
                 <a>Pause</a>
                 <a>Stop</a>
-                
               </Space>
             ),
           },
         ];
   return (<><Row>
     <Col><Select
-    
       value={status}
       style={{
         width: 140,
@@ -98,9 +117,38 @@ function Schedule(props) {
    </Row>
    <Row>
     <Col push={11}>
-    <Button type='primary'><PlusOutlined />Thêm mới</Button>
+    <Button type='primary' onClick={themmoi}><PlusOutlined />Thêm mới</Button>
     </Col>
     </Row>
+
+    <Modal
+        title={"Thêm mới lịch trình"}
+        footer={null}
+        okText=''
+        cancelText='Thoát'
+        okType='ghost'
+        centered
+        open={open1}
+        onCancel={() => setOpen1(false)}
+        width={800}   
+      >  
+           <AddSchedule thanhcong={themmoithanhcong} idTour={props.id}/>
+
+      </Modal>
+
+    <Modal
+        title={"THỐNG KÊ"}
+        footer={null}
+        okText=''
+        cancelText='Thoát'
+        okType='ghost'
+        centered
+        open={open}
+        onCancel={() => setOpen(false)}
+        width={800}   
+      >        
+      {idSchedule?<DetailSchedule id={idSchedule}/>:<></>}
+      </Modal>
    
     </>
   )
