@@ -138,16 +138,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-import AdminLayout from '../../layout/AdminLayout';
 import BaseUrl from '../../util/BaseUrl';
 import { EditOutlined, DeleteOutlined,MinusCircleOutlined } from "@ant-design/icons";
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Table, Modal, Input, Drawer, Space, Checkbox, Select, Upload, Form, Radio, Col, Row, InputNumber } from "antd";
-import firebase, { db, storage, storageRef } from '../../firebase';
+import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber } from "antd";
+import { storage} from '../../firebase';
 import TextArea from 'antd/es/input/TextArea';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import SellerLayout from '../../layout/SellerLayout';
-import Hanhtrinh from '../../components/seller/Hanhtrinh';
+import CreateTourPage from './CreateTourPage';
 
 const { Option } = Select;
 
@@ -168,11 +166,12 @@ function ListTourPage() {
     const [image,setImage] =useState([]);
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
     const [tours, setTours] = useState([]);
-    const [images,setImages]=useState([]);
     const [hanhtrinh,setHanhtrinh]=useState([]);
     const [form,form1] = Form.useForm();
-   
+    const [categories, setCategories] = useState([]);
+    const [fileList, setFileList] = useState([]);
     const columns = [
         {
           title: 'Tour',
@@ -199,7 +198,7 @@ function ListTourPage() {
           render: (record) => {
             return (
               <>
-               <img src={record.image[0].url} width='80px'></img>
+               {record.image[0]?<img src={record.image[0].url} width='80px'></img>:<>...</>}
               </>
             );
           },
@@ -262,10 +261,14 @@ function ListTourPage() {
         //console.log(hanhtrinh)
         setOpen1(true);
       };
-      const onFinish = (values) => {
-        console.log('Received values of form:', values);
 
-      };
+      const callbackFunction = (childData) => {
+        if(childData){
+              fetchData()
+        }
+        setOpen2(false)
+      }
+    
       const showDrawer =(record) => {
         setId(record.id)
         setTitle(record.title)
@@ -285,7 +288,7 @@ function ListTourPage() {
         setOpen(true);
       };
     
-    const [categories, setCategories] = useState([]);
+   
 
     const  deleteHandle= async(id)=>{
         if(window.confirm("Xác nhận xóa")){
@@ -308,8 +311,7 @@ function ListTourPage() {
     }
     useEffect(() => {
       fetchData();
-      console.log(image)
-    }, []);
+    }, [tours]);
     
     const customUpload = async({ onError, onSuccess, file }) => {
         console.log(file)
@@ -340,12 +342,9 @@ function ListTourPage() {
       if(values.hanhtrinh)
       console.log(values)
         if(window.confirm("Xác nhận cập nhật")){
-
         let regObj = {id,title,subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,hanhtrinh:values.hanhtrinh?values.hanhtrinh:hanhtrinh,idCategory};
         console.log(regObj); 
-      
         try{
-          
             const res= await axios.put(BaseUrl+'tour', regObj);    
             console.log(res?.data);  
              toast.success("thanh cong")
@@ -363,11 +362,7 @@ function ListTourPage() {
 
 
 //
-const [fileList, setFileList] = useState([
-    {
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-]);
+
 
     const onChange = (infor,fileList) => {
     console.log(infor)
@@ -379,6 +374,10 @@ const [fileList, setFileList] = useState([
   
     return (
     <>
+    <Row >
+      <Col push={20}><Button type='primary' onClick={()=>{setOpen2(true)}}>Thêm mới</Button></Col>
+    </Row>
+    
       <Table rowKey={tours.id} columns={columns} dataSource={tours} loading={loading}/> 
       <Modal
         title="Chi tiết tour"
@@ -393,7 +392,6 @@ const [fileList, setFileList] = useState([
         width={1000}   
       >         
       <Form
-      
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
@@ -421,11 +419,10 @@ const [fileList, setFileList] = useState([
     placeholder="select one country"
     value={idCategory}
     onChange={handleChangeCate}
-    //optionLabelProp="label"
   >
       {categories.map((item) => {
             return (
-    <Option value={item.id}  >
+    <Option value={item.id} key={item.id} >
       <Space>
         {item.name}
       </Space>
@@ -612,6 +609,20 @@ const [fileList, setFileList] = useState([
       </Button>
     </Form.Item>
   </Form>
+      </Modal>
+      <Modal
+        title={"Hành trình cụ thể tour "+title}
+        footer={null}
+        okText=''
+        cancelText='Thoát'
+        okType='ghost'
+        centered
+        open={open2}
+        onOk={handSubmit}
+        onCancel={() => setOpen2(false)}
+        width={1000}   
+      >         
+      <CreateTourPage parentCallback={callbackFunction}/>
       </Modal>
       </>
     )

@@ -40,6 +40,7 @@ function SchedulePage() {
           title: 'Tour',
           dataIndex: 'title',
           key: '1',
+          width: '30%',
         },
         {
           title: 'Địa chỉ',
@@ -90,8 +91,6 @@ function SchedulePage() {
       dataSource={tours}
       size="small"
     />
-    
-
   )
 }
 

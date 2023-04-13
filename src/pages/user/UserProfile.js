@@ -20,7 +20,7 @@ function User() {
     } 
   }) 
   return (
-    <UserLayout>
+
     <>
       <div className="flex flex-wrap">
         <div className="w-full lg:w-8/12 px-4" bg-indigo-200>
@@ -31,7 +31,7 @@ function User() {
         </div>
       </div>
     </>
-    </UserLayout>
+
   );
 }
 

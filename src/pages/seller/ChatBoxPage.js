@@ -4,6 +4,7 @@ import { Button, Col, Row } from 'antd'
 import { db } from '../../firebase';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import Item from 'antd/es/list/Item';
+import CountNewMessage from '../../components/user/CountNewMessage';
 
 function ChatBoxPage() {
   const [list,setList] =useState([]);
@@ -31,8 +32,7 @@ function ChatBoxPage() {
     {list?.map((room) =>  {return(<><Button onClick={()=>{setIdRoom(room.id);console.log(room.id)}}>{room.name}</Button></>)})}
     </Col>
     <Col span={18} >
-
-    {idRoom?<ChatBox roomchat={idRoom}/>:<></>}
+    {idRoom?<><ChatBox roomchat={idRoom}/></>:<></>}
     </Col>
   </Row>
         

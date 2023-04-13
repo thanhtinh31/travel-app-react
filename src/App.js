@@ -53,7 +53,7 @@ function App() {
       
       <BrowserRouter>
       <Routes>
-      
+      <Route path="/create" element={<CreateTourPage/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verify" element={<VerifyPage/>}/>

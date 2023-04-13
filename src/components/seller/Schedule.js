@@ -1,4 +1,4 @@
-import { Badge, Button, Dropdown, Space, Table } from 'antd';
+import { Badge, Button, Col, Dropdown, Row, Select, Space, Table } from 'antd';
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
@@ -9,18 +9,22 @@ import { PlusOutlined } from '@ant-design/icons';
 function Schedule(props) {
     const [schedules,setSchedules]=useState([]);
     const [loading,setLoading] =useState(true);
-    async function fetchData() {
+    const [status,setStaus] =useState("0");
+    const onChange=(e)=>{
+      setStaus(e)
+      fetchData(e);
+    }
+    async function fetchData(st) {
         try {  
-          const sche = await axios.get(BaseUrl+'schedule/'+props.id)
+          const sche = await axios.get(BaseUrl+'schedule/'+st+'/'+props.id)
           setSchedules(sche?.data)
           setLoading(false)
         } catch (error) {
           console.error(error);
         }
       }
-     
       useEffect(() => {
-        fetchData();
+        fetchData(status);
       }, []);
 
         const columns = [
@@ -35,9 +39,20 @@ function Schedule(props) {
             key: 'name',
           },
           {
-            title: 'Status',
+            title: 'Số điện thoại',
+            dataIndex: 'phone',
+            key: 'phone',
+          },
+          {
+            title: 'Trạng thái',
             key: 'state',
-            render: () => <Badge status="success" text="Finished" />,
+            render:(record) => {
+              return (
+                <>
+                 {status=="0"?<Badge status={"success"} text="Chưa bắt đầu" />:<Badge status={"error"} text="Kết thúc" />}
+                </>
+              );
+            } 
           },
           {
             title: 'Upgrade Status',
@@ -57,12 +72,36 @@ function Schedule(props) {
             ),
           },
         ];
-       // const data = axios.get(BaseUrl+"getAllschedule/"+id);
-        //console.log(data)
-        // return <Table columns={columns} dataSource={data} pagination={false} />;
-  return (<>
+  return (<><Row>
+    <Col><Select
+    
+      value={status}
+      style={{
+        width: 140,
+      }}
+      onChange={(e)=>{onChange(e)}}
+      options={[
+        {
+          value: '0',
+          label: 'Chưa khởi hành',
+        },
+        {
+          value: '1',
+          label: 'Đã kết thúc',
+        },
+      ]}
+    /></Col>
+    <Col span={20}>{schedules[0]?
     <Table columns={columns} dataSource={schedules} pagination={false} loading={loading} />
+    :<>Không có dữ liệu</> }
+    </Col>
+   </Row>
+   <Row>
+    <Col push={11}>
     <Button type='primary'><PlusOutlined />Thêm mới</Button>
+    </Col>
+    </Row>
+   
     </>
   )
 }

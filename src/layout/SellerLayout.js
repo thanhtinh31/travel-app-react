@@ -18,11 +18,7 @@ const SellerLayout = ({title = "Title", className, children}) => {
   const items = [
     getItem(<Link to={"listtour"} onClick={()=>{setPath("listtour");}}>Quản lý Tour du lịch</Link>, 'listtour', <PieChartOutlined />),
     getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Quản lý Lich trinh</Link>, 'schedule', <UserOutlined />),
-    getItem(<Link to={"chatbox"} onClick={()=>{setPath("chatbox");}}>Chat box</Link>, 'chatbox', <PieChartOutlined />, [
-      getItem('Thống kê theo ngày', '3'),
-      getItem('Bill', '4'),
-      getItem('Alex', '5'),
-    ]),
+    getItem(<Link to={"chatbox"} onClick={()=>{setPath("chatbox");}}>Chat box</Link>, 'chatbox', <PieChartOutlined />),
     getItem('Team', 'sub2', <UserOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
   ];

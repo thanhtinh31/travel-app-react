@@ -1,5 +1,5 @@
 import { Button, Col, Input, Modal, Row } from 'antd'
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, getDocs, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
@@ -10,7 +10,9 @@ function ChatBox(props) {
     const [messages, setMessages] = useState([]);
     const [myState, setState] = useState(props)
     const user=JSON.parse(sessionStorage.getItem('user'))
+    const usersCollectionRef = collection(db, 'chat')
     useEffect(() => {
+        if(props.roomchat!=null)
                onSnapshot(
                 query(
                     collection(db, 'chat', myState.roomchat, 'messages'),
@@ -26,20 +28,40 @@ function ChatBox(props) {
             );
             setState(props)
     }, [props]);
+    const check= async()=>{
+      if(myState.roomchat==null){
+        const q = query(
+          collection(db, "chat"),
+          where("room","==",JSON.parse(sessionStorage.getItem('user')).id)
+         );
+          const querySnapshot = await getDocs(q)
+          if(querySnapshot.size==0)
+                { await addDoc(usersCollectionRef, {
+                        room:JSON.parse(sessionStorage.getItem('user')).id,
+                        name:JSON.parse(sessionStorage.getItem('user')).nameAccount
+                    })
+                }
+          }
+
+    }
     async function sendMessage(roomId, text) {
-        console.log(roomId)
+      
+//
         try {
             await addDoc(collection(db, 'chat', roomId, 'messages'), {
                 uid: user.id,
                 name:user.nameAccount,
-                status:0,
+                status:"0",
                 text: text.trim(),
                 timestamp: serverTimestamp(),
             });
         } catch (error) {
             console.error(error);
         }
-    }   
+      
+
+    } 
+
   return (
     <>
      <div class="max-h-40 min-h-40 overflow-auto">
@@ -54,8 +76,11 @@ function ChatBox(props) {
         }    
     )}
     </div>
-    <Input value={mess} onChange={(e)=>{setMess(e.target.value)}}></Input>
-    <Button onClick={()=>{sendMessage(myState.roomchat,mess); setMess("")}}>send</Button>
+    <Row>
+      <Col span={20}><Input value={mess} width={50} onChange={(e)=>{setMess(e.target.value)}} autoComplete='false' onPressEnter={()=>{sendMessage(myState.roomchat,mess); setMess("")}} ></Input></Col>
+      <Col><Button onClick={()=>{sendMessage(myState.roomchat,mess); setMess("")}}>send</Button></Col>
+    </Row>
+    
 
     </>
   )
