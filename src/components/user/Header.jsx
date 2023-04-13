@@ -140,7 +140,7 @@ function Header() {
             </span>
           </a>
         </div>
-        <ul className="hidden md:flex">
+        <ul className="hidden lg:flex">
           {links.map(({ id, title, link, path, icon }) => (
             <li
               key={id}
@@ -163,7 +163,7 @@ function Header() {
         </ul>
         <div
           onClick={() => setNav(!nav)}
-          className="cursor-pointer z-10 text-white md:hidden"
+          className="cursor-pointer z-10 text-white lg:hidden"
         >
           {nav ? <FaTimes size={30} /> : <FaBars size={30} />}
         </div>

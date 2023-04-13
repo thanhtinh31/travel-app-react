@@ -109,17 +109,16 @@ function Schedule(props) {
           label: 'Đã kết thúc',
         },
       ]}
-    /></Col>
+    /><br/><br/>
+    <Button type='primary' onClick={themmoi}><PlusOutlined />Thêm mới</Button>
+    </Col>
     <Col span={20}>{schedules[0]?
     <Table columns={columns} dataSource={schedules} pagination={false} loading={loading} />
     :<>Không có dữ liệu</> }
     </Col>
    </Row>
-   <Row>
-    <Col push={11}>
-    <Button type='primary' onClick={themmoi}><PlusOutlined />Thêm mới</Button>
-    </Col>
-    </Row>
+   <br/>
+   
 
     <Modal
         title={"Thêm mới lịch trình"}

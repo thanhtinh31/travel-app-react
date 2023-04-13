@@ -80,7 +80,7 @@ const UserLayout = ({title = "Title", className, children}) => {
     <Modal
       open={open}
       onCancel={()=>{setOpen(false)}}
-      title="Title"
+      title="Box Chat"
       footer={null}
     >
       {roomChat?<ChatBox roomchat={roomChat}/>:<></>}

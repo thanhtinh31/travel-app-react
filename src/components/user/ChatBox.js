@@ -4,13 +4,14 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
 import { db } from '../../firebase';
+import { BsSendFill } from 'react-icons/bs';
 
 function ChatBox(props) {
     const [mess,setMess] =useState("");
     const [messages, setMessages] = useState([]);
     const [myState, setState] = useState(props)
     const user=JSON.parse(sessionStorage.getItem('user'))
-    const usersCollectionRef = collection(db, 'chat')
+    
     useEffect(() => {
         if(props.roomchat!=null)
                onSnapshot(
@@ -28,25 +29,9 @@ function ChatBox(props) {
             );
             setState(props)
     }, [props]);
-    const check= async()=>{
-      if(myState.roomchat==null){
-        const q = query(
-          collection(db, "chat"),
-          where("room","==",JSON.parse(sessionStorage.getItem('user')).id)
-         );
-          const querySnapshot = await getDocs(q)
-          if(querySnapshot.size==0)
-                { await addDoc(usersCollectionRef, {
-                        room:JSON.parse(sessionStorage.getItem('user')).id,
-                        name:JSON.parse(sessionStorage.getItem('user')).nameAccount
-                    })
-                }
-          }
-
-    }
-    async function sendMessage(roomId, text) {
-      
-//
+    
+    async function sendMessage(roomId, text) {  
+//      
         try {
             await addDoc(collection(db, 'chat', roomId, 'messages'), {
                 uid: user.id,
@@ -64,22 +49,26 @@ function ChatBox(props) {
 
   return (
     <>
-     <div class="max-h-40 min-h-40 overflow-auto">
+     <div class="max-h-80 overflow-y-auto bg-gradient-to-l from-[#53A6D8] to-[#88CDF6] my-2 rounded-md">
     {messages?.map((message) =>  {
         if(message.uid==JSON.parse(sessionStorage.getItem('user')).id)
-          return (<Row key={message.id}>
-            <Col  offset={20}>You: {message.text}</Col>
-          </Row>)
-          else return( <Row key={message.id}>
-            <Col  offset={0}>{message.name}:{message.text}</Col>
-          </Row>)
+        return (<p className='border w-3/5 float-right p-2 rounded-lg m-1 bg-slate-100' key={message.id}>
+        {message.text}
+        {/* <Col className='w-full' offset={20}>You: {message.text}</Col> */}
+      </p>)
+      else return(
+
+        <p className='border w-3/5 float-right p-2 rounded-lg m-1' key={message.id}>{message.name}:{message.text}</p>)
         }    
     )}
     </div>
-    <Row>
-      <Col span={20}><Input value={mess} width={50} onChange={(e)=>{setMess(e.target.value)}} autoComplete='false' onPressEnter={()=>{sendMessage(myState.roomchat,mess); setMess("")}} ></Input></Col>
-      <Col><Button onClick={()=>{sendMessage(myState.roomchat,mess); setMess("")}}>send</Button></Col>
-    </Row>
+    <div className='relative'>
+    <Input value={mess} onPressEnter={()=>{sendMessage(myState.roomchat,mess); setMess("")}} placeholder='Aa...' onChange={(e)=>{setMess(e.target.value)}}></Input>
+    <div className='absolute top-[25%] right-2 cursor-pointer text-mainbg' onClick={()=>{sendMessage(myState.roomchat,mess); setMess("")}}>
+    <BsSendFill size={20}/>
+    </div>
+    {/* <Button>send</Button> */}
+    </div>
     
 
     </>

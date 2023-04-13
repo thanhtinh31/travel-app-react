@@ -28,16 +28,26 @@ function ChatBoxPage() {
   return (
     <div>
     <Row>
-    <Col span={6} >
-    {list?.map((room) =>  {return(<><Button onClick={()=>{setIdRoom(room.id);console.log(room.id)}}>{room.name}</Button></>)})}
-    </Col>
-    <Col span={18} >
-    {idRoom?<><ChatBox roomchat={idRoom}/></>:<></>}
-    </Col>
-  </Row>
-        
-        </div>
-  )
+        <Col span={6}>
+          {list?.map((room) => {
+            return (
+              <>
+                <Button
+                  onClick={() => {
+                    setIdRoom(room.id);
+                    console.log(room.id);
+                  }}
+                >
+                  {room.name}
+                </Button>
+              </>
+            );
+          })}
+        </Col>
+        <Col span={18}>{idRoom ? <ChatBox roomchat={idRoom} /> : <></>}</Col>
+      </Row>
+    </div>
+  );
 }
 
 export default ChatBoxPage

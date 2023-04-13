@@ -71,30 +71,30 @@ function HomePage() {
         })}
       </div>
       
-      <div className="">
+      <div className="mt-10">
         <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">
           Tour Giờ Chót
         </div>
         
      
-        <Row justify="center" gutter={100}>
-      {listSchedule.map((item) => (
-         <Col className="gutter-row" span={8} key={item.id}>
-           <ItemTour  idTour={item.idTour} data={item}></ItemTour>
-         </Col>
-      ))}
-      </Row>
+        <div className="flex flex-col md:flex-row justify-between">
+          {listSchedule.map((item) => (
+            <div key={item.id}>
+              <ItemTour data={item}></ItemTour>
+            </div>
+          ))}
+        </div>
       </div>
 
 
-      <div className="">
+      <div className="mt-10">
         <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">
           KHÁM PHÁ TOUR DU LỊCH
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {tour.map((item) => {
             return (
-              <div className="flex flex-col lg:flex-row bg-slate-200 shadow-md rounded-md " key={item.id}>
+              <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md " key={item.id}>
                 <div className="h-full w-full lg:w-[55%]">
                   <Link onClick={()=>detailClick(item.id)}>
                     <img

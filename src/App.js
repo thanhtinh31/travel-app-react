@@ -38,6 +38,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AuthorizedPage from "./pages/AuthorizedPage";
 import Chat from "./components/user/Chat";
 import ChatBoxPage from "./pages/seller/ChatBoxPage";
+import Filtertour from "./pages/user/Filtertour";
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
           <Route path="checkoutsuccess" element={<CheckoutSuccess/>} />
           <Route path="profile" element={<UserProfile/>} />
           <Route path="*" element={<NotFoundPage/>}/>
+          <Route path="/filter" element={<Filtertour/>}/>
         </Route>
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />

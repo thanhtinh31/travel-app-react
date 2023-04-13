@@ -20,9 +20,9 @@ const Hero = () => {
         >
           <div className="flex items-center">
             <input
-              className="bg-transparent h-8 w-[300px] sm:w-[400px] font-[Poppins] focus:outline-none text-xl"
+              className="bg-transparent h-8 w-full font-[Poppins] focus:outline-none text-xl mx-4"
               type="text"
-              placeholder="Search for tour"
+              placeholder="Tìm kiếm tour"
             />
           </div>
           <div className="flex items-center">
