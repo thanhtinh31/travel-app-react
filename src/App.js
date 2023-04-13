@@ -38,6 +38,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AuthorizedPage from "./pages/AuthorizedPage";
 import Chat from "./components/user/Chat";
 import ChatBoxPage from "./pages/seller/ChatBoxPage";
+import ListAccount from "./pages/admin/ListAccount";
 
 
 function App() {
@@ -71,7 +72,7 @@ function App() {
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />
           <Route path="listcategory" element={<ListCategory />} />
-          <Route path="listaccount" element={<ListCategory />} />
+          <Route path="listaccount" element={<ListAccount />} />
         </Route>
         <Route path="/seller/" element={<SellerLayout />}>
           <Route index element={<ListTourPage />} />
