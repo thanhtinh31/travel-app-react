@@ -11,11 +11,11 @@ import BookingPage from "./pages/user/BookingPage";
 import IntroducePage from "./pages/user/IntroducePage";
 import CreateTourPage from "./pages/seller/CreateTourPage";
 import ListTourPage from "./pages/seller/ListTourPage";
-import EditTourPage from "./pages/seller/EditTourPage";
+
 import DetailTourPage from "./pages/user/DetailTourPage";
 import ListCategory from "./pages/admin/ListCategory";
 import AddCategoryPage from "./pages/admin/AddCategoryPage";
-import EditCategoryPage from "./pages/admin/EditCategoryPage";
+
 import AddSchedulePage from "./pages/seller/AddSchedulePage";
 import ItemTour from "./components/user/ItemTour";
 import SearchPage from "./pages/user/SearchPage";
@@ -36,7 +36,9 @@ import SellerLayout from "./layout/SellerLayout";
 import AdminLayout from "./layout/AdminLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthorizedPage from "./pages/AuthorizedPage";
-
+import Chat from "./components/user/Chat";
+import ChatBoxPage from "./pages/seller/ChatBoxPage";
+import Filtertour from "./pages/user/Filtertour";
 
 
 function App() {
@@ -50,7 +52,7 @@ function App() {
     <div>
       {/* {user} */}
       <ToastContainer></ToastContainer>
-      
+    
       <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login/>}/>
@@ -65,7 +67,9 @@ function App() {
           <Route path="booking" element={<BookingPage/>} />
           <Route path="checkoutsuccess" element={<CheckoutSuccess/>} />
           <Route path="profile" element={<UserProfile/>} />
+          <Route path="/tours" element={<Filtertour/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
+
         </Route>
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />
@@ -76,6 +80,7 @@ function App() {
           <Route index element={<ListTourPage />} />
           <Route path="listtour" element={<ListTourPage />} />
           <Route path="schedule" element={<SchedulePage />} />
+          <Route path="chatbox" element={<ChatBoxPage />} />
           <Route path="*" element={<NotFoundPage/>}/>
         </Route>
       </Routes>

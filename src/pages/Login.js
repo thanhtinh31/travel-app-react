@@ -48,9 +48,10 @@ function Login() {
       const res= await axios.post(BaseUrl+'account/login', regObj);      
       if(res?.data.status==='1') { 
        sessionStorage.setItem('user',JSON.stringify(res?.data.account));
-       if(JSON.parse(sessionStorage.getItem('user')).typeAccount===0) window.location="/home"; 
-       else window.location='/home';}
-      else toast.success(res?.data.message);
+       if(JSON.parse(sessionStorage.getItem('user')).typeAccount<2) navigate("/home"); 
+       else if(JSON.parse(sessionStorage.getItem('user')).typeAccount<3) navigate("/seller");
+       else navigate('/admin')}
+      else toast.error(res?.data.message);
 
     }catch(err){
       alert('Khong co ket noi');
@@ -58,7 +59,7 @@ function Login() {
                 }
   };
   return (
-    <div className="h-[100vh] pt-40">
+    <div className="h-[100vh] pt-10">
       <div className="max-w-screen-md bg-[#ddeef8] dark:bg-[#a5d4f0] my-auto mx-auto items-center shadow-lg p-4 rounded-md">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
           <div className="hidden md:block bg-[url('./assets/login.jpg')] h-[80vh] bg-center bg-cover bg-no-repeat"></div>

@@ -95,8 +95,8 @@ function DetailTourPage() {
     
   return (
    
-      <div className="max-w-screen-lg mx-auto bg-white shadow-lg">
-      <h1 className="font-[700] text-xl mx-2 py-4 text-mainbg">
+    <div className="max-w-screen-lg mx-auto bg-white shadow-lg">
+    <h1 className="font-[700] text-xl mx-2 py-4 text-mainbg">
         {tour.title} | {tour.subTitle}
       </h1>
       <div className="flex flex-col md:flex-row">

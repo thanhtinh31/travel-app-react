@@ -1,6 +1,6 @@
-import React from "react";
-import { AiOutlineSearch } from "react-icons/ai";
-import beachVid from "../../assets/beachVid.mp4";
+import React from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
+import beachVid from '../../assets/beachVid.mp4';
 
 const Hero = () => {
   return (
@@ -19,15 +19,16 @@ const Hero = () => {
           className="flex justify-between items-center max-w-[700px] mx-auto w-full border p-1
           rounded-md text-black bg-gray-100/90"
         >
-          <div className="flex items-center">
+          <div className="flex items-center w-full">
+          <button className='w-20 h-full border-r border-r-slate-600'>
+            All tour
+          </button>
             <input
-              className="bg-transparent h-8 w-[300px] sm:w-[400px] font-[Poppins] focus:outline-none text-xl"
+              className="bg-transparent h-8 w-full font-[Poppins] focus:outline-none text-xl mx-4"
               type="text"
-              placeholder="Search for tour"
+              placeholder="Tìm kiếm tour"
             />
-          </div>
-          <div className="flex items-center">
-            <button>
+            <button className='border-l p-1 border-l-slate-600'>
               <AiOutlineSearch
                 size={25}
                 className="icon"
@@ -35,10 +36,18 @@ const Hero = () => {
               />
             </button>
           </div>
+          {/* <div className="flex items-center">
+            <button>
+              <AiOutlineSearch
+                size={25}
+                className="icon"
+                style={{ color: "#000000" }}
+              />
+            </button>
+          </div> */}
         </form>
       </div>
     </div>
   );
 };
-
 export default Hero;

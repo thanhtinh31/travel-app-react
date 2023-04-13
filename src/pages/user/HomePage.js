@@ -8,8 +8,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 import {
-  BsArrowLeftCircleFill,
-  BsArrowRightCircleFill,
   BsBusFront,
   BsFillCarFrontFill,
   BsShieldFillCheck,
@@ -18,28 +16,25 @@ import {
 import {
   MdAirplanemodeActive,
   MdCheckCircle,
-  MdLocationOn,
   MdOutlineStar,
   MdTrain,
 } from "react-icons/md";
 import { FaUtensils } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import UserLayout from "../../layout/UserLayout";
-import SlideComponent from "../../components/user/SlideComponent";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
 import { useState } from "react";
 import { useEffect } from "react";
-import Slidecmt from "../../components/user/Slidecmt";
-import Lasttour from "../../components/user/Lasttour";
 import ItemTour from "../../components/user/ItemTour";
 import Recommend from "../../components/user/Recommend";
 import Hero from "../../components/user/Hero";
 import Post24h from "../../components/user/Post24h";
+import { Col, Row } from "antd";
+import data from '../../data.json'
 function HomePage() {
   const [tour, setTour] = useState([]);
   const [category, setCategory] = useState([]);
-  const [listSchedule, setListSchedule] = useState([]);
+  const [listSchedule,setListSchedule] = useState([]);
   async function fetchData() {
     try {
       const categories = await axios.get(BaseUrl + "category?size=3");
@@ -52,16 +47,16 @@ function HomePage() {
       console.error(error);
     }
   }
-
-  const detailClick = (e) => {
-    window.location = "/detailtour?id=" + e;
-  };
+  
+  const detailClick=(e)=>{
+    window.location='/detailtour?id='+e;
+  }
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
-    <div>
+    <>
       {/* <div className="shadow-md rounded-sm">
         <Swiper
           className="relative group"
@@ -101,7 +96,7 @@ function HomePage() {
       <div className="my-4 flex flex-col sm:flex-row flex-wrap justify-center md:justify-between">
         {category.map((item) => {
           return (
-            <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md">
+            <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md" key={item.id}>
               <img src={item.image} alt="" />
               <div className="banner-content w-40 md:w-48 flex items-center justify-center">
                 <div className="banner-title">{item.name}</div>
@@ -111,6 +106,21 @@ function HomePage() {
           );
         })}
       </div>
+      
+
+      <div className="mt-10">
+        <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">
+          TOUR GIỜ CHỐT
+        </div>
+        <div className="flex flex-col md:flex-row justify-between">
+          {listSchedule.map((item) => (
+            <div key={item.id}>
+              <ItemTour data={item}></ItemTour>
+            </div>
+          ))}
+        </div>
+      </div>
+
 
       <div className="mt-10">
         <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">
@@ -119,7 +129,7 @@ function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {tour.map((item) => {
             return (
-              <div className="flex flex-col lg:flex-row bg-slate-200 shadow-md rounded-md ">
+              <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md ">
                 <div className="h-full w-full lg:w-[55%]">
                   <Link onClick={() => detailClick(item.id)}>
                     <img
@@ -171,9 +181,7 @@ function HomePage() {
                     <MdOutlineStar size={20} />
                     <MdOutlineStar size={20} />
                   </div>
-                  <button className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right m-2">
-                    Xem thêm
-                  </button>
+                  <button className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right m-2">Xem thêm</button>
                 </div>
               </div>
             );
@@ -181,22 +189,9 @@ function HomePage() {
         </div>
       </div>
 
-      <div className="mt-10">
-        <div className="mb-4 flex justify-center items-center text-3xl font-[500] text-maintext dark:text-darkmaintext">
-          TOUR ƯU ĐÃI
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {listSchedule.map((item) => (
-            <div key={item.id}>
-              <ItemTour data={item}></ItemTour>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="my-14">
         <div className="flex justify-center items-center mb-2 text-3xl font-[500] text-maintext dark:text-darkmaintext">
-          REVIEWS
+          Tin Tức du lịch
         </div>
         <div className=" flex justify-center items-center md:justify-around flex-col md:flex-row">
           <Post24h></Post24h>
@@ -236,7 +231,7 @@ function HomePage() {
       </Swiper> */}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
