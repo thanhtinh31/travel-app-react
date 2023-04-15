@@ -39,6 +39,8 @@ import AuthorizedPage from "./pages/AuthorizedPage";
 import Chat from "./components/user/Chat";
 import ChatBoxPage from "./pages/seller/ChatBoxPage";
 import Filtertour from "./pages/user/Filtertour";
+import Weather from "./pages/user/Weather"
+import Profile from "./components/user/Profile";
 
 
 function App() {
@@ -58,6 +60,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verify" element={<VerifyPage/>}/>
+        <Route path="/profile" element={<Profile/>}/>
         <Route path="/authorized" element={<AuthorizedPage/>}/>
         <Route path="*" element={<NotFoundPage/>}/>
         <Route path="/" element={<UserLayout />}>
@@ -68,6 +71,7 @@ function App() {
           <Route path="checkoutsuccess" element={<CheckoutSuccess/>} />
           <Route path="profile" element={<UserProfile/>} />
           <Route path="/tours" element={<Filtertour/>}/>
+          <Route path="/weather" element={<Weather/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
 
         </Route>
