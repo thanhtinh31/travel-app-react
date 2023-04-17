@@ -51,14 +51,14 @@ function ChatBox(props) {
     <>
      <div class="max-h-80 overflow-y-auto bg-gradient-to-l from-[#53A6D8] to-[#88CDF6] my-2 rounded-md">
     {messages?.map((message) =>  {
-        if(message.uid==JSON.parse(sessionStorage.getItem('user')).id)
-        return (<p className='border w-3/5 float-right p-2 rounded-lg m-1 bg-slate-100' key={message.id}>
-        {message.text}
-        {/* <Col className='w-full' offset={20}>You: {message.text}</Col> */}
-      </p>)
+        if(message.uid!=user.id)
+        return (<p className='border w-3/5 float-left p-2 rounded-lg m-1' key={message.id}>{message.text}</p>)
       else return(
 
-        <p className='border w-3/5 float-right p-2 rounded-lg m-1' key={message.id}>{message.name}:{message.text}</p>)
+        <p className='border w-3/5 float-right p-2 rounded-lg m-1 bg-slate-100' key={message.id}>
+        {message.text}
+      </p>
+        )
         }    
     )}
     </div>

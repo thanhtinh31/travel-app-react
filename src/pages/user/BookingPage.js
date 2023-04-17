@@ -96,7 +96,7 @@ function BookingPage() {
 
   return (
     
-        <div className="shadow-md p-3 bg-white my-4 rounded-md">
+        <div className="shadow-md p-3 bg-white my-4 rounded-md mt-28">
         <div className="flex justify-center items-center font-[700] text-3xl text-maintext uppercase">
           Booking tour
         </div>

@@ -20,7 +20,7 @@ import {
   MdTrain,
 } from "react-icons/md";
 import { FaUtensils } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
 import { useState } from "react";
@@ -35,6 +35,7 @@ function HomePage() {
   const [tour, setTour] = useState(data.tourdata);
   const [category, setCategory] = useState(data.categorydata);
   const [listSchedule,setListSchedule] = useState(data.tourgiochot);
+  const navigate =useNavigate()
   async function fetchData() {
     try {
       const categories = await axios.get(BaseUrl + "category?size=3");
@@ -48,7 +49,7 @@ function HomePage() {
     }
   }
   const detailClick=(e)=>{
-    window.location='/detailtour?id='+e;
+    navigate('/detailtour?id='+e, { replace: false });
   }
   useEffect(() => {
     fetchData();
@@ -96,7 +97,7 @@ function HomePage() {
             return (
               <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md " key={item.id}>
                 <div className="h-full w-full lg:w-[55%]">
-                  <Link onClick={()=>detailClick(item.id)}>
+                  <Link to={"/detailtour?id="+item.id}>
                     <img
                       src={item.image[0].url}
                       alt=""
@@ -114,9 +115,7 @@ function HomePage() {
                   </div>
                   <div className="flex items-center  px-1 text-md font-[500]">
                     <span className="mr-2">Phương tiện: </span>
-                    <BsFillCarFrontFill size={20} />
-                    <MdTrain size={20} />
-                    <MdAirplanemodeActive size={20} />
+                    {item.vehicle}
                   </div>
                   <div className="flex justify-around p-1">
                     <MdCheckCircle size={20} />

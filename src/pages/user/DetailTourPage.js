@@ -3,14 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import UserLayout from '../../layout/UserLayout'
 import BaseUrl from '../../util/BaseUrl';
+
+
 import {
-  BsArrowLeftCircleFill,
-  BsArrowRightCircleFill,
   BsBusFrontFill,
   BsClockFill,
   BsFacebook,
-  BsFillCarFrontFill,
-  BsFillPersonFill,
   BsInstagram,
   BsPersonFillCheck,
   BsPhoneVibrate,
@@ -18,7 +16,7 @@ import {
   BsTwitter,
 } from "react-icons/bs";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
+import { Navigation, Pagination,  A11y, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -30,27 +28,46 @@ import {
   MdOutlineWarningAmber,
   MdTrain,
 } from "react-icons/md";
-import { GrSchedule } from "react-icons/gr";
 import { AiFillSchedule, AiOutlineFileProtect } from "react-icons/ai";
 import { GiKnifeFork, GiRotaryPhone } from "react-icons/gi";
-import { Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import X2JS from 'x2js';
-import Post from '../../components/user/Post';
+import { Button, Modal } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+
 import Post24h from '../../components/user/Post24h';
+import Weather from './Weather';
+function loc_xoa_dau(str) {
+  // Gộp nhiều dấu space thành 1 space
+  str = str.replace(/\s+/g, ' ');
+  // loại bỏ toàn bộ dấu space (nếu có) ở 2 đầu của chuỗi
+  str = str.trim();
+  // bắt đầu xóa dấu tiếng việt  trong chuỗi
+   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+   str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+   str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+   str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+   str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+   str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+   str = str.replace(/đ/g, "d");
+   str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+   str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+   str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+   str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+   str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+   str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+   str = str.replace(/Đ/g, "D");
+   return str;
+}
 function DetailTourPage() {
     var url_string = window.location;
     var urla = new URL(url_string);
     var id = urla.searchParams.get("id");
+    const [open,setOpen]=useState(false)
     const [tour,setTour] =useState({});
     const [listSchedule,setListSchedule]=useState([]);
     const [images,setImages] =useState([]);
     const [idSchedule,setIdSchedule] = useState("0");
-    const [schedule,setSchedule] = useState({});
     const [people,setPeople] =useState(1);
-    const [posts,setPosts] =useState();
     const  navigate = useNavigate()
-    const [ran,setRan]=useState( Math.floor((Math.random() * (20))))
     const handleBooking = async()=>{
         const account  = sessionStorage.getItem('user');
         if(!account){
@@ -75,27 +92,10 @@ function DetailTourPage() {
     }
     useEffect(() => {
       getTourById()
-        axios
-	      .get("https://cdn.24h.com.vn/upload/rss/dulich24h.rss", {
-		    "Content-Type": "application/xml; charset=utf-8"
-	      })
-	.then(function(response) {
-     let str=(response.data.split('<![CDATA[').join(''))
-     let string=str.split(']]>').join('')
-      var x2js = new X2JS();
-      var jsonObj = x2js.xml2js(string);
-     
-     setPosts(jsonObj.rss.channel.item)
-	})
-	.catch(function(error) {
-		console.log(error);
-	});
-       
       }, []);
-    
   return (
    
-    <div className="max-w-screen-lg mx-auto bg-white shadow-lg">
+    <div className="max-w-screen-lg mx-auto bg-white shadow-lg mt-28">
     <h1 className="font-[700] text-xl mx-2 py-4 text-mainbg">
         {tour.title} | {tour.subTitle}
       </h1>
@@ -118,7 +118,7 @@ function DetailTourPage() {
             // onSlideChange={() => console.log("slide change")}
           >
             {images.map((img)=>{return(
-            <SwiperSlide>
+            <SwiperSlide key={img.url}>
               <div className="w-full h-80">
                 <img
                   src={img.url}
@@ -141,15 +141,16 @@ function DetailTourPage() {
                 <span className="ml-2">{tour.inteval}</span>
               </div>
               <div className="flex items-center">
+              Phương tiện: 
                 <span className="mr-2">{tour.vehicle}</span>{" "}
-                <BsFillCarFrontFill size={20} />
+                {/* <BsFillCarFrontFill size={20} />
                 <MdTrain size={20} />
-                <MdAirplanemodeActive size={20} />
+                <MdAirplanemodeActive size={20} /> */}
               </div>
             </div>
             <div className="flex items-center">
               <AiFillSchedule size={20} />
-              <span className="ml-2 font-[600]">Khởi hành thứ 5 hàng tuần</span>
+              <Button onClick={()=>{setOpen(true)}}><span className="ml-2 font-[600]">Xem thời tiết</span></Button>
             </div>
 
             <hr className="my-3" />
@@ -246,7 +247,7 @@ function DetailTourPage() {
                   <option value="0">Chọn ngày xuất phát</option>
                   { listSchedule.map((item) => { 
                   return(
-                  <option value={item.id} >{item.dayStart} -- {item.tourGuide}</option> 
+                  <option value={item.id} key={item.id} >{item.dayStart} -- {item.tourGuide}</option> 
                    )})}
               </select>
             </div>
@@ -365,6 +366,15 @@ function DetailTourPage() {
          <Post24h/>
 
         </div>
+        <Modal
+      open={open}
+      onCancel={()=>{setOpen(false)}}
+      title="Thời tiết"
+      footer={null}
+      width={900}
+    >
+     {tour.address?<Weather city={loc_xoa_dau(tour.address)}/>:<></>}
+    </Modal>
 
         </div>
       </div>

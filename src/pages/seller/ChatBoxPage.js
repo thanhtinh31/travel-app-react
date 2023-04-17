@@ -5,11 +5,12 @@ import { db } from '../../firebase';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import Item from 'antd/es/list/Item';
 import CountNewMessage from '../../components/user/CountNewMessage';
+import ListChat from '../../components/seller/ListChat';
 
 function ChatBoxPage() {
   const [list,setList] =useState([]);
   const [idRoom,setIdRoom] =useState();
-  const idAccount=JSON.parse(sessionStorage.getItem('user')).id
+  const [name,setName] =useState();
   useEffect(() => {
     const q = query(
         collection(db, "chat")
@@ -25,26 +26,37 @@ function ChatBoxPage() {
 
 }, [idRoom]);
 
+const chon=(id,name)=>{
+  console.log(id)
+  setIdRoom(id)
+  setName(name)
+
+}
   return (
     <div>
     <Row>
         <Col span={6}>
           {list?.map((room) => {
             return (
-              <>
-                <Button
+              <Row key={room.id}>
+                {/* <Button
                   onClick={() => {
                     setIdRoom(room.id);
-                    console.log(room.id);
+                    setName(room.name)
                   }}
                 >
                   {room.name}
-                </Button>
-              </>
+                </Button> */}
+                <ListChat id={room.id} name={room.name} chon={chon}/>
+              </Row>
             );
           })}
         </Col>
-        <Col span={18}>{idRoom ? <ChatBox roomchat={idRoom} /> : <></>}</Col>
+        
+        <Col span={18}>
+          <Row>{name?<>Chat với {name}</>:<>Box chat</>} </Row>
+          {idRoom ? <ChatBox roomchat={idRoom} /> : <></>}
+        </Col>
       </Row>
     </div>
   );

@@ -18,7 +18,7 @@ import {
   import { TbBeach, TbMountain } from "react-icons/tb";
   import BaseUrl from "../../util/BaseUrl";
   import { FaUtensils } from "react-icons/fa";
-  import { Link } from "react-router-dom";
+  import { Link, useNavigate } from "react-router-dom";
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -31,6 +31,7 @@ import {
   const onChange = (pageNumber) => {
     console.log('Page: ', pageNumber);
   };
+  
   const items = [
     getItem("Tất cả tour", "1", <UnorderedListOutlined />),
     // getItem('Option 2', '2', <DesktopOutlined />),
@@ -93,6 +94,7 @@ import {
     ]),
   ];
   const Filtertour = () => {
+    const navigate =useNavigate()
     const [collapsed, setCollapsed] = useState(false);
     const toggleCollapsed = () => {
       setCollapsed(!collapsed);
@@ -113,7 +115,7 @@ import {
       fetchData();
     }, []);
     const detailClick=(e)=>{
-      window.location='/detailtour?id='+e;
+     navigate('/detailtour?id='+e);
     }
   
   
@@ -139,7 +141,7 @@ import {
             defaultOpenKeys={["sub1","sub2","sub3"]}
             mode="inline"
             theme="light"
-            //   inlineCollapsed={collapsed}
+             //  inlineCollapsed={collapsed}
             items={items}
           />
           {collapsed ? (
@@ -163,7 +165,7 @@ import {
               return (
                 <div className="flex flex-col lg:flex-row md:h-52 bg-slate-100 shadow-md rounded-md ">
                   <div className="h-full w-full lg:w-[55%]">
-                    <Link onClick={() => detailClick(item.id)}>
+                    <Link to={"/detailtour?id="+item.id}>
                       <img
                         src={item.image[0].url}
                         alt=""
@@ -213,7 +215,7 @@ import {
                       <MdOutlineStar size={15} />
                       <MdOutlineStar size={15} />
                     </div>
-                    <button className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm text-center px-2 py-1 float-right m-2">Xem thêm</button>
+                    <button onClick={() => detailClick(item.id)} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm text-center px-2 py-1 float-right m-2">Xem thêm</button>
                   </div>
                 </div>
               );

@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CheckoutSuccess } from "./pages/user/CheckoutSuccess";
 import VerifyPage from "./pages/user/VerifyPage";
-import UpLoad from "./components/UpLoad";
+
 import HomePage from "./pages/user/HomePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -14,15 +14,12 @@ import ListTourPage from "./pages/seller/ListTourPage";
 
 import DetailTourPage from "./pages/user/DetailTourPage";
 import ListCategory from "./pages/admin/ListCategory";
-import AddCategoryPage from "./pages/admin/AddCategoryPage";
-
-import AddSchedulePage from "./pages/seller/AddSchedulePage";
-import ItemTour from "./components/user/ItemTour";
 import SearchPage from "./pages/user/SearchPage";
-import Test from "./pages/user/Test";
-import UserProfile from "./pages/user/UserProfile";
-import Lasttour from "./components/user/Lasttour";
-import ExchangeCurrency from "./pages/user/ExchangeCurrency";
+
+
+
+
+
 import PageSide from "./components/admin/PageSide";
 import QLTaiKhoan from "./components/admin/QLTaiKhoan";
 import HistoryBooking from "./components/user/HistoryBooking";
@@ -30,15 +27,16 @@ import HistoryBookingPage from "./pages/user/HistoryBookingPage";
 import SchedulePage from "./pages/seller/SchedulePage";
 import { useState } from "react";
 import { useEffect } from "react";
-import { set } from "date-fns";
 import UserLayout from "./layout/UserLayout";
 import SellerLayout from "./layout/SellerLayout";
 import AdminLayout from "./layout/AdminLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthorizedPage from "./pages/AuthorizedPage";
-import Chat from "./components/user/Chat";
+
 import ChatBoxPage from "./pages/seller/ChatBoxPage";
 import Filtertour from "./pages/user/Filtertour";
+import Profile from "./pages/user/Profile";
+import Weather from "./pages/user/Weather";
 
 
 function App() {
@@ -55,6 +53,8 @@ function App() {
       <BrowserRouter>
       <Routes>
       <Route path="/create" element={<CreateTourPage/>}/>
+      
+      
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verify" element={<VerifyPage/>}/>
@@ -62,13 +62,15 @@ function App() {
         <Route path="*" element={<NotFoundPage/>}/>
         <Route path="/" element={<UserLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/home" element={<HomePage/>}/>
+          <Route path="profile" element={<Profile/>} />
+          <Route path="weather" element={<Weather/>} />  
+          <Route path="home" element={<HomePage/>}/>
           <Route path="detailtour" element={<DetailTourPage />} />
           <Route path="booking" element={<BookingPage/>} />
           <Route path="checkoutsuccess" element={<CheckoutSuccess/>} />
-          <Route path="profile" element={<UserProfile/>} />
+          <Route path="search" element={<SearchPage/>} />
           <Route path="*" element={<NotFoundPage/>}/>
-          <Route path="/filter" element={<Filtertour/>}/>
+          <Route path="filter" element={<Filtertour/>}/>
         </Route>
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />

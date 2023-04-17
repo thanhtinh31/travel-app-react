@@ -32,6 +32,7 @@ import { GiKnifeFork, GiRotaryPhone } from "react-icons/gi";
 
 function Detailtour() {
   return (
+    <>
     <div className="max-w-screen-lg mx-auto bg-white shadow-lg">
       <h1 className="font-[700] text-xl mx-2 py-4 text-mainbg">
         Tour Hà Giang 4 ngày 3 đêm từ TPHCM | Đồng Văn - Mã Pí Lèng - Dinh Thự
@@ -328,6 +329,7 @@ function Detailtour() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -29,7 +29,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Avatar, Dropdown } from "antd";
 import {  MenuProps} from 'antd';
 import { SmileOutlined } from "@ant-design/icons";
-const items: MenuProps['items'] = [
+const items = [
   {
     key: '1',
     label: (
@@ -40,7 +40,7 @@ const items: MenuProps['items'] = [
   {
     key: '2',
     label: (
-      <Link to={'/changepassword'}>Đổi mật khẩu</Link>
+      <Link to={'/profile'}>Đổi mật khẩu</Link>
     ),
     icon: <SmileOutlined />
   },
@@ -48,16 +48,18 @@ const items: MenuProps['items'] = [
     key: '3',
     danger: true,
     label: (
-      <Link to={'/login'}>Thoát</Link>
+      <Link onClick={()=>{logout()}} to={'/login'}>Thoát</Link>
     ),
     icon: <SmileOutlined />
   },
  
 ];
+function logout(){
+   sessionStorage.removeItem('user')
+}
 function Header() {
   // const navigate = useNavigate();
   const [togglebtn, setTogglebtn] = useState(false);
-
   const [key, setKey] = useState("");
   let isLogin = sessionStorage.getItem("user") ? true : false;
   var url_string = window.location;
@@ -103,14 +105,14 @@ function Header() {
       id: 3,
       title: "Giới thiệu",
       link: "introduce",
-      path: "",
+      path: "introduce",
       icon: <RiAdvertisementFill size={20} />,
     },
     {
       id: 4,
       title: "Booking",
       link: "booking",
-      path: "booking",
+      path: "filter",
       icon: <TbBrandBooking size={20} />,
     },
     {
@@ -150,7 +152,7 @@ function Header() {
             >
               <Link
                 onClick={() => setActive(link)}
-                // to={path}
+                 to={path}
                 smooth
                 duration={500}
                 className="flex items-center"
@@ -182,7 +184,7 @@ function Header() {
                   className="flex items-center"
                 >
                   {icon}
-                  {link}
+                  {title}
                 </Link>
               </li>
             ))}
@@ -197,7 +199,7 @@ function Header() {
                     JSON.parse(sessionStorage.getItem("user")).image
                       ? JSON.parse(sessionStorage.getItem("user")).image
                       : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                  } >
+                  }>
                 </Avatar>
               </Dropdown>
                 
@@ -215,7 +217,7 @@ function Header() {
               <div className="flex items-center">
                 <BsFillPersonFill size={20} />
                 <span className="text-md font-bold mx-1">
-                  <Link to="/login">Đăng ký</Link>
+                  <Link to="/register">Đăng ký</Link>
                 </span>
               </div>
             </div>

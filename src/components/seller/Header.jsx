@@ -3,7 +3,7 @@ import { DownOutlined, SmileOutlined,UserOutlined,NotificationTwoTone } from '@a
 import { Avatar, Col, MenuProps, Row } from 'antd';
 import { Dropdown, Space } from 'antd';
 import Link from 'antd/es/typography/Link';
-const items: MenuProps['items'] = [
+const items = [
   {
     key: '1',
     label: (

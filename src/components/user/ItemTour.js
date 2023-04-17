@@ -37,6 +37,7 @@ function ItemTour(props) {
     }, []);
   return (
     <Link to={"/detailtour?id="+id}>
+      {tour?
      <div className="w-full md:w-80 p-2 bg-slate-200 rounded-sm relative shadow-lg">
         <img
           src={tour?tour.image[0].url:""}
@@ -49,17 +50,15 @@ function ItemTour(props) {
         /> 
         </div>
         <div className="flex items-center justify-center bg-mainbg text-white text-md font-[500] py-1">
-          <MdLocationOn size={20} /> <span className="ml-2">{tour?tour.address:""}</span>
+          <MdLocationOn size={20} /> <span className="ml-2">{tour.address}</span>
         </div>
         <h2 className="capitalize font-[500] text-maintext">
-        {tour?tour.title:""}
+        {tour.title}
         </h2>
-        <div className="px-1 text-md font-[500] text-maintext">{tour?tour.inteval:""}</div>
+        <div className="px-1 text-md font-[500] text-maintext">{tour.inteval}</div>
         <div className="flex items-center px-1 text-md font-[500] text-maintext">
           <span className="mr-2">Phương tiện: </span>
-          <BsFillCarFrontFill size={20} />
-          <MdTrain size={20} />
-          <MdAirplanemodeActive size={20} />
+          {tour?tour.vehicle:""}
         </div>
         <div className="flex justify-around p-1 text-maintext">
           <MdCheckCircle size={20} />
@@ -69,12 +68,22 @@ function ItemTour(props) {
           <BsBusFront />
         </div>
         <div className="text-md font-[500] text-red-600 p-1">
-          {tour?tour.price:""} VDN/người
+        {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(tour.price-(tour.price*tour.sale))}{" "}
+                      / người
         </div>
         <div className="line-through text-sm font-[400] text-red-500 p-1">
-        {tour?tour.price:""} VND/người
+        {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(tour.price)}{" "}
+                      / người
         </div>
       </div>
+      :<></>
+    }
   </Link>
   )
 }

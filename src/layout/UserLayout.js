@@ -25,7 +25,6 @@ const UserLayout = ({title = "Title", className, children}) => {
           navigate("/login")
         }
   }
-
   const xem=async()=>{
     const qer = query(
       collection(db, 'chat', roomChat, 'messages'),
@@ -69,7 +68,7 @@ const UserLayout = ({title = "Title", className, children}) => {
   return (
     <>
     <Header/>
-    <div className="mx-auto w-10/12 h-max">      
+    <div className="mx-auto w-10/12 h-max min-h-screen">      
     {/* {children} */}
     <Outlet/>
     </div>
