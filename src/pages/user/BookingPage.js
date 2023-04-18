@@ -55,11 +55,12 @@ function BookingPage() {
 
   async function getScheduleById() {
     try{        
-        const res= await axios.get(BaseUrl+'schedule/getschedule?idSchedule='+idSchedule); 
-        setSchedule(res?.data.schedule);
-        setTour(res?.data.tour);  
-        setImgage(res?.data.tour.image[0].url)
-        console.log(res?.data.tour.image[0].url);
+        const schedule= await axios.get(BaseUrl+'schedule/getschedule/'+idSchedule); 
+        const tour= await axios.get(BaseUrl+'schedule/gettour/'+idSchedule); 
+        setSchedule(schedule?.data);
+        setTour(tour?.data);  
+        setImgage(tour?.data.image[0].url)
+        
     }catch(err){alert('Khong co ket noi');}        
   }
   const handlePayPal = async(e)=>{
@@ -81,9 +82,12 @@ function BookingPage() {
     e.preventDefault();
     let amount=((tour.price)-tour.sale*tour.price)*sl;
     let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0};
+    let mail={toEmail:email,subject:"Booking thành công",body:"Tour:"+tour.title+"Giá:"+tour.price+"..."}
     try{
       const res= await axios.post(BaseUrl+'invoice', regObj);
       sendNotification("Booking thanh cong","invoice");
+      
+      const sendmail=await axios.post(BaseUrl+'mail',mail)
       toast.success("Đặt tour thành công")
     }catch(err){alert('Khong co ket noi');}
     navigate("/home")
