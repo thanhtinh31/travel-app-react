@@ -4,7 +4,7 @@ import React from 'react'
 import { useState } from 'react';
 import BaseUrl from '../../util/BaseUrl';
 import { useEffect } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined,EditOutlined,DeleteOutlined } from '@ant-design/icons';
 import DetailSchedule from './DetailSchedule';
 import AddSchedule from './AddSchedule';
 import { toast } from 'react-toastify';
@@ -81,14 +81,22 @@ function Schedule(props) {
               )}
           },
           {
-            title: 'Action',
-            dataIndex: 'operation',
-            key: 'operation',
+            title: 'Thao tác',
+            key: 'action',
             render: () => (
-              <Space size="middle">
-                <a>Pause</a>
-                <a>Stop</a>
-              </Space>
+              <>
+                  <EditOutlined
+                  onClick={() => {
+                }}
+                style={{ color: "green", marginLeft: 12,fontSize: '20px'}}
+                  />
+                  <DeleteOutlined
+                    onClick={() => {
+                      
+                    }}
+                    style={{ color: "red", marginLeft: 12 ,fontSize: '20px'}}
+                  />
+                </>
             ),
           },
         ];

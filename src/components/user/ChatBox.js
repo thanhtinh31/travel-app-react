@@ -1,5 +1,5 @@
 import { Button, Col, Input, Modal, Row } from 'antd'
-import { addDoc, collection, getDocs, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
+import { addDoc, collection, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
@@ -17,7 +17,7 @@ function ChatBox(props) {
                onSnapshot(
                 query(
                     collection(db, 'chat', myState.roomchat, 'messages'),
-                    orderBy('timestamp', 'asc')
+                    orderBy('timestamp', 'asc'),
                 ),
                 (querySnapshot) => {
                     const messages = querySnapshot.docs.map((doc) => ({

@@ -31,6 +31,13 @@ import {  MenuProps} from 'antd';
 import { SmileOutlined } from "@ant-design/icons";
 const items = [
   {
+    key: '7',
+    label: (
+      <Link to={'profile'}>Lịch sử đặt tour</Link>
+    ),
+    icon: <SmileOutlined />
+  },
+  {
     key: '1',
     label: (
       <Link to={'profile'}>Thông tin tài khoản</Link>
@@ -117,9 +124,9 @@ function Header() {
     },
     {
       id: 4,
-      title: "Lịch sử đặt tour",
-      link: "history",
-      path: "",
+      title: "Tìm kiếm",
+      link: "Search",
+      path: "search?key=",
       icon: <MdHistory size={20} />,
     },
   ];

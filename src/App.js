@@ -37,6 +37,7 @@ import ChatBoxPage from "./pages/seller/ChatBoxPage";
 import Filtertour from "./pages/user/Filtertour";
 import Profile from "./pages/user/Profile";
 import Weather from "./pages/user/Weather";
+import ListInvoice from "./pages/seller/ListInvoice";
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
           <Route path="listtour" element={<ListTourPage />} />
           <Route path="schedule" element={<SchedulePage />} />
           <Route path="chatbox" element={<ChatBoxPage />} />
+          <Route path="listinvoice" element={<ListInvoice />} />
           <Route path="*" element={<NotFoundPage/>}/>
         </Route>
       </Routes>

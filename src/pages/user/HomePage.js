@@ -29,7 +29,7 @@ import ItemTour from "../../components/user/ItemTour";
 import Recommend from "../../components/user/Recommend";
 import Hero from "../../components/user/Hero";
 import Post24h from "../../components/user/Post24h";
-import { Col, Row } from "antd";
+import { Col, Rate, Row } from "antd";
 import data from '../../data.json'
 function HomePage() {
   const [tour, setTour] = useState(data.tourdata);
@@ -139,11 +139,7 @@ function HomePage() {
                     / người
                   </div>
                   <div className="flex text-yellow-500">
-                    <MdOutlineStar size={20} />
-                    <MdOutlineStar size={20} />
-                    <MdOutlineStar size={20} />
-                    <MdOutlineStar size={20} />
-                    <MdOutlineStar size={20} />
+                  <Rate disabled defaultValue={5} />
                   </div>
                   <button onClick={()=>detailClick(item.id)} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right m-2">Chi tiết</button>
                 </div>
@@ -152,11 +148,7 @@ function HomePage() {
           })}
         </div>
       </div>
-
-
           
-
-
       <div className="my-14">
         <div className="flex justify-center items-center mb-2 text-3xl font-[500] text-maintext dark:text-darkmaintext">
           Tin Tức du lịch

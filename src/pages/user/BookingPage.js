@@ -16,22 +16,23 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 
 function BookingPage() {
+  const account  = JSON.parse(sessionStorage.getItem('user'));
   const [payments, setPayments] = useState(false);
   const[schedule,setSchedule] =useState({});
   const[tour,setTour] =useState({});
   const [invoice,setInvoice]=useState({});
   const [image,setImgage]=useState();
-  const [fullName,setFullName]= useState("");
-  const [address,setAddress]= useState("");
-  const [email,setEmail]= useState("");
-  const [phone,setPhone]= useState("");
+  const [fullName,setFullName]= useState(account.nameAccount);
+  const [address,setAddress]= useState(account.address);
+  const [email,setEmail]= useState(account.email);
+  const [phone,setPhone]= useState(account.phoneNumber);
   const [note,setNote]= useState("");
   var url_string = window.location;
   var url = new URL(url_string);
   var sl = url.searchParams.get("sl");
   const navigate = useNavigate();
   var idSchedule=url.searchParams.get("idSchedule");
-  const account  = sessionStorage.getItem('user');
+  
   const taiquay = () => {
     console.log("tại quầy");
     setPayments(false);
@@ -44,7 +45,7 @@ function BookingPage() {
   function sendNotification (mess,type) {
      addDoc(collection(db, "notification"), {
       text: mess,
-      account:JSON.parse(account).nameAccount,
+      account:account.nameAccount,
       type:type,
       status:0,
       dayCreate:new Date().toDateString(),
@@ -63,21 +64,23 @@ function BookingPage() {
   }
   const handlePayPal = async(e)=>{
     e.preventDefault();
-    let amount=((tour.price)-tour.sale*tour.price)*sl/25000;
-    let regObj = {fullName,email,phone,note,people:sl,amount,idSchedule,idAccount:JSON.parse(account).id,status:0}; 
+    let amount=((tour.price)-tour.sale*tour.price)*sl;
+    let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0}; 
+    console.log(regObj)
     try{
       const res= await axios.post(BaseUrl+'invoice', regObj);
+      console.log(res?.data)
       sendNotification("Booking & Thanh toan thanh cong","invoice"); 
       const pay= await axios.post(BaseUrl+'pay/paypal', res?.data.invoice);
-      window.location=pay?.data;
-      //
+     window.location=pay?.data;
+      
     }catch(err){alert('Khong co ket noi');}
   }
   
   const HandleBookTour=async(e)=>{  
     e.preventDefault();
-    let amount=((tour.price)-tour.sale*tour.price)*sl/25000;
-    let regObj = {fullName,email,phone,note,people:sl,amount,idSchedule,idAccount:JSON.parse(account).id,status:0};
+    let amount=((tour.price)-tour.sale*tour.price)*sl;
+    let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0};
     try{
       const res= await axios.post(BaseUrl+'invoice', regObj);
       sendNotification("Booking thanh cong","invoice");
@@ -87,10 +90,7 @@ function BookingPage() {
   }
   useEffect(() => {
     getScheduleById();   
-    setEmail(JSON.parse(account).email)
-    setFullName(JSON.parse(account).nameAccount)
-    setPhone(JSON.parse(account).phoneNumber)
-    setAddress(JSON.parse(account).address)
+    
     
   }, []);
 

@@ -33,7 +33,6 @@ function DetailSchedule(props) {
         "Đã thanh toán",
         "Đã hủy",
       ],
-      
       datasets: [
         {
           label: "Biểu đồ thống kê",

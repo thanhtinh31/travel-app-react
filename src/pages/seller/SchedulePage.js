@@ -61,12 +61,27 @@ function SchedulePage() {
         },
         {
           title: 'Giá tour',
-          dataIndex: 'price',
+          render: (record) => {
+            return (
+              <>
+               {new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+              }).format(record.price)}
+              </>
+            );
+          },
           key: 'price',
         },
         {
           title: 'Giảm giá',
-          dataIndex: 'sale',
+          render: (record) => {
+            return (
+              <>
+            {record.sale*100} %
+              </>
+            );
+          },
           key: 'sale',
         },
         // {
@@ -77,11 +92,11 @@ function SchedulePage() {
         //       <Button onClick={()=>{xem(record.id)}} >Xem</Button>
         //     )}
         // },
-        {
-          title: 'Action',
-          key: 'operation',
-          render: () => <a>Publish</a>,
-        },
+        // {
+        //   title: 'Action',
+        //   key: 'operation',
+        //   render: () => <a>Publish</a>,
+        // },
       ];
   return (
     <>
