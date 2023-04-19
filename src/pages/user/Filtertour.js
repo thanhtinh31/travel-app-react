@@ -158,12 +158,12 @@ import {
             <></>
           )}
         </div>
-        <div className="w-full h-screen mt-10 overflow-y-scroll">
+        <div className="w-full h-screen mt-10 ml-3 overflow-y-scroll">
           <h2 className="text-sm md:text-base font-[500] text-maintext">Tìm kiếm cho từ khóa <span className="italic">"Tất cả tour"</span></h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8" navi>
             {tour.map((item) => {
               return (
-                <div className="flex flex-col lg:flex-row md:h-52 bg-slate-100 shadow-md rounded-md ">
+                <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
                   <div className="h-full w-full lg:w-[55%]">
                     <Link to={"/detailtour?id="+item.id}>
                       <img

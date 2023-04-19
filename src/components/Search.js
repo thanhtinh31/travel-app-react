@@ -2,7 +2,7 @@ import { MdOutlineLocationOn, MdSearch } from "react-icons/md";
 function Search({setLocation,city,handleClick,citySuggest,setCity}) {
   return (
     <div className="flex flex-row justify-center my-4 text-maintext">
-      <div className="flex flex-row w-full pl-8 sm:w-3/4 items-center relative space-x-4">
+      <div className="flex flex-row w-full pl-8 sm:w-3/4 items-center relative">
         <input
           value={city}
           onChange={(e) => setCity(e.target.value)}
