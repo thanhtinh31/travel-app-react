@@ -6,7 +6,6 @@ import {
   BsClockFill,
   BsFacebook,
   BsFillCarFrontFill,
-  BsFillPersonFill,
   BsInstagram,
   BsPersonFillCheck,
   BsPhoneVibrate,

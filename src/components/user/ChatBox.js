@@ -69,8 +69,6 @@ function ChatBox(props) {
     </div>
     {/* <Button>send</Button> */}
     </div>
-    
-
     </>
   )
 }

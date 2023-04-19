@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoginSocialFacebook } from 'reactjs-social-login';
 import BaseUrl from "../util/BaseUrl";
+import { Spin } from "antd";
 function Register() {
     const [showpw, setShowpw] = useState(false);
     // const [id, setId] = useState("")
@@ -14,6 +15,7 @@ function Register() {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [typeAccount, setTypeAccount] = useState(1);
     const [status, setStt] = useState(1);
+    const [loading,setLoading] =useState(false)
     const [profile, setProfile] = useState(null);
     const showPassword = () => {
       setShowpw(!showpw);
@@ -22,23 +24,20 @@ function Register() {
     const handleRegister = async (e) => {
       e.preventDefault();
       let regObj = { email, phoneNumber , nameAccount, password , status ,typeAccount };
-  
       const res = await axios.post(BaseUrl+'account/register',regObj);
       console.log(res?.data);
       if(res?.data.status==="0"){
           toast.error(res?.data.message);
       }else
       {
+          setLoading(true)
           sessionStorage.setItem("verify",JSON.stringify(res?.data));
-         
           navigate('/verify')
       }
       
     };
     const handleLoginFB=async(response)=>{
         const userfb= {idFacebook:response.data.id,nameAccount:response.data.name,image:response.data.picture.data.url,typeAccount: 1};
-        
-    
         try{
           const r = await axios.post(BaseUrl+'account/loginFB', userfb);
           console.log(r.data.account);
@@ -48,10 +47,9 @@ function Register() {
           console.log(err);
     
         }
-    
-    
       }
   return (
+    <Spin spinning={loading}>
     <div className=" h-[100vh] pt-10">
       <div className="max-w-screen-md bg-[#ddeef8] dark:bg-[#a5d4f0] my-auto mx-auto items-center shadow-lg p-4 rounded-md">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
@@ -161,6 +159,7 @@ function Register() {
         </div>
       </div>
     </div>
+    </Spin>
   );
 }
 

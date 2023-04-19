@@ -63,10 +63,7 @@ function ListTourPage() {
                 </>
               );
             }
-            
         },
-        
-        
         {
           title: 'Hình ảnh',
           render: (record) => {

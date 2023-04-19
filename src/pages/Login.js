@@ -6,8 +6,10 @@ import ReCAPTCHA from "react-google-recaptcha";
 import BaseUrl from "../util/BaseUrl";
 import axios from "axios";
 import { LoginSocialFacebook } from 'reactjs-social-login';
+import { Spin } from "antd";
 
 function Login() {
+  const [loading,setLoading]=useState(false)
   const reCaptCha = () => {
     setActive(true);
   };
@@ -26,26 +28,26 @@ function Login() {
   };
   const handleLoginFB=async(response)=>{
     const userfb= {idFacebook:response.data.id,nameAccount:response.data.name,image:response.data.picture.data.url,typeAccount: 1};
-    
-
     try{
+      setLoading(true)
       const r = await axios.post(BaseUrl+'account/loginFB', userfb);
       console.log(r.data.account);
       sessionStorage.setItem('user',JSON.stringify(r?.data.account));      
       window.location="/home";
-      
     }catch(err){
+      setLoading(false)
       console.log(err);
-
     }
 
 
   }
   const handleLogin =async(e) => {
+    setLoading(true)
     e.preventDefault();
     let regObj = { email, password};
     try{
-      const res= await axios.post(BaseUrl+'account/login', regObj);      
+      const res= await axios.post(BaseUrl+'account/login', regObj);  
+      setLoading(false)    
       if(res?.data.status==='1') { 
        sessionStorage.setItem('user',JSON.stringify(res?.data.account));
        if(JSON.parse(sessionStorage.getItem('user')).typeAccount<2) navigate("/home"); 
@@ -54,11 +56,12 @@ function Login() {
       else toast.error(res?.data.message);
 
     }catch(err){
+      setLoading(false)
       alert('Khong co ket noi');
-
-                }
+    }
   };
   return (
+    <Spin spinning={loading}>
     <div className="h-[100vh] pt-10">
       <div className="max-w-screen-md bg-[#ddeef8] dark:bg-[#a5d4f0] my-auto mx-auto items-center shadow-lg p-4 rounded-md">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
@@ -165,6 +168,7 @@ function Login() {
         </div>
       </div>
     </div>
+    </Spin>
   );
 }
 

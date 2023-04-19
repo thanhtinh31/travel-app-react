@@ -11,6 +11,7 @@ import TextArea from 'antd/es/input/TextArea';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import CreateTourPage from './CreateTourPage';
 import TourInvoice from '../../components/seller/TourInvoice';
+import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
 const { Option } = Select;
 
 function ListInvoice() {
@@ -21,33 +22,38 @@ function ListInvoice() {
     const columns = [
         {
           title: 'Họ tên',
+          key:'title',
           dataIndex: 'fullName',
-          width: '10%',
+          width: '7%',
         },
         {
           title: 'Email',
+          key:'email',
           dataIndex: 'email',
-          width:150,
+          width:120,
           ellipsis: true,
         }
         ,
         {
             title: 'SĐT',
+            key:'phone',
             dataIndex: 'phone',
         }
         ,
         {
           title: 'Tour',
+          key:"tour",
           render: (record) => {
             return (
-               <TourInvoice id={record.idSchedule}/>
+               <TourInvoice key={record.id} id={record.idSchedule}/>
             );
           }  ,
-          width:'20%'
+          width:'18%'
         }, 
         {
             title: 'Số người',
             dataIndex: 'people',
+            key:'people',
             width:72
         }
         ,
@@ -55,10 +61,12 @@ function ListInvoice() {
         {
             title: 'Ngày đặt',
             dataIndex: 'dateInvoice',
+            key:'dateInvoice',
         },
 
         {
             title: 'Tổng tiền',
+            key:'tongtien',
             render: (record) => {
                 return (
                     <>
@@ -69,14 +77,23 @@ function ListInvoice() {
                    </>
                 );
               }  
-          },
+        },
+        {
+          title: 'Tình trạng',
+          render: (record) => {
+            return (
+               <TinhTrangHoaDon key={record.id} id={record.idSchedule} type={type}/>
+            );
+          }  ,
+          key:'tinhtrang'
+        },
       
         {
           title: 'Chi tiết',
           key:'10',
           render: (record) => {
             return (
-              <Button onClick={()=>{}}>Xem</Button>
+              <Button key={record.id} onClick={()=>{}}>Xem</Button>
             )},
            
             ellipsis: false,
@@ -140,7 +157,7 @@ function ListInvoice() {
     }
     useEffect(() => {
       fetchData(type);
-    }, [tours]);
+    }, [tours,type]);
     
     return (
     <>

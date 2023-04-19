@@ -23,5 +23,4 @@ function CountNewMessage(props) {
     <></>
   )
 }
-
 export default CountNewMessage

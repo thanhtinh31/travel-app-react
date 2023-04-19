@@ -30,11 +30,6 @@ function AddSchedulePage() {
       setData(res?.data.content);
     }, []);
     return (
-      // <ReactDatePicker 
-      // selected={startDate} 
-      // onChange={(date) =>{ 
-      // setStartDate(date); console.log(date);}} 
-      // dateFormat='dd/MM/yyyy'/>
       <>
       <h2>LazyLoad Demo</h2>
     <div className="post-container">
