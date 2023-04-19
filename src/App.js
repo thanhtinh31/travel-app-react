@@ -38,6 +38,7 @@ import Filtertour from "./pages/user/Filtertour";
 import Profile from "./pages/user/Profile";
 import Weather from "./pages/user/Weather";
 import ListInvoice from "./pages/seller/ListInvoice";
+import ListAccount from "./pages/admin/ListAccount";
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />
           <Route path="listcategory" element={<ListCategory />} />
+          <Route path="listaccount" element={<ListAccount />} />
           <Route path="listaccount" element={<ListCategory />} />
         </Route>
         <Route path="/seller/" element={<SellerLayout />}>

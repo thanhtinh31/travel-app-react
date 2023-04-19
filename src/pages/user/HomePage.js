@@ -38,12 +38,12 @@ function HomePage() {
   const navigate =useNavigate()
   async function fetchData() {
     try {
-      const categories = await axios.get(BaseUrl + "category?size=3");
-      const tours = await axios.get(BaseUrl + "tour?size=6");
+      const categories = await axios.get(BaseUrl + "category/home");
+      const tours = await axios.get(BaseUrl + "tour/homeactive");
       const res= await axios.get(BaseUrl+'schedule/all/active');
       setListSchedule(res?.data)
-      setCategory(categories.data.content);
-      setTour(tours.data.content);
+      setCategory(categories.data);
+      setTour(tours.data);
     } catch (error) {
       console.error(error);
     }

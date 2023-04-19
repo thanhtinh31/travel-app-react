@@ -35,7 +35,7 @@ function ListCategory() {
           render: (record) => {
             return (
               <>
-               <img src={record.image} width='100px'></img>
+               <img src={record.image} width='70px'></img>
               </>
             );
           },

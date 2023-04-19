@@ -189,30 +189,8 @@ function DetailTourPage() {
             <h2 className="text-maintext my-2 font-[600]">
               Tour có gì hấp dẫn
             </h2>
-            <ul className="pl-6 text-sm">
-              {tour.interesting}
-              {/* <li className="list-disc">
-                Tận mắt ngắm nhìn cao nguyên đá với phong cảnh hùng vĩ nhất của
-                Việt Nam
-              </li>
-              <li className="list-disc">
-                Khám phá những nét đẹp văn hóa của đồng bào dân tộc tại Làng văn
-                hóa Lũng Cẩm
-              </li>
-              <li className="list-disc">
-                Check-in những địa điểm du lịch nổi tiếng: Dốc 9 Khoanh, Dốc
-                Thẩm Mã...
-              </li>
-              <li className="list-disc">
-                Chinh phục một trong những "Tứ mã đỉnh đèo của Việt nam: Đèo Mã
-                Pí Lèng"
-              </li>
-              <li className="list-disc">
-                Đến thăm Cộc cờ Lũng cú - nơi địa đầu của Tổ Quốc
-              </li>
-              <li className="list-disc">
-                Trải nghiệm ẩm thực địa phương độc đáo
-              </li> */}
+            <ul className="pl-6 text-sm max-w-xs">
+              <pre>{tour.interesting}</pre>
             </ul>
           </div>
           <hr className="my-3" />

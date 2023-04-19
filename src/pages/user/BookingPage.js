@@ -664,6 +664,8 @@ function BookingPage() {
   }
   
   const HandleBookTour=async(e)=>{  
+    if(!email){toast.warning("Vui lòng điền đầy đủ thông tin")}else
+    {
     e.preventDefault();
     setLoading(true)
     let amount=((tour.price)-tour.sale*tour.price)*sl;
@@ -675,8 +677,9 @@ function BookingPage() {
       const sendmail=await axios.post(BaseUrl+'mail/html',mail)
       setLoading(false)
       toast.success("Đặt tour thành công")
+      navigate("/home")
     }catch(err){alert('Khong co ket noi');setLoading(false)}
-    navigate("/home")
+  }
   }
   useEffect(() => {
     getScheduleById();   

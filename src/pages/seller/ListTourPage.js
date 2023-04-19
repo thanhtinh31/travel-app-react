@@ -171,10 +171,10 @@ function ListTourPage() {
     
     async function fetchData() {
       try {  
-        const tour = await axios.get(BaseUrl+'tour?size=1000')
-        setTours(tour?.data.content)
-        const category = await axios.get(BaseUrl+'category?size=1000')
-        setCategories(category?.data.content)
+        const tour = await axios.get(BaseUrl+'tour/all')
+        setTours(tour?.data)
+        const category = await axios.get(BaseUrl+'category/active')
+        setCategories(category?.data)
         setLoading(false)
       } catch (error) {
         console.error(error);

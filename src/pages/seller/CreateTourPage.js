@@ -31,7 +31,7 @@ const CreateTourPage = (props) => {
     const [categories, setCategories] = useState([]);
     const [fileList, setFileList] = useState([]);
     const handleSubmit=async()=>{
-      if(window.confirm("Xác nhận cập nhật")){
+      if(window.confirm("Xác nhận tạo tour")){
         let regObj = {idAccount:JSON.parse(sessionStorage.getItem('user')).id,title,subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,hanhtrinh,idCategory};
         console.log(regObj); 
         try{
@@ -40,7 +40,7 @@ const CreateTourPage = (props) => {
           toast.success("thanh cong")
           props.parentCallback(true);
         }catch(err){alert('Khong co ket noi');}
-    //  props.parentCallback("Message from Child");
+    
     }
     }
     const handleChangeCate = (value) => {
@@ -79,8 +79,8 @@ const onChange = (infor,fileList) => {
   const getCategories= async()=>{
     try {  
       
-      const category = await axios.get(BaseUrl+'category?size=1000')
-      setCategories(category?.data.content)
+      const category = await axios.get(BaseUrl+'category/active')
+      setCategories(category?.data)
     } catch (error) {
       console.error(error);
     }

@@ -31,15 +31,19 @@ function Login() {
     try{
       setLoading(true)
       const r = await axios.post(BaseUrl+'account/loginFB', userfb);
-      console.log(r.data.account);
+      if(r?.data.status=="0")
+      {
+        toast.error(r?.data.message)
+        setLoading(false)
+      }else
+      {
       sessionStorage.setItem('user',JSON.stringify(r?.data.account));      
       window.location="/home";
+      }
     }catch(err){
       setLoading(false)
       console.log(err);
     }
-
-
   }
   const handleLogin =async(e) => {
     setLoading(true)
@@ -54,7 +58,6 @@ function Login() {
        else if(JSON.parse(sessionStorage.getItem('user')).typeAccount<3) navigate("/seller");
        else navigate('/admin')}
       else toast.error(res?.data.message);
-
     }catch(err){
       setLoading(false)
       alert('Khong co ket noi');

@@ -11,6 +11,7 @@ function Register() {
     // const [id, setId] = useState("")
     const [email, setEmail] = useState("");
     const [nameAccount, setNameAccount] = useState("");
+    const [address, setAddress] = useState("");
     const [password, setPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [typeAccount, setTypeAccount] = useState(1);
@@ -23,16 +24,20 @@ function Register() {
     const navigate = useNavigate();
     const handleRegister = async (e) => {
       e.preventDefault();
-      let regObj = { email, phoneNumber , nameAccount, password , status ,typeAccount };
+      setLoading(true)
+      let regObj = { email, phoneNumber ,address, nameAccount, password , status ,typeAccount };
       const res = await axios.post(BaseUrl+'account/register',regObj);
       console.log(res?.data);
       if(res?.data.status==="0"){
+        setLoading(false)
           toast.error(res?.data.message);
+          
       }else
       {
-          setLoading(true)
+          
           sessionStorage.setItem("verify",JSON.stringify(res?.data));
           navigate('/verify')
+          setLoading(false)
       }
       
     };
@@ -40,9 +45,15 @@ function Register() {
         const userfb= {idFacebook:response.data.id,nameAccount:response.data.name,image:response.data.picture.data.url,typeAccount: 1};
         try{
           const r = await axios.post(BaseUrl+'account/loginFB', userfb);
-          console.log(r.data.account);
+          if(r?.data.status=="0")
+          {
+            toast.error(r?.data.message)
+            setLoading(false)
+          }else
+          {
           sessionStorage.setItem('user',JSON.stringify(r?.data.account));      
-          navigate('/')
+          window.location="/home";
+          }
         }catch(err){
           console.log(err);
     
@@ -74,7 +85,7 @@ function Register() {
                     required
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    Email address
+                    Email
                   </label>
                 </div>
 
@@ -91,7 +102,21 @@ function Register() {
                     required
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    Phone number
+                    Số điện thoại
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-6 group">
+                  <input
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    name="floating_phone"
+                    id="floating_phone"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=""
+                    required
+                  />
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                    Địa chỉ
                   </label>
                 </div>
 
@@ -107,9 +132,10 @@ function Register() {
                     required
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    User name
+                    Họ Tên
                   </label>
                 </div>
+
                 <div className="relative z-0 w-full mb-6 group">
                   <div
                     className="absolute right-1 top-[50%]"
@@ -129,9 +155,11 @@ function Register() {
                     required
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    New password
+                    Mật khẩu
                   </label>
                 </div>
+
+
                 <button className="relative inline-flex w-full items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
                   <span className="relative px-5 py-2.5 w-full transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                     Create an account
@@ -143,7 +171,6 @@ function Register() {
                 onResolve={(response) => {setProfile(response.data);handleLoginFB(response);}} 
                 onReject={(error)=>{alert("Login Facebook thất bại!");}}
                 >              
-                
               <button
                 type="button"
                 className="text-white w-full justify-center bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
