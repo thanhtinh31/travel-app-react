@@ -30,10 +30,15 @@ const AdminLayout = ({title = "Title", className, children}) => {
     getItem('Files', '9', <FileOutlined />),
   ];
 useEffect(()=>{
-  // const account  = sessionStorage.getItem('user');
-  // if(!account){
-  //    window.location='/home';
-  // }
+  const account  = sessionStorage.getItem('user');
+  if(!account){
+     navigate('/login');
+  }
+  else if(JSON.parse(account).typeAccount<3)
+    navigate("/authorized");
+    else{
+
+    }
 })
 const [collapsed, setCollapsed] = useState(false);  
   const {
