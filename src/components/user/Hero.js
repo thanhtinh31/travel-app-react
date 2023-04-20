@@ -20,10 +20,28 @@ const Hero = () => {
         <h2 className="py-4">Top 1% Locations Worldwide</h2>
         <div
           className="flex justify-between items-center max-w-[700px] mx-auto w-full border p-1
-          rounded-md text-black bg-gray-100/90"
+          rounded-md text-white bg-overlay"
          // onSubmit={()=>{console.log("a")}}
         >
-          <div className="flex items-center">
+          <form onSubmit={()=>{navigate('/search?key='+key)}}>
+           <input
+              className="float-left items-center bg-transparent h-8 w-full outline-none text-xl font-light focus:border-b border-b-slate-400 mx-3 "
+
+              placeholder="Tìm kiếm tour..."
+              value={key}
+              autoComplete="false"
+              onChange={(e)=>{setKey(e.target.value)}}
+              onPressEnter={()=>{navigate('/search?key='+key);console.log("a")}}
+            />
+            </form>
+             <button  onClick={()=>{navigate('/search?key='+key)}} className="border-l-2 px-2" >
+              <AiOutlineSearch
+                size={25}
+                className="icon"
+                style={{ color: "#ffffff" }}
+              /></button>
+              
+          {/* <div className="flex items-center">
             <Input
               className="bg-transparent h-8 w-full font-[Poppins] focus:outline-none text-xl mx-4"
               type="text"
@@ -41,7 +59,7 @@ const Hero = () => {
                 style={{ color: "#000000" }}
               />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

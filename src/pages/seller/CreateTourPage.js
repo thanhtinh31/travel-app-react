@@ -78,7 +78,6 @@ const onChange = (infor,fileList) => {
 };
   const getCategories= async()=>{
     try {  
-      
       const category = await axios.get(BaseUrl+'category/active')
       setCategories(category?.data)
     } catch (error) {

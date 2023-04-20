@@ -678,7 +678,7 @@ function BookingPage() {
       setLoading(false)
       toast.success("Đặt tour thành công")
       navigate("/home")
-    }catch(err){alert('Khong co ket noi');setLoading(false)}
+    }catch(err){alert('Vui lòng kiểm tra email');setLoading(false)}
   }
   }
   useEffect(() => {

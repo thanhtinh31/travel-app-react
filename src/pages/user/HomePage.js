@@ -62,7 +62,9 @@ function HomePage() {
         {category.map((item) => {
           return (
             <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md" key={item.id}>
+              <Link to="/filter">
               <img src={item.image} alt="" />
+              </Link>
               <div className="banner-content w-40 md:w-48 flex items-center justify-center">
                 <div className="banner-title">{item.name}</div>
               </div>

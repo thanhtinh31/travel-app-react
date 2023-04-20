@@ -10,6 +10,9 @@
   list-style: none;
   font-family: 'Open Sans', sans-serif;
 }
+body{
+  background-color: #eaeaec;
+}
 
 ::-webkit-scrollbar {
   display: none;
@@ -130,7 +133,7 @@
   content: "";
   position: absolute;
   z-index: 100;
-  top: 30%;
+  top: 40%;
   left: -7px;
   border-right: 10px solid #e5e7eb;
   border-top: 10px solid transparent;
@@ -148,7 +151,10 @@
 }
 
 
-
+.rate.active{
+  color: #fadb14;
+  border-color: #fadb14;
+}
 
 
 

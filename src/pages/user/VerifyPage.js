@@ -12,7 +12,6 @@ function VerifyPage() {
         if(!vrf){
           navigate('/login')
         }
-      
       })
     
     const handleVerify =async()=>{

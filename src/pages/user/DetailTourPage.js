@@ -9,9 +9,11 @@ import {
   BsBusFrontFill,
   BsClockFill,
   BsFacebook,
+  BsFillCarFrontFill,
   BsInstagram,
   BsPersonFillCheck,
   BsPhoneVibrate,
+  BsSendFill,
   BsTicketPerforatedFill,
   BsTwitter,
 } from "react-icons/bs";
@@ -30,11 +32,14 @@ import {
 } from "react-icons/md";
 import { AiFillSchedule, AiOutlineFileProtect } from "react-icons/ai";
 import { GiKnifeFork, GiRotaryPhone } from "react-icons/gi";
-import { Button, Modal } from 'antd';
+import { Button, Modal, Rate, Spin } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Post24h from '../../components/user/Post24h';
 import Weather from './Weather';
+import TextArea from 'antd/es/input/TextArea';
+import Rating from '../../components/user/Rating';
+import PostRating from '../../components/user/PostRating';
 function loc_xoa_dau(str) {
   // Gộp nhiều dấu space thành 1 space
   str = str.replace(/\s+/g, ' ');
@@ -67,6 +72,10 @@ function DetailTourPage() {
     const [images,setImages] =useState([]);
     const [idSchedule,setIdSchedule] = useState("0");
     const [people,setPeople] =useState(1);
+    const [hanhtrinh,setHanhtrinh]=useState([]);
+    const [listRating,setListRating]=useState([])
+    const [loading,setLoading]=useState(true);
+    const [tongquat,setTongquat]=useState({})
     const  navigate = useNavigate()
     const handleBooking = async()=>{
         const account  = sessionStorage.getItem('user');
@@ -81,17 +90,30 @@ function DetailTourPage() {
             navigate('/booking?idSchedule='+idSchedule+'&sl='+people);
         }
     }
-    async function getTourById() {
+    async function fetchApi() {
         try{
             const res= await axios.get(BaseUrl+'tour/'+id);
-            setTour(res?.data);   
+            setTour(res?.data);  
+            setHanhtrinh(res?.data.hanhtrinh)
             setImages(res?.data.image);
             const r= await axios.get(BaseUrl+'schedule/active/'+id); 
-            setListSchedule(r?.data);  
+            setListSchedule(r?.data);
         }catch(err){alert('Khong co ket noi');}        
     }
+    async function ratingApi() {
+      setLoading(true)
+      try{
+          const rate= await axios.get(BaseUrl+'rating/'+id);
+          setListRating(rate?.data)
+          const tongquat= await axios.get(BaseUrl+'rating/tongquat/'+id);
+          setTongquat(tongquat?.data)
+          console.log(tongquat?.data)
+          setLoading(false)
+      }catch(err){alert('Khong co ket noi');setLoading(false)}        
+  }
     useEffect(() => {
-      getTourById()
+      fetchApi();
+      ratingApi();
       }, []);
   return (
    
@@ -130,7 +152,7 @@ function DetailTourPage() {
 
           </Swiper>
           <div className="text-mainbg">
-            <h2 className="text-maintext font-[600]">Mã Tour: 12345</h2>
+            <h2 className="text-maintext font-[600]">Mã Tour: {tour.id}</h2>
             <div className="flex justify-between text-sm my-2">
               <div className="flex items-center">
                 <MdLocationOn size={20} />{" "}
@@ -141,7 +163,7 @@ function DetailTourPage() {
                 <span className="ml-2">{tour.inteval}</span>
               </div>
               <div className="flex items-center">
-              Phương tiện: 
+              <BsFillCarFrontFill size={20}/>Phương tiện: 
                 <span className="mr-2">{tour.vehicle}</span>{" "}
                 {/* <BsFillCarFrontFill size={20} />
                 <MdTrain size={20} />
@@ -149,15 +171,15 @@ function DetailTourPage() {
               </div>
             </div>
             <div className="flex items-center">
-              <AiFillSchedule size={20} />
-              <Button onClick={()=>{setOpen(true)}}><span className="ml-2 font-[600]">Xem thời tiết</span></Button>
+              {/* <AiFillSchedule size={20} /> */}
+              <Button onClick={()=>{setOpen(true)}} style={{backgroundColor:'aqua',marginLeft:220}}><span className="ml-2 font-[600]">Xem thời tiết</span></Button>
             </div>
 
             <hr className="my-3" />
 
             {/* Dịch vụ kèm theo */}
-            <h2 className="text-maintext my-2 font-[600]">Dịch vụ kèm theo</h2>
-            <div className="flex justify-between text-xs my-2 font-[500]">
+            <h2 className="text-maintext my-2 font-[700]">DỊCH VỤ KÈM THEO</h2>
+            <div className="flex justify-between text-xs my-2 font-[600]">
               <div className="flex items-center">
                 <AiOutlineFileProtect size={15} />{" "}
                 <span className="ml-2">Bảo hiểm</span>
@@ -180,21 +202,40 @@ function DetailTourPage() {
                 <span className="ml-2">Vé thăm quan</span>
               </div>
             </div>
+            <h2 className="text-maintext my-2 font-[700]">MÔ TẢ</h2>
             <p className="text-sm font-[500] text-justify">
               {tour.describe}
             </p>
 
             <hr className="my-3" />
 
-            <h2 className="text-maintext my-2 font-[600]">
-              Tour có gì hấp dẫn
+            <h2 className="text-maintext my-2 font-[700] ">
+              ĐIỂM NỔI BẬT NHẤT
             </h2>
             <ul className="pl-6 text-sm max-w-xs">
-              <pre>{tour.interesting}</pre>
+              <pre className='w-auto'>{tour.interesting}</pre>
             </ul>
           </div>
           <hr className="my-3" />
 
+          <h2 className="text-maintext my-2 font-[700]">LỊCH TRÌNH CỤ THỂ</h2>
+          <div >
+          {hanhtrinh.map((item) => { 
+                  return(
+              <>
+            <div className="flex flex-col text-mainbg">
+              <h3 className="text-maintext my-2 font-[500]">{item.time}</h3>
+              <ul className="pl-6 text-sm">
+                <li className="list-disc">
+                 <p > {item.todo} </p>
+                </li>
+              </ul>
+            </div>
+            <hr className="my-3" />
+            </>
+            )})}
+          </div>
+         
           <p className="italic font-[500] text-maintext">
             Nhanh tay book ngay tour Hà Giang 4 ngày 3 đêm từ TPHCM trọn gói giá
             tốt của ThanhTinh travel qua hotline 1900 3398 thôi nào !
@@ -287,52 +328,71 @@ function DetailTourPage() {
             <BsTwitter size={25} />
           </div>
           <hr className="my-3" />
+
+
+          <div className="my-3 mx-2">
+            
+            <div className="text-maintext">
+              <h2 className=" my-2 font-[600]">Tour hot</h2>
+              
+              <div className="flex items-center px-4">
+                dàagagad
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
       <hr className="my-3" />
       <div className="py-6">
-        <h2 className="text-maintext m-2 font-[600] text-lg uppercase">
-          Bình luận:
-        </h2>
-        <div className="relative z-0 w-full px-6 pb-8 group">
-          <input
-            type="text"
-            name="cmt"
-            id="cmt"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-3 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-            Bình luận của bạn
-          </label>
-        </div>
-
+        {sessionStorage.getItem('user')?
+        <PostRating idTour={id} post={ratingApi} />:<></>}
+        <Spin spinning={loading}>
         <div className="flex flex-col">
-          <div className="flex mx-2 items-center my-2">
-            <img
-              src="https://cdn.pixabay.com/photo/2015/01/07/20/53/hat-591973_960_720.jpg"
-              className="w-10 h-10 rounded-full"
-            />
-            <div className="mx-2 p-2 bg-gray-200 rounded-md shadow-md relative cmm">Trải nghiệm hoàn hảo, dịch vụ tuyệt vời </div>
-          </div>
+          <div className="">
+            <h2 className="text-maintext m-2 font-[600] text-lg uppercase">
+              Các đánh giá tour:
+            </h2>
+            {tongquat?
+            <div className="flex flex-col md:flex-row">
+              <div className="text-[#fadb14] text-lg flex flex-col items-center px-3">
+                <h2 className="font-[600]">5/5</h2>
+                <Rate disabled value={tongquat.trungbinh} allowHalf />
+              </div>
+              <div className="flex items-center flex-col md:flex-row my-6">
+                <div className="flex justify-center items-center border border-slate-400 rounded-md w-20 h-8 mx-4 my-1 cursor-pointer rate active">
+                  Tất cả({tongquat.tong})
+                </div>
+                <div className="flex justify-center items-center border border-slate-400 rounded-md w-20 h-8 mx-4 my-1 cursor-pointer rate ">
+                  5 sao ({tongquat.nam})
+                </div>
+                <div className="flex justify-center items-center border border-slate-400 rounded-md w-20 h-8 mx-4 my-1 cursor-pointer rate ">
+                  4 sao ({tongquat.bon})
+                </div>
+                <div className="flex justify-center items-center border border-slate-400 rounded-md w-20 h-8 mx-4 my-1 cursor-pointer rate ">
+                  3 sao ({tongquat.ba})
+                </div>
+                <div className="flex justify-center items-center border border-slate-400 rounded-md w-20 h-8 mx-4 my-1 cursor-pointer rate ">
+                  2 sao ({tongquat.hai})
+                </div>
+                <div className="flex justify-center items-center border border-slate-400 rounded-md w-20 h-8 mx-4 my-1 cursor-pointer rate ">
+                  1 sao ({tongquat.mot})
+                </div>
+              </div>
+            </div>:<></>}
 
-          <div className="flex mx-2 items-center my-2">
-            <img
-              src="https://cdn.pixabay.com/photo/2015/01/07/20/53/hat-591973_960_720.jpg"
-              className="w-10 h-10 rounded-full"
-            />
-            <div className="mx-2 p-2 bg-gray-200 rounded-md shadow-md relative cmm">Chinh phục một trong những "Tứ mã đỉnh đèo của Việt nam: Đèo Mã Pí Lèng" </div>
           </div>
+          <hr className="my-3" />
+          
+          {listRating.map((rate)=>{
+            return(
+              <Rating comment={rate.comment} star={rate.star} idAccount={rate.idAccount} />  
+            )})}      
+          </div>
+          </Spin>
 
-          <div className="flex mx-2 items-center my-2">
-            <img
-              src="https://cdn.pixabay.com/photo/2015/01/07/20/53/hat-591973_960_720.jpg"
-              className="w-10 h-10 rounded-full"
-            />
-            <div className="mx-2 p-2 bg-gray-200 rounded-md shadow-md relative cmm">Trải nghiệm hoàn hảo, dịch vụ tuyệt vời </div>
-          </div>
-        </div>
+        
+
 
         <h2 className="text-maintext mx-2 my-4  mt-10 font-[600] text-lg uppercase">
           Bài viết liên quan:

@@ -15,7 +15,7 @@ function Weather(props) {
     `http://api.weatherapi.com/v1/forecast.json?key=89092839d12c403dab884158231304&q=${city}&days=10&aqi=no&alerts=no`;
 
   const [location, setLocation] = useState(
-    () => (localStorage.city = "Da Nang, Viet Nam")
+    () => (props.city||localStorage.getItem("city"))
   );
   useEffect(() => {
     localStorage.setItem("city", JSON.stringify(location));
