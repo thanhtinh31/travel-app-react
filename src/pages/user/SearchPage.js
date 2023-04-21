@@ -7,7 +7,65 @@ import { MdCamera, MdCheckCircle, MdLocalActivity, MdLocalAirport, MdLocationOn,
 import { FaUtensils } from 'react-icons/fa';
 import { BsBusFront, BsShieldFillCheck, BsTicketPerforatedFill } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
 const { Search } = Input;
+const Tour = ({ id, title, image ,price,inteval,sale,address ,vehicle}) => (
+  <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md " key={id}>
+  <div className="h-full w-full lg:w-[55%]">
+    <Link to={"/detailtour?id="+id}  >
+      <img
+        src={image[0].url}
+        alt=""
+        className="p-2 rounded-md h-full"
+      />
+    </Link>
+  </div>
+  <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
+    <div className="text-lg font-[600] p-1">
+      <a href="">{title}</a>
+    </div>
+    <div className="px-1 text-md font-[500] flex items-center">
+    <MdLocationOn/>   {"  "+address}
+    </div>
+    <div className="px-1 text-md font-[500]">
+      {inteval}{" "}
+    </div>
+    <div className="flex items-center  px-1 text-md font-[500]">
+      <span className="mr-2">Phương tiện: </span>
+      {vehicle}
+    </div>
+    <div className="flex justify-around p-1">
+      <MdCheckCircle size={20} />
+      <FaUtensils size={20} />
+      <BsShieldFillCheck size={20} />
+      <BsTicketPerforatedFill size={20} />
+      <BsBusFront />
+    </div>
+    <div className="text-md font-[500] text-red-600 p-1">
+      {new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price - price * sale)}{" "}
+      / người
+    </div>
+    <div className="line-through text-sm font-[400] text-red-500 p-1">
+      {new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price)}{" "}
+      / người
+    </div>
+    <div className="flex text-yellow-500">
+      <MdOutlineStar size={20} />
+      <MdOutlineStar size={20} />
+      <MdOutlineStar size={20} />
+      <MdOutlineStar size={20} />
+      <MdOutlineStar size={20} />
+    </div>
+    <button onClick={()=>{}} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right m-2">Chi tiết</button>
+  </div>
+</div>
+)
 function SearchPage() {
     var url_string = window.location;
     var url = new URL(url_string);
@@ -54,6 +112,15 @@ function SearchPage() {
     {tours.length}
     
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {tours.map(item => (
+        <LazyLoad key={item.id}
+        height={100}
+        offset={[-100,100]}
+        placeholder={<>Loading...</>}>
+          <Tour key={item.id} {...item} />
+        </LazyLoad>
+          ))}
+{/* 
           {tours.map((item) => {
             return (
               <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md " key={item.id}>
@@ -112,7 +179,7 @@ function SearchPage() {
                 </div>
               </div>
             );
-          })}
+          })} */}
         </div>
    </div>
   )
