@@ -8,10 +8,12 @@ import { PlusOutlined,EditOutlined,DeleteOutlined } from '@ant-design/icons';
 import DetailSchedule from './DetailSchedule';
 import AddSchedule from './AddSchedule';
 import { toast } from 'react-toastify';
+import EditSchedule from './EditSchedule';
 
 function Schedule(props) {
     const [open,setOpen] =useState(false)
     const [open1,setOpen1] =useState(false)
+    const [open2,setOpen2] =useState(false)
     const [schedules,setSchedules]=useState([]);
     const [loading,setLoading] =useState(true);
     const [status,setStaus] =useState("0");
@@ -27,10 +29,31 @@ function Schedule(props) {
       setOpen(true)
       setIdSchedule(e)
     }
+    const edit=(e)=>{
+      setOpen2(true)
+      setIdSchedule(e)
+    }
     const themmoithanhcong=()=>{
       fetchData("0");
-      toast.success("them moi thanh cong")
+      toast.success("Thành công")
       setOpen1(false)
+      setOpen2(false);
+    }
+    const deleteHandle= async(id)=>{
+      if(window.confirm("Xác nhận xóa")){
+      try {  
+        const del = await axios.delete(BaseUrl+'schedule/'+id)
+        if(del?.data.status=="0")
+        toast.error(del?.data.message);
+        else{
+          fetchData("0")
+          toast.success(del?.data.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     }
     async function fetchData(st) {
         try {  
@@ -51,6 +74,12 @@ function Schedule(props) {
             dataIndex: 'dayStart',
             key: 'date',
           },
+          {
+            title: 'Điểm xuất phát',
+            dataIndex: 'addressStart',
+            key: 'address',
+          },
+          
           {
             title: 'Hướng dẫn viên',
             dataIndex: 'tourGuide',
@@ -83,16 +112,14 @@ function Schedule(props) {
           {
             title: 'Thao tác',
             key: 'action',
-            render: () => (
+            render: (record) => (
               <>
                   <EditOutlined
-                  onClick={() => {
-                }}
+                  onClick={()=>{edit(record.id)}}
                 style={{ color: "green", marginLeft: 12,fontSize: '20px'}}
                   />
                   <DeleteOutlined
-                    onClick={() => {
-                      
+                    onClick={() => {deleteHandle(record.id);
                     }}
                     style={{ color: "red", marginLeft: 12 ,fontSize: '20px'}}
                   />
@@ -139,7 +166,7 @@ function Schedule(props) {
         onCancel={() => setOpen1(false)}
         width={800}   
       >  
-           <AddSchedule thanhcong={themmoithanhcong} idTour={props.id}/>
+      <AddSchedule thanhcong={themmoithanhcong} idTour={props.id}/>
 
       </Modal>
 
@@ -155,6 +182,19 @@ function Schedule(props) {
         width={800}   
       >        
       {idSchedule?<DetailSchedule id={idSchedule}/>:<></>}
+      </Modal>
+      <Modal
+        title={"THỐNG KÊ"}
+        footer={null}
+        okText=''
+        cancelText='Thoát'
+        okType='ghost'
+        centered
+        open={open2}
+        onCancel={() => setOpen2(false)}
+        width={800}   
+      >        
+      {idSchedule?<EditSchedule id={idSchedule} thanhcong={themmoithanhcong}/>:<></>}
       </Modal>
    
     </>

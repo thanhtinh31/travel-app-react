@@ -259,14 +259,13 @@ function DetailTourPage() {
               <label for="select-time" className="text-white">
                 Khởi hành
               </label>
-              <select   name="select-time" className="border-2 text-sm w-[50%]"
+              <select   name="select-time" className="border-2 text-sm w-[70%]"
                        value={idSchedule}
                         onChange={(e) => {setIdSchedule(e.target.value)}}>
-            
                   <option value="0">Chọn ngày xuất phát</option>
                   { listSchedule.map((item) => { 
                   return(
-                  <option value={item.id} key={item.id} >{item.dayStart} -- {item.tourGuide}</option> 
+                  <option value={item.id} key={item.id} >{item.dayStart} -- {item.addressStart}</option> 
                    )})}
               </select>
             </div>
@@ -276,7 +275,7 @@ function DetailTourPage() {
                 Số khách
               </label>
               <input
-                className="w-[50%] text-sm px-2"
+                className="w-[70%] text-sm px-2"
                 type={Number}
                 value={people}
                 onChange={(e)=>{setPeople(e.target.value)}}

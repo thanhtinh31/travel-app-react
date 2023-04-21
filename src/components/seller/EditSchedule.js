@@ -7,32 +7,50 @@ import BaseUrl from '../../util/BaseUrl';
 import { setDate } from 'date-fns';
 import moment from 'moment/moment';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
+import dayjs from 'dayjs';
 
-
-function AddSchedule(props) {
-    const [dayStart,setDayStart]=useState(null);
+function EditSchedule(props) {
+    const [dayStart,setDayStart]=useState('01/01/2023');
     const [tourGuide,settourGuide]=useState(null);
     const [phone,setphone]=useState(null);
     const [addressStart,setaddressStart]=useState(null);
-    const [idTour,setIdTour]=useState(props.idTour);
     const [status,setStatus]=useState(true);
     const onChange = (date, dateString) => {
-        const a=new Date(dateString);
         setDayStart(dateString)
       };
+      async function fetchData(e) {
+        try {  
+          const res = await axios.get(BaseUrl+'schedule/getschedule/'+e)
+          settourGuide(res?.data.tourGuide);
+          setphone(res?.data.phone);
+          setStatus(res?.data.status)
+          setaddressStart(res?.data.addressStart)
+          console.log(res?.data.dayStart)
+          setDayStart(res?.data.dayStart)
+        } catch (error) {
+          console.error(error);
+        }
+      }
     const themmoi=async()=>{
         try {  
-            let regObj = {dayStart,idTour,phone,addressStart,tourGuide,status};
-            const add = await axios.post(BaseUrl+'schedule',regObj)
-            if(add?.data.status==0) {toast.error(add?.data.message);} else {
+            let regObj = {id:props.id,dayStart,phone,addressStart,tourGuide,status};
+            const upd = await axios.put(BaseUrl+'schedule',regObj)
+
+            if(upd?.data.status==0) {toast.error(upd?.data.message);} else {
                 props.thanhcong()
             }
-
           } catch (error) {
             console.error(error);
           }
 
     }
+    useEffect(() => {
+       
+        fetchData(props.id)
+      }, [props]);
+      const dateFormat = 'MM/DD/YYYY';
+
   return (
     <>
      <Form
@@ -40,7 +58,6 @@ function AddSchedule(props) {
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         onFinish={themmoi}
-        
       >
        
         <Form.Item label="Hướng dẫn viên">
@@ -53,7 +70,7 @@ function AddSchedule(props) {
 
         <Form.Item label="Ngày xuất phát" >
         
-        <DatePicker   onChange={onChange} format={'MM/DD/YYYY'} required/>
+        <DatePicker value={dayjs(dayStart,dateFormat)}   onChange={onChange} format={'MM/DD/YYYY'} required/>
         </Form.Item>
        
         <Form.Item label="Địa điểm xuất phát" >
@@ -78,12 +95,12 @@ function AddSchedule(props) {
         buttonStyle="solid"
         />
         </Form.Item>
-        <button type='submit' >Thêm mới</button>
-      <Button >Hủy</Button>
+        <button type='submit' >Lưa thay đổi</button>
+       
      </Form>
       
     </>
   )
 }
 
-export default AddSchedule
+export default EditSchedule

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import UserLayout from '../../layout/UserLayout'
 import BaseUrl from '../../util/BaseUrl';
-import { Input, Space } from 'antd';
+import { Input, Skeleton, Space } from 'antd';
 import { MdCamera, MdCheckCircle, MdLocalActivity, MdLocalAirport, MdLocationOn, MdOutlineStar } from 'react-icons/md';
 import { FaUtensils } from 'react-icons/fa';
 import { BsBusFront, BsShieldFillCheck, BsTicketPerforatedFill } from 'react-icons/bs';
@@ -116,7 +116,7 @@ function SearchPage() {
         <LazyLoad key={item.id}
         height={100}
         offset={[-100,100]}
-        placeholder={<>Loading...</>}>
+        placeholder={<Skeleton/>}>
           <Tour key={item.id} {...item} />
         </LazyLoad>
           ))}

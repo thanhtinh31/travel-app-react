@@ -7,7 +7,7 @@ import {
     OrderedListOutlined,
     MenuUnfoldOutlined,
   } from "@ant-design/icons";
-  import { Button, Col, Input, Menu, Rate, Row, Select, Space, Spin, Tag } from "antd";
+  import { Button, Col, Input, Menu, Rate, Row, Select, Skeleton, Space, Spin, Tag } from "antd";
   import { Pagination } from 'antd';
   import axios from "axios";
   import { useEffect, useState } from "react";
@@ -257,7 +257,7 @@ import LazyLoad from "react-lazyload";
         <LazyLoad key={item.id}
         height={100}
         offset={[-100,100]}
-        placeholder={<>Loading...</>}>
+        placeholder={<Skeleton/>}>
           <Tour key={item.id} {...item} />
         </LazyLoad>
           ))}
