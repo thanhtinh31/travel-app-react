@@ -61,7 +61,7 @@ function HomePage() {
       <div className="my-4 flex flex-col sm:flex-row flex-wrap justify-center md:justify-between">
         {category.map((item) => {
           return (
-            <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md" key={item.id}>
+            <div className="single-banner shadow-sm mb-4 w-full md:w-[32%] shadow-md" key={item.id} onClick={()=>navigate("/filter?id="+item.id)}>
               <Link to="/filter">
               <img src={item.image} alt="" />
               </Link>

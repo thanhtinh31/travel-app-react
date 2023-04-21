@@ -15,7 +15,6 @@ function Rating(props) {
         const res= await axios.get(BaseUrl+'account/getAccount/'+props.idAccount);
         if(res?.data.image)setImage(res?.data.image);
         setName(res?.data.nameAccount)
-        
     }catch(err){alert('Khong co ket noi');}        
 }
   useEffect(() => {

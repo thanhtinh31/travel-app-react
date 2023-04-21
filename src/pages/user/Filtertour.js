@@ -19,7 +19,61 @@ import {
   import BaseUrl from "../../util/BaseUrl";
   import { FaUtensils } from "react-icons/fa";
   import { Link, useNavigate } from "react-router-dom";
+import LazyLoad from "react-lazyload";
   const { Option } = Select;
+
+  const Tour = ({ id, title, image ,price,inteval,sale }) => (
+    <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
+                  <div className="h-full w-full lg:w-[55%]">
+                    <Link to={"/detailtour?id="+id} >
+                    <LazyLoad  once={true} placeholder={<img src="https://top10hoabinh.com/wp-content/uploads/2022/10/anh-dang-load-2.jpg"></img>}>
+                    <img src={image[0].url} className="p-2 rounded-md h-full" loading='lazy'></img>
+                    </LazyLoad> 
+                    </Link>
+                  </div>
+                  <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
+                    <div className="text-base font-[600] p-1">
+                      <a href="">{title}</a>
+                    </div>
+                    <div className="px-1 text-sm font-[500]">
+                      {" "}
+                      {inteval}{" "}
+                    </div>
+                    <div className="flex items-center px-1 text-sm font-[500]">
+                      <span className="mr-2">Phương tiện: </span>
+                      <BsFillCarFrontFill size={15} />
+                      <MdTrain size={15} />
+                      <MdAirplanemodeActive size={15} />
+                    </div>
+                    <div className="flex justify-around p-1">
+                      <MdCheckCircle size={15} />
+                      <FaUtensils size={15} />
+                      <BsShieldFillCheck size={15} />
+                      <BsTicketPerforatedFill size={15} />
+                      <BsBusFront />
+                    </div>
+                    <div className="text-sm font-[500] text-red-600 p-1">
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(price - price * sale)}{" "}
+                      / người
+                    </div>
+                    <div className="line-through text-sm font-[400] text-red-500 p-1">
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(price)}{" "}
+                      / người
+                    </div>
+                    <div className="flex text-yellow-500">
+                      <Rate value={5} disabled></Rate>
+                    </div>
+                    <button onClick={() => {}} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm text-center px-2 py-1 float-right m-2">Xem thêm</button>
+                  </div>
+                </div>
+  )
+  
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -35,6 +89,9 @@ import {
   
   
   const Filtertour = () => {
+    var url_string = window.location;
+    var url = new URL(url_string);
+    var k= url.searchParams.get("id");
     const [address,setAddress]=useState(null);
     const [idCategory,setIdCategory]=useState([]);
     const [gt,setGt]=useState(0);
@@ -120,7 +177,8 @@ import {
 
   
     useEffect(() => {
-      fetchData(null,null,gt,lt,sort);
+      if(k) setIdCategory([k]);
+      fetchData(address,k==null?null:[k],gt,lt,sort);
       getCategories()
     }, []);
     const detailClick=(e)=>{
@@ -195,7 +253,15 @@ import {
           </h2>
           <Spin spinning={loading}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8" navi>
-            {tour.map((item) => {
+          {tour.map(item => (
+        <LazyLoad key={item.id}
+        height={100}
+        offset={[-100,100]}
+        placeholder={<>Loading...</>}>
+          <Tour key={item.id} {...item} />
+        </LazyLoad>
+          ))}
+            {/* {tour.map((item) => {
               return (
                 <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
                   <div className="h-full w-full lg:w-[55%]">
@@ -249,7 +315,7 @@ import {
                   </div>
                 </div>
               );
-            })}
+            })} */}
           </div>
           </Spin>
         </div>

@@ -21,7 +21,6 @@ function TourInvoice(props) {
       } catch (error) {
         console.error(error);
       }
-
    }
    useEffect(() => {
     fetchData();

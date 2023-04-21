@@ -22,9 +22,7 @@ function Weather(props) {
   }, [location]);
   const [city, setCity] = useState(props.city);
   const [background, setBackground] = useState("");
-
   const [citySuggest, setCitySugges] = useState([]);
-
   const [click, setClick] = useState(false);
 
   const [condition, setConditon] = useState("");
