@@ -356,7 +356,7 @@ function DetailTourPage() {
             {tongquat?
             <div className="flex flex-col md:flex-row">
               <div className="text-[#fadb14] text-lg flex flex-col items-center px-3">
-                <h2 className="font-[600]">5/5</h2>
+                <h2 className="font-[600]">.</h2>
                 <Rate disabled value={tongquat.trungbinh} allowHalf />
               </div>
               <div className="flex items-center flex-col md:flex-row my-6">

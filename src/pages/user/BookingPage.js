@@ -13,7 +13,8 @@ import { MdAirplanemodeActive, MdLocationOn, MdTrain } from "react-icons/md";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Button, Spin } from 'antd';
+import { Button, Input, Spin } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 
 function BookingPage() {
   const b=(name,title,price,people,inteval,dayStart,amount,tourGuide,phone,status)=>{return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -692,6 +693,7 @@ function BookingPage() {
         <div className="flex justify-center items-center font-[700] text-3xl text-maintext uppercase">
           Booking tour
         </div>
+        
         <div>
           <h2 className=" flex md:inline-block mt-4 justify-center items-center font-[500] text-2xl text-maintext uppercase px-2 border-b-2 border-maintext mb-6">
             Thông tin liên lạc
@@ -700,7 +702,7 @@ function BookingPage() {
             <div className="w-full">
               <div className="flex flex-col lg:flex-row items-center m-3">
                 <div className="relative z-0 w-full mb-6 group mr-8">
-                  <input
+                  <Input
                     value={fullName}
                     onChange={(e)=>{setFullName(e.target.value)}}
                     type="text"
@@ -716,7 +718,7 @@ function BookingPage() {
                 </div>
 
                 <div className="relative z-0 w-full mb-6 group mr-8">
-                  <input
+                  <Input
                   value={address}
                   onChange={(e)=>{setAddress(e.target.value)}}
                     type="text"
@@ -724,7 +726,7 @@ function BookingPage() {
                     id="floating_address"
                     className="block py-2.5 px-0 w-[100%] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={true}
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Địa chỉ
@@ -734,7 +736,7 @@ function BookingPage() {
 
               <div className="flex flex-col lg:flex-row items-center m-3">
                 <div className="relative z-0 w-full mb-6 group mr-8">
-                  <input
+                  <Input
                     type="email"
                     name="floating_email"
                     value={email}
@@ -751,7 +753,7 @@ function BookingPage() {
                 </div>
 
                 <div className="relative z-0 w-full mb-6 group mr-8">
-                  <input
+                  <Input
                     type="tel"
                     value={phone}
                     onChange={(e)=>{setPhone(e.target.value)}}
@@ -768,7 +770,7 @@ function BookingPage() {
                 </div>
               </div>
               <div className="relative z-0 w-full mb-6 group pr-8">
-                <input
+                <TextArea
                   type="text"
                   value={note}
                   onChange={(e)=>{setNote(e.target.value)}}

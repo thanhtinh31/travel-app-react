@@ -32,13 +32,23 @@ function ListAccount() {
         {
             title: 'Địa chỉ',
             dataIndex: 'address',
-          },
+        },
         {
           title: 'Email',
           render: (record) => {
             return (
               <>
               {record.email?record.email:"Đăng nhập Facebook-Chưa cập nhật"}</>
+            )}
+        },
+        {
+          title: 'Đăng nhập gần nhất',
+          render: (record) => {
+            const a=new Date(record.timeLogin)
+            console.log(a)
+            return (
+              <>
+              {record.timeLogin?<>{a.getHours()}h{a.getMinutes()}p--{a.getDate()}/{a.getMonth()+1}/{a.getFullYear()}</>:"--"}</>
             )}
         },
         {
