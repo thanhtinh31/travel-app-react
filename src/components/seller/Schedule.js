@@ -9,6 +9,8 @@ import DetailSchedule from './DetailSchedule';
 import AddSchedule from './AddSchedule';
 import { toast } from 'react-toastify';
 import EditSchedule from './EditSchedule';
+import DetailPeople from './DetailPeople';
+
 
 function Schedule(props) {
     const [open,setOpen] =useState(false)
@@ -90,6 +92,17 @@ function Schedule(props) {
             dataIndex: 'phone',
             key: 'phone',
           },
+          {
+            title:'Số lượng (Người)',
+            render:(record) => {
+              return (
+                <>
+                 <DetailPeople idSchedule={record.id}/>
+                </>
+              );
+            } 
+          }
+          ,
           {
             title: 'Trạng thái',
             key: 'state',

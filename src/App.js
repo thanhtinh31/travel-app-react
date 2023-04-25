@@ -18,12 +18,6 @@ import SearchPage from "./pages/user/SearchPage";
 
 
 
-
-
-import PageSide from "./components/admin/PageSide";
-import QLTaiKhoan from "./components/admin/QLTaiKhoan";
-import HistoryBooking from "./components/user/HistoryBooking";
-import HistoryBookingPage from "./pages/user/HistoryBookingPage";
 import SchedulePage from "./pages/seller/SchedulePage";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -39,6 +33,10 @@ import Profile from "./pages/user/Profile";
 import Weather from "./pages/user/Weather";
 import ListInvoice from "./pages/seller/ListInvoice";
 import ListAccount from "./pages/admin/ListAccount";
+import ThongKeTourPage from "./pages/admin/ThongKeTourPage";
+import ThongKeTaiKhoanPage from "./pages/admin/ThongKeTaiKhoanPage";
+import ThongKeDoanhThuPage from "./pages/admin/ThongKeDoanhThuPage";
+import ChotTourPage from "./pages/seller/ChotTourPage";
 
 
 function App() {
@@ -79,11 +77,15 @@ function App() {
           <Route path="listcategory" element={<ListCategory />} />
           <Route path="listaccount" element={<ListAccount />} />
           <Route path="listaccount" element={<ListCategory />} />
+          <Route path="thongketour" element={<ThongKeTourPage />} />
+          <Route path="thongketaikhoan" element={<ThongKeTaiKhoanPage />} />
+          <Route path="thongkedoanhthu" element={<ThongKeDoanhThuPage />} />
         </Route>
         <Route path="/seller/" element={<SellerLayout />}>
           <Route index element={<ListTourPage />} />
           <Route path="listtour" element={<ListTourPage />} />
           <Route path="schedule" element={<SchedulePage />} />
+          <Route path="chottour" element={<ChotTourPage />} />
           <Route path="chatbox" element={<ChatBoxPage />} />
           <Route path="listinvoice" element={<ListInvoice />} />
           <Route path="*" element={<NotFoundPage/>}/>

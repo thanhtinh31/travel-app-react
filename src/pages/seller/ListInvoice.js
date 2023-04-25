@@ -3,89 +3,84 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import BaseUrl from '../../util/BaseUrl';
-import { EditOutlined, DeleteOutlined,MinusCircleOutlined,CheckOutlined ,CloseOutlined,RollbackOutlined} from "@ant-design/icons";
+import { CloseCircleOutlined, DeleteOutlined,MinusCircleOutlined,CheckOutlined ,CloseOutlined,RollbackOutlined} from "@ant-design/icons";
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber, Dropdown } from "antd";
+import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber, Dropdown, Badge, Spin } from "antd";
 import { storage} from '../../firebase';
 import TextArea from 'antd/es/input/TextArea';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import CreateTourPage from './CreateTourPage';
 import TourInvoice from '../../components/seller/TourInvoice';
 import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
+import { Link } from 'react-router-dom';
 const { Option } = Select;
 
 function ListInvoice() {
+    const [xuly,setXuLy]=useState(false);
+    const [lable,setLable]=useState("Đang xử lý...")
     const [loading,setLoading] =useState(true);
     const [invoices,setInvoices] =useState([])
     const [tours, setTours] = useState([]);
     const [type,settype]=useState('0');
     const columns = [
         {
-          title: 'Họ tên',
-          key:'title',
-          dataIndex: 'fullName',
-          width: '7%',
+          title: 'Thông tin người đặt',
+          render: (record) => {
+            return (
+               <>
+               Họ tên: {record.fullName}<br/>
+               Email: {record.email}<br/>
+               SĐT: {record.phone}<br/>
+               </>
+            );},
+            width:"20%",
+            ellipsis: true,
         },
+        
         {
-          title: 'Email',
-          key:'email',
-          dataIndex: 'email',
-          width:120,
-          ellipsis: true,
-        }
-        ,
-        {
-            title: 'SĐT',
-            key:'phone',
-            dataIndex: 'phone',
-        }
-        ,
-        {
-          title: 'Tour',
+          title: 'Thông tin tour',
           key:"tour",
           render: (record) => {
             return (
                <TourInvoice key={record.id} id={record.idSchedule}/>
             );
           }  ,
-          width:'18%'
+          width:'18%',
+          ellipsis: true,
         }, 
         {
-            title: 'Số người',
-            dataIndex: 'people',
-            key:'people',
-            width:72
-        }
-        ,
-        
-        {
-            title: 'Ngày đặt',
-            dataIndex: 'dateInvoice',
-            key:'dateInvoice',
-        },
-
-        {
-            title: 'Tổng tiền',
-            key:'tongtien',
+            title: 'Chi tiết đặt tour',
             render: (record) => {
-                return (
-                    <>
-                    {new Intl.NumberFormat("vi-VN", {
+              return (
+                 <>
+                 Ngày đặt: {record.dateInvoice}<br/>
+                 Số người: {record.people}<br/>
+                 Tổng tiền: {new Intl.NumberFormat("vi-VN", {
                  style: "currency",
                  currency: "VND",
-                   }).format(record.amount)}
-                   </>
-                );
-              }  
-        },
+                   }).format(record.amount)}<br/>
+                 </>
+              );
+            }
+        }
+        ,
         {
           title: 'Tình trạng',
           render: (record) => {
             return (
-               <TinhTrangHoaDon key={record.id} id={record.idSchedule} type={type}/>
+              <>
+              {record.status==2?<>
+              <Badge status='success' text="Đã thanh toán"/> <br/>
+              Hình thức: {record.payments}<br/>
+              Ngày: {record.payDay}
+              </>:record.status==3?<><Badge status='error' text="Đã hủy"/></>:
+              <><Badge status='processing' text="Chưa thanh toán"/></>}
+              </>
+              //  <TinhTrangHoaDon key={record.id} id={record.idSchedule} type={type}/>
             );
           }  ,
-          key:'tinhtrang'
+          key:'tinhtrang',
+          ellipsis: true,
         },
       
         {
@@ -97,7 +92,7 @@ function ListInvoice() {
             )},
            
             ellipsis: false,
-
+            width:"7%"
         },
         
         {
@@ -106,45 +101,107 @@ function ListInvoice() {
             render: (record) => {
               return  type=="0"?
                 <>
-                   <Button style={{}} onClick={()=>{xacnhan(record.id)}}>Xác nhận</Button>
-                   <Button onClick={()=>{}}><CloseOutlined /></Button>
+                   <Space size={3}><Button key={record.id} type='primary' onClick={()=>{xacnhan(record.id)}}>Xác nhận</Button></Space>
                 </>
               :type=="1"?<>
-                   <Button onClick={()=>{}}>Thanh toán</Button>
-                   <Button onClick={()=>{}}><RollbackOutlined /></Button>
-                   <Button onClick={()=>{}}><CloseOutlined /></Button>
+              <Space size={1} direction='vertical'>
+                   <Button onClick={()=>{thanhtoan(record.id)}} style={{backgroundColor:'yellowgreen'}} type='primary'>Thanh toán</Button>
+                   <Button onClick={()=>{changeStatus(record.id,0)}} >Đơn mới</Button>
+              </Space>
               </>:
               type=="2"?<>
-                <Button onClick={()=>{}}><RollbackOutlined /></Button>
-                <Button onClick={()=>{}}><CloseOutlined/></Button>
+                <Button onClick={()=>{changeStatus(record.id,1)}}>Chưa thanh toán</Button>
               </>:
-              <></>
+              <><Button onClick={()=>{xoa(record.id)}} style={{backgroundColor:'orangered'}}>Xóa</Button></>
             },
+            width:"13%"
+        },
+        {
+          title: 'Hủy đơn',
+          key:'ds',
+          render: (record) => {
+            return (
+              <>
+              {record.status!=3?<CloseCircleOutlined style={{fontSize:20}}  onClick={()=>{huy(record.id)}}/>:<>Đã hủy</>
+          }</>
+            )},
+            width:"5%"
         },
       ];  
       const onChangeType=(type)=>{
             settype(type);
             fetchData(type);
         } 
-
-    const xacnhan=async(id)=>{
+    
+    const changeStatus=async (id,status)=>{
+      setLable("Đang xử lý...")
+      setXuLy(true)
+      if(window.confirm("Xác nhận")){
         try {  
-            const invoice = await axios.put(BaseUrl+'invoice/updatestatus/'+id+'/1')
+            const xn = await axios.put(BaseUrl+'invoice/updatestatus/'+id+'/'+status)
             fetchData(type)
-            toast.success("Xác nhận thành công")
+            toast.success(xn?.data)
+            setXuLy(false)
+          } catch (error) {
+            console.error(error);
+          }
+        }
+    }
+    
+    const xacnhan=async(id)=>{
+      setLable("Đang xác nhận...")
+      setXuLy(true)
+        try {  
+            const xn = await axios.put(BaseUrl+'invoice/xacnhan/'+id)
+            fetchData(type)
+            toast.success(xn?.data)
+            setXuLy(false)
           } catch (error) {
             console.error(error);
           }
     }
-    
-   
-    const  deleteHandle= async(id)=>{
-        if(window.confirm("Xác nhận xóa")){
-        const xoa = await axios.delete(BaseUrl+'tour/'+id)
-        fetchData()
-        toast.success(xoa?.data);
-        }  
+    const huy=async(id)=>{
+      setLable("Đang hủy...")
+      setXuLy(true)
+      if(window.confirm("Xác nhận hủy")){
+      try {  
+          const xn = await axios.put(BaseUrl+'invoice/huy/'+id+'?lyDo=quá hạn')
+          fetchData(type)
+          toast.success(xn?.data)
+          setXuLy(false)
+        } catch (error) {
+          console.error(error);
+        }
       }
+  }
+  const thanhtoan=async(id)=>{
+    setLable("Đang thanh toán...")
+    setXuLy(true)
+    try {  
+        const xn = await axios.put(BaseUrl+'invoice/thanhtoan/'+id+'?nhanVien=Tran Van A')
+        fetchData(type)
+        toast.success(xn?.data)
+        setXuLy(false)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    const xoa=async(id)=>{
+      setLable("Đang xóa...")
+      setXuLy(true)
+      if(window.confirm("Xác nhận xóa")){
+      try {  
+          const xoa= await axios.delete(BaseUrl+'invoice/'+id)
+          fetchData(type)
+          toast.success(xoa?.data)
+          setXuLy(false)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+    }
+
     
     async function fetchData(type) {
       try {  
@@ -191,10 +248,10 @@ function ListInvoice() {
     <Row>
         <Col><h2 style={{fontSize:30}}>Danh sách hóa đơn {type==0?"mới":type==1?"chưa thanh toán":type==2?"đã thanh toán":"đã hủy"}</h2></Col>
     </Row>
-    
+    <Spin tip={lable} size="large" spinning={xuly} >
       <Table rowKey={invoices.id} columns={columns} dataSource={invoices} loading={loading}/> 
-      
-      </>
+    </Spin>
+    </>
     )
 }
 

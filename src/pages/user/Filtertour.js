@@ -8,27 +8,27 @@ import {
     MenuUnfoldOutlined,
   } from "@ant-design/icons";
   import { Button, Col, Input, Menu, Rate, Row, Select, Skeleton, Space, Spin, Tag } from "antd";
-  import { Pagination } from 'antd';
+
   import axios from "axios";
   import { useEffect, useState } from "react";
-  import { BiPaperPlane } from "react-icons/bi";
+ 
   import { BsBusFront, BsCardChecklist, BsFillCarFrontFill, BsShieldFillCheck, BsTicketPerforatedFill } from "react-icons/bs";
-  import { GiBamboo } from "react-icons/gi";
+
   import { MdAirplanemodeActive, MdArrowDownward, MdArrowUpward, MdCheckCircle, MdLocationPin, MdOutlineRequestPage, MdOutlineStar, MdTrain } from "react-icons/md";
   import { TbBeach, TbMountain } from "react-icons/tb";
   import BaseUrl from "../../util/BaseUrl";
   import { FaUtensils } from "react-icons/fa";
   import { Link, useNavigate } from "react-router-dom";
-import LazyLoad from "react-lazyload";
+  import LazyLoad from "react-lazyload";
   const { Option } = Select;
 
   const Tour = ({ id, title, image ,price,inteval,sale }) => (
     <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
                   <div className="h-full w-full lg:w-[55%]">
                     <Link to={"/detailtour?id="+id} >
-                    <LazyLoad  once={true} placeholder={<img src="https://top10hoabinh.com/wp-content/uploads/2022/10/anh-dang-load-2.jpg"></img>}>
-                    <img src={image[0].url} className="p-2 rounded-md h-full" loading='lazy'></img>
-                    </LazyLoad> 
+                    {/* <LazyLoad  once={true} placeholder={<img src=""></img>}> */}
+                    <img src={image[0].url} className="p-2 rounded-md h-full" ></img>
+                    {/* </LazyLoad>  */}
                     </Link>
                   </div>
                   <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
@@ -71,7 +71,7 @@ import LazyLoad from "react-lazyload";
                     </div>
                     <button onClick={() => {}} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm text-center px-2 py-1 float-right m-2">Xem thêm</button>
                   </div>
-                </div>
+    </div>
   )
   
   function getItem(label, key, icon, children, type) {
@@ -83,6 +83,7 @@ import LazyLoad from "react-lazyload";
       type,
     };
   }
+
   const onChange = (pageNumber) => {
     console.log('Page: ', pageNumber);
   };
@@ -151,6 +152,7 @@ import LazyLoad from "react-lazyload";
         console.log(filterobj)
         const tours = await axios.post(BaseUrl + "tour/filter",filterobj);
         setTour(tours.data);
+        console.log(tours.data)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -162,7 +164,6 @@ import LazyLoad from "react-lazyload";
       try {
         const cate = await axios.get(BaseUrl + "category/active");
         setListCategory(cate?.data);
-        console.log(cate?.data)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -253,15 +254,15 @@ import LazyLoad from "react-lazyload";
           </h2>
           <Spin spinning={loading}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8" navi>
-          {tour.map(item => (
-        <LazyLoad key={item.id}
-        height={100}
-        offset={[-100,100]}
-        placeholder={<Skeleton/>}>
-          <Tour key={item.id} {...item} />
-        </LazyLoad>
-          ))}
-            {/* {tour.map((item) => {
+          {/* {tour.map(item => (
+       <LazyLoad key={item.id}
+       height={100}
+       offset={[-100,100]}
+       placeholder={<Skeleton/>}>
+         <Tour key={item.id} {...item} />
+       </LazyLoad>
+          ))} */}
+            {tour.map((item) => {
               return (
                 <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
                   <div className="h-full w-full lg:w-[55%]">
@@ -315,7 +316,7 @@ import LazyLoad from "react-lazyload";
                   </div>
                 </div>
               );
-            })} */}
+            })}
           </div>
           </Spin>
         </div>

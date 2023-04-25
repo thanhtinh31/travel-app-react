@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import BaseUrl from '../../util/BaseUrl';
 import { type } from '@testing-library/user-event/dist/type';
+import { Spin } from 'antd';
 
 function TinhTrangHoaDon(props) {
+    const [loading,setLoading]=useState(true);
     const [tour,setTour] = useState();
     const [schedule,setSchedule] = useState();
     const [status,setStatus]=useState("");
@@ -14,6 +16,7 @@ function TinhTrangHoaDon(props) {
     a.setDate(a.getDate()+3)
     const fetchData=async()=>{
      try {  
+      setLoading(true)
          const sche = await axios.get(BaseUrl+'schedule/getschedule/'+props.id)
          setSchedule(sche?.data)
          const daystart=new Date(sche?.data.dayStart);
@@ -28,6 +31,7 @@ function TinhTrangHoaDon(props) {
                 if(type=="1") setStatus("Chưa thanh toán");else
                 setStatus("Đã thanh toán- Chưa đi");    
          }
+         setLoading(false)
        } catch (error) {
          console.error(error);
        }
@@ -35,9 +39,11 @@ function TinhTrangHoaDon(props) {
     useEffect(() => {
      fetchData();
      
-   }, [status,props,type]);
+   }, [status,props.id,type]);
   return (
+    <Spin spinning={loading}>
     <div>{status}</div>
+    </Spin>
   )
 }
 

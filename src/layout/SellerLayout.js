@@ -30,9 +30,13 @@ const SellerLayout = ({title = "Title", className, children}) => {
   }
   const items = [
     getItem(<Link to={"listtour"} onClick={()=>{setPath("listtour");}}>Quản lý Tour du lịch</Link>, 'listtour', <PieChartOutlined />),
-    getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Quản lý Lich trinh</Link>, 'schedule', <UserOutlined />),
+
+    getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Quản lý lịch trình</Link>, 'schedule', <UserOutlined />,
+    [getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Lịch trình tour</Link>, 'schedule', <UserOutlined />),
+    getItem(<Link to={"chottour"} onClick={()=>{setPath("chottour");}}>Chốt tour</Link>, 'chottour', <UserOutlined />)])
+    ,
     getItem(<Link  to={"chatbox"} onClick={()=>{setPath("chatbox");}}>Chat box</Link>, 'chatbox', <PieChartOutlined />),
-    getItem(<Badge count={count}><Link style={{color:"HighlightText"}} to={"listinvoice"} onClick={()=>{xem();setPath("listinvoice");}}>Quan ly hoa don</Link></Badge>, 'listinvoice', <PieChartOutlined />),
+    getItem(<Badge count={count}><Link style={{color:"HighlightText"}} to={"listinvoice"} onClick={()=>{xem();setPath("listinvoice");}}>Quản lý hóa đơn</Link></Badge>, 'listinvoice', <PieChartOutlined />),
     getItem('Team', 'sub2', <UserOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
   ];

@@ -1,14 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify';
-import AdminLayout from '../../layout/AdminLayout';
+
+
 import BaseUrl from '../../util/BaseUrl';
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { PlusOutlined } from '@ant-design/icons';
+
 import { Button, Table, Modal, Input, Drawer, Space, Checkbox, Select, Upload, Form, Radio, Switch, Avatar } from "antd";
-import firebase, { db, storage, storageRef } from '../../firebase';
-import TextArea from 'antd/es/input/TextArea';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+
 
 
 

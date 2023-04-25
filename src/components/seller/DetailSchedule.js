@@ -21,7 +21,6 @@ function DetailSchedule(props) {
     useEffect(() => {
         setId(props.id)
         fetchData(props.id)
-        console.log(dulieu)
       }, [props]);
   return (
     <div>

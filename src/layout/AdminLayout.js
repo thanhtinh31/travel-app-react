@@ -22,9 +22,9 @@ const AdminLayout = ({title = "Title", className, children}) => {
     getItem(<Link to={"listcategory"} onClick={()=>{setPath("listcategory");}}>Quản lý Danh mục</Link>, 'listcategory', <PieChartOutlined />),
     getItem(<Link to={"listaccount"} onClick={()=>{setPath("listaccount");}}>Quản lý tài khoản</Link>, 'listaccount', <UserOutlined />),
     getItem('Thống kê', 'sub1', <PieChartOutlined />, [
-      getItem('Thống kê theo ngày', '3'),
-      getItem('Bill', '4'),
-      getItem('Alex', '5'),
+      getItem(<Link to={"thongketour"} onClick={()=>{setPath("thongketour");}}>Thống kê tour</Link>, 'thongketour', <PieChartOutlined />),
+      getItem(<Link to={"thongketaikhoan"} onClick={()=>{setPath("thongketaikhoan");}}>Thống kê tài khoản</Link>, 'thongketaikhoan', <PieChartOutlined />),
+      getItem(<Link to={"thongkedoanhthu"} onClick={()=>{setPath("thongkedoanhthu");}}>Thống kê doanh thu</Link>, 'thongkedoanhthu', <PieChartOutlined />),
     ]),
     getItem('Team', 'sub2', <UserOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),

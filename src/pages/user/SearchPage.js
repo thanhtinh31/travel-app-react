@@ -75,8 +75,8 @@ function SearchPage() {
     const navigate =useNavigate();
     async function fetchData(k) {
         try {
-          if(k==""){const tours = await axios.get(BaseUrl+'tour?size=1000');
-          setTours(tours?.data.content);}  
+          if(k==""){const tours = await axios.get(BaseUrl+'tour/active');
+          setTours(tours?.data);}  
           else{
           const tours = await axios.get(BaseUrl+'tour/search?key='+k)
           setTours(tours?.data);
