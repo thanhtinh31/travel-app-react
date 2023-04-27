@@ -3,17 +3,11 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import BaseUrl from '../../util/BaseUrl';
-import { CloseCircleOutlined, DeleteOutlined,MinusCircleOutlined,CheckOutlined ,CloseOutlined,RollbackOutlined} from "@ant-design/icons";
-import { PlusOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined,MailOutlined,PhoneOutlined,UserOutlined} from "@ant-design/icons";
 import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber, Dropdown, Badge, Spin } from "antd";
-import { storage} from '../../firebase';
-import TextArea from 'antd/es/input/TextArea';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import CreateTourPage from './CreateTourPage';
 import TourInvoice from '../../components/seller/TourInvoice';
 import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
-import { Link } from 'react-router-dom';
-const { Option } = Select;
+
 
 function ListInvoice() {
     const [xuly,setXuLy]=useState(false);
@@ -28,9 +22,9 @@ function ListInvoice() {
           render: (record) => {
             return (
                <>
-               Họ tên: {record.fullName}<br/>
-               Email: {record.email}<br/>
-               SĐT: {record.phone}<br/>
+               <UserOutlined style={{fontSize:20}} /> {record.fullName}<br/>
+               <MailOutlined  style={{fontSize:20}} /> {record.email}<br/>
+               <PhoneOutlined style={{fontSize:20}} /> {record.phone}<br/>
                </>
             );},
             width:"20%",
@@ -45,7 +39,7 @@ function ListInvoice() {
                <TourInvoice key={record.id} id={record.idSchedule}/>
             );
           }  ,
-          width:'18%',
+          width:'20%',
           ellipsis: true,
         }, 
         {
@@ -59,9 +53,11 @@ function ListInvoice() {
                  style: "currency",
                  currency: "VND",
                    }).format(record.amount)}<br/>
+                   Ghi chú:<span style={{color:'red'}}>{record.note?record.note:"..."}</span>
                  </>
               );
-            }
+            },
+            width:"17%"
         }
         ,
         {
@@ -71,12 +67,13 @@ function ListInvoice() {
               <>
               {record.status==2?<>
               <Badge status='success' text="Đã thanh toán"/> <br/>
-              Hình thức: {record.payments}<br/>
+              TT {record.payments}<br/>
               Ngày: {record.payDay}
-              </>:record.status==3?<><Badge status='error' text="Đã hủy"/></>:
-              <><Badge status='processing' text="Chưa thanh toán"/></>}
+              </>:<></>}
+                <TinhTrangHoaDon key={record.id} id={record.idSchedule} type={type}/>
+                {record.status==3?record.payDay?record.confirm==false?<><span style={{color:'red'}}>Chưa xử lý</span></>:<><span style={{color:'green'}}>Đã hoàn tiền</span></>:<></>:<></>}
               </>
-              //  <TinhTrangHoaDon key={record.id} id={record.idSchedule} type={type}/>
+              
             );
           }  ,
           key:'tinhtrang',
@@ -112,7 +109,8 @@ function ListInvoice() {
               type=="2"?<>
                 <Button onClick={()=>{changeStatus(record.id,1)}}>Chưa thanh toán</Button>
               </>:
-              <><Button onClick={()=>{xoa(record.id)}} style={{backgroundColor:'orangered'}}>Xóa</Button></>
+              <><Button onClick={()=>{xoa(record.id)}} style={{backgroundColor:'orangered'}}>Xóa</Button>
+              </>
             },
             width:"13%"
         },
@@ -134,10 +132,11 @@ function ListInvoice() {
         } 
     
     const changeStatus=async (id,status)=>{
-      setLable("Đang xử lý...")
-      setXuLy(true)
+      
       if(window.confirm("Xác nhận")){
         try {  
+          setLable("Đang xử lý...")
+      setXuLy(true)
             const xn = await axios.put(BaseUrl+'invoice/updatestatus/'+id+'/'+status)
             fetchData(type)
             toast.success(xn?.data)
@@ -160,17 +159,31 @@ function ListInvoice() {
             console.error(error);
           }
     }
-    const huy=async(id)=>{
-      setLable("Đang hủy...")
+    const xacnhantatca=async()=>{
+      setLable("Đang xác nhận...")
       setXuLy(true)
+        try {  
+            const xn = await axios.put(BaseUrl+'invoice/xacnhantatca/'+selected)
+            fetchData(type)
+            toast.success(xn?.data.message)
+            setXuLy(false)
+          } catch (error) {
+            console.error(error);
+          }
+    }
+    const huy=async(id)=>{
+      
       if(window.confirm("Xác nhận hủy")){
       try {  
+        setLable("Đang hủy...")
+        setXuLy(true)
           const xn = await axios.put(BaseUrl+'invoice/huy/'+id+'?lyDo=quá hạn')
           fetchData(type)
           toast.success(xn?.data)
           setXuLy(false)
         } catch (error) {
           console.error(error);
+          setXuLy(false)
         }
       }
   }
@@ -184,6 +197,7 @@ function ListInvoice() {
         setXuLy(false)
       } catch (error) {
         console.error(error);
+        setXuLy(false)
       }
     }
     const xoa=async(id)=>{
@@ -201,12 +215,43 @@ function ListInvoice() {
       }
 
     }
+    const [selected,setSelect]=useState([])
+    const rowSelection = {
+  onChange: (selectedRowKeys, selectedRows) => {
+    setSelect(selectedRowKeys);
+    console.log(selectedRowKeys);
+  },
+  getCheckboxProps: (record) => ({
+    disabled: record.id === 'Disabled User',
+    name: record.id,
+  }),
+};
+const xuLyHoanTien=async()=>{
+  setLable("Đang xử lý...");
+  setXuLy(true)
+  try {  
+    const xoa= await axios.put(BaseUrl+'invoice/xuly/'+selected)
+    fetchData(type)
+    toast.success(xoa?.data.message)
+    setXuLy(false)
+  } catch (error) {
+    console.error(error);
+  }
+
+}
+const xuLyXoa=()=>{
+
+}
 
     
     async function fetchData(type) {
       try {  
         const invoice = await axios.get(BaseUrl+'invoice/'+type)
-        setInvoices(invoice?.data)
+        let arr=invoice?.data;
+        arr.map((item)=>{
+          Object.assign(item,{key:item.id})
+        })
+        setInvoices(arr)
         setLoading(false)
       } catch (error) {
         console.error(error);
@@ -247,9 +292,18 @@ function ListInvoice() {
     </Row>
     <Row>
         <Col><h2 style={{fontSize:30}}>Danh sách hóa đơn {type==0?"mới":type==1?"chưa thanh toán":type==2?"đã thanh toán":"đã hủy"}</h2></Col>
+        {selected!=null&&selected.length!=0?type==3?<>
+        <Col push={11}><Button style={{backgroundColor:'greenyellow'}} onClick={()=>{xuLyHoanTien()}}>Xử lý - hoàn tiền</Button></Col>
+        <Col push={11}><Button style={{backgroundColor:'red'}} onClick={()=>{xuLyXoa()}}>Xóa</Button></Col>
+        </>:type==0?<>
+        <Col push={16}><Button type='primary' onClick={()=>{xacnhantatca()}}>Xác nhận</Button></Col>
+        </>:<></>:<></>}
     </Row>
     <Spin tip={lable} size="large" spinning={xuly} >
-      <Table rowKey={invoices.id} columns={columns} dataSource={invoices} loading={loading}/> 
+      <Table rowSelection={{
+          type: 'checkbox',
+          ...rowSelection,
+        }} columns={columns} dataSource={invoices} loading={loading} /> 
     </Spin>
     </>
     )

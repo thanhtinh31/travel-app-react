@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react'
 
 import BaseUrl from '../../util/BaseUrl';
 
-import { Table, Select, Switch, Avatar, Button } from "antd";
+import { Table, Select, Switch, Avatar, Button, Row, Col } from "antd";
 import DetailPeople from '../../components/seller/DetailPeople';
 import DetailTour from '../../components/seller/DetailTour';
 import { toast } from 'react-toastify';
-
+import { DeleteOutline } from '@mui/icons-material';
+import CountDown from '../../components/user/CountDown';
+import { CalendarOutlined, CarOutlined, StarTwoTone } from '@ant-design/icons';
 
 
 function ChotTourPage() {
@@ -31,14 +33,23 @@ function ChotTourPage() {
         {
           title: 'Hướng dẫn viên',
           dataIndex: 'tourGuide',
+          width:"12%"
         },
         {
             title: 'Xuất phát',
-            dataIndex: 'addressStart',
-        },
-        {
-            title: 'Ngày xuất phát',
-            dataIndex: 'dayStart',
+            render: (record) => {
+              return (
+                <><Row> <Col>
+                <CalendarOutlined style={{fontSize:18}} />{"        "+record.dayStart}<br/>
+                <CarOutlined style={{fontSize:18}}/>{"       "+record.addressStart}
+                </Col>
+                <Col push={4}>
+                  <CountDown dayStart={record.dayStart}/>
+                </Col>
+                </Row>
+                </>
+              )},
+              width:"23%"
         },
         {
           title: 'Số lượng người',
@@ -47,7 +58,8 @@ function ChotTourPage() {
               <>
               <DetailPeople idSchedule={record.id}/>
               </>
-            )}
+            )},
+            width:"18%"
         },
         
         {
@@ -55,22 +67,41 @@ function ChotTourPage() {
           render: (record) => {
             return (
               <>
-              {record.status?<>Đang mở đặt</>:<>Khóa</>}
+              {record.status?<>Đang mở đặt</>:<>Đã chốt</>}
               </>
-            )}
+            )},
+            width:"12%"
         },
+
         {
           title: 'Thao tác',
           render: (record) => {
             return (
                 <>
               {loai=="chuachot"?
-              <Button onClick={()=>{handleChange(record.id,false)}}> Chốt tour</Button>:
+             <> <Button onClick={()=>{handleChange(record.id,false)}}> Chốt tour</Button> <Button onClick={()=>{deleteHandle(record.id)}} icon={<DeleteOutline/>}></Button> </>:
               <Button onClick={()=>{handleChange(record.id,true)}} style={{color:'blueviolet'}}> Mở đặt tour</Button>}
+              
               </>
             )}
         },
     ];   
+    const deleteHandle= async(id)=>{
+      if(window.confirm("Xác nhận xóa")){
+      try {  
+        const del = await axios.delete(BaseUrl+'schedule/'+id)
+        if(del?.data.status=="0")
+        toast.error(del?.data.message);
+        else{
+          fetchData(loai)
+          toast.success(del?.data.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    }
     const handleChange = async (id,status) => {
         let reg={status,id}
         try {  

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import BaseUrl from '../../util/BaseUrl';
 import Schedule from '../../components/seller/Schedule';
 import DetailSchedule from '../../components/seller/DetailSchedule';
+import CountSchedule from '../../components/seller/CountSchedule';
 const items = [
   {
     key: '1',
@@ -25,8 +26,8 @@ function SchedulePage() {
     const [idTour,setIdTour] =useState();
     async function fetchData() {
         try {  
-          const tour = await axios.get(BaseUrl+'tour?size=1000')
-          setTours(tour?.data.content)
+          const tour = await axios.get(BaseUrl+'tour/all')
+          setTours(tour?.data)
           setLoading(false)
         } catch (error) {
           console.error(error);
@@ -84,14 +85,14 @@ function SchedulePage() {
           },
           key: 'sale',
         },
-        // {
-        //   title: 'Hành trình',
-        //   key:'10',
-        //   render: (record) => {
-        //     return (
-        //       <Button onClick={()=>{xem(record.id)}} >Xem</Button>
-        //     )}
-        // },
+        {
+          title: 'Đã lên lịch',
+          key:'10',
+          render: (record) => {
+            return (
+              <CountSchedule id={record.id}/>
+            )}
+        },
         // {
         //   title: 'Action',
         //   key: 'operation',
@@ -106,7 +107,7 @@ function SchedulePage() {
       expandable={{
         expandedRowRender: (record) => (
           <>
-          <Schedule id={record.id}/>
+          <Schedule load={()=>{fetchData()}} id={record.id}/>
           </>
         ),
       }}

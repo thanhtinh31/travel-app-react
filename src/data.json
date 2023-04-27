@@ -336,35 +336,6 @@
         }
     ],
     "tourgiochot":[
-        {
-            "id": "641edf8d0e14cc3b56ea2996",
-            "tourGuide": "Tran Van a",
-            "phone": "0355520976",
-            "dayStart": "04/27/2023",
-            "addressStart": null,
-            "maxPeople": 0,
-            "daDat": 0,
-            "idTour": "641d6a7e7cfbdf0816171fd2"
-        },
-        {
-            "id": "641edf820e14cc3b56ea2995",
-            "tourGuide": "Tran Van R",
-            "phone": "0355520976",
-            "dayStart": "04/30/2023",
-            "addressStart": null,
-            "maxPeople": 0,
-            "daDat": 0,
-            "idTour": "641d6a7e7cfbdf0816171fd2"
-        },
-        {
-            "id": "641a52c12b15624418a0832e",
-            "tourGuide": "Tran Van A",
-            "phone": "0355520976",
-            "dayStart": "05/23/2023",
-            "addressStart": null,
-            "maxPeople": 0,
-            "daDat": 0,
-            "idTour": "64182f10b0ee4075d00776f9"
-        }
+        
     ]
   }

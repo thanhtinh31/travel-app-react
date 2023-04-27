@@ -33,7 +33,7 @@ const items = [
   {
     key: '7',
     label: (
-      <Link to={'profile'}>Lịch sử đặt tour</Link>
+      <Link to={'history'}>Lịch sử đặt tour</Link>
     ),
     icon: <SmileOutlined />
   },

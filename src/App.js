@@ -37,6 +37,7 @@ import ThongKeTourPage from "./pages/admin/ThongKeTourPage";
 import ThongKeTaiKhoanPage from "./pages/admin/ThongKeTaiKhoanPage";
 import ThongKeDoanhThuPage from "./pages/admin/ThongKeDoanhThuPage";
 import ChotTourPage from "./pages/seller/ChotTourPage";
+import HistoryBookingPage from "./pages/user/HistoryBookingPage";
 
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
           <Route path="search" element={<SearchPage/>} />
           <Route path="*" element={<NotFoundPage/>}/>
           <Route path="filter" element={<Filtertour/>}/>
+          <Route path="history" element={<HistoryBookingPage/>}/>
         </Route>
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />

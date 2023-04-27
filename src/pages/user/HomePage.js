@@ -40,7 +40,7 @@ function HomePage() {
     try {
       const categories = await axios.get(BaseUrl + "category/home");
       const tours = await axios.get(BaseUrl + "tour/homeactive");
-      const res= await axios.get(BaseUrl+'schedule/all/active');
+      const res= await axios.get(BaseUrl+'schedule/home');
       setListSchedule(res?.data)
       setCategory(categories.data);
       setTour(tours.data);

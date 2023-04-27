@@ -42,7 +42,7 @@ function ListTourPage() {
         {
           title: 'Tour',
           dataIndex: 'title',
-          width: '30%',
+          width: '25%',
         },
         {
           title: 'Địa chỉ',
@@ -85,7 +85,7 @@ function ListTourPage() {
             )}
         },
         {
-          title: 'Status',
+          title: 'Trạng thái',
           render: (record) => {
             return (
               record.status?<>Mở</>:<>Khóa</>
@@ -93,7 +93,7 @@ function ListTourPage() {
         },
         {
             key: "5",
-            title: "Actions",
+            title: "Hành động",
             render: (record) => {
               return (
                 <>
@@ -162,8 +162,6 @@ function ListTourPage() {
         console.log(record.hanhtrinh)
         setOpen(true);
       };
-    
-   
 
     const  deleteHandle= async(id)=>{
         if(window.confirm("Xác nhận xóa")){
@@ -172,11 +170,37 @@ function ListTourPage() {
         toast.success(xoa?.data);
         }  
       }
+      const [ids,setIds]=useState([]);
+      const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+          setIds(selectedRowKeys);
+        },
+        getCheckboxProps: (record) => ({
+          disabled: record.id === 'Disabled User',
+          // Column configuration not to be checked
+          name: record.id,
+        }),
+      };
+      const deleteList=async(ids)=>{
+        if(window.confirm("Xác nhận xóa")){
+        try {  
+          const tour = await axios.delete(BaseUrl+'tour/deletelist/'+ids)
+          toast.info(tour?.data)
+          fetchData();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      }
     
     async function fetchData() {
       try {  
         const tour = await axios.get(BaseUrl+'tour/all')
-        setTours(tour?.data)
+        let arr=tour?.data;
+        arr.map((item)=>{
+          Object.assign(item,{key:item.id})
+        })
+        setTours(arr)
         const category = await axios.get(BaseUrl+'category/active')
         setCategories(category?.data)
         const services = await axios.get(BaseUrl+'service/active')
@@ -255,10 +279,16 @@ function ListTourPage() {
     return (
     <>
     <Row >
-      <Col push={20}><Button type='primary' onClick={()=>{setOpen2(true)}}>Thêm mới</Button></Col>
+      <Col push={20}>
+        <Button type='primary' onClick={()=>{setOpen2(true)}}>Thêm mới</Button>
+       {ids==null||ids.length==0?<></>:<Button type='primary' onClick={()=>{deleteList(ids)}}>Xóa</Button>}
+      </Col>
     </Row>
     
-      <Table rowKey={tours.id} columns={columns} dataSource={tours} loading={loading}/> 
+      <Table rowSelection={{
+          type: 'checkbox',
+          ...rowSelection,
+        }} columns={columns} dataSource={tours} loading={loading}/> 
       <Modal
         title="Chi tiết tour"
         okText='Cập nhật'

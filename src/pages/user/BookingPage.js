@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-import UserLayout from '../../layout/UserLayout'
+import {PhoneOutlined} from '@ant-design/icons';
 import BaseUrl from '../../util/BaseUrl';
 import {
   BsClockFill,
@@ -13,7 +13,7 @@ import { MdAirplanemodeActive, MdLocationOn, MdTrain } from "react-icons/md";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Button, Input, Spin } from 'antd';
+import { Button, Divider, Form, Input, Radio, Spin } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 
 function BookingPage() {
@@ -611,6 +611,8 @@ function BookingPage() {
   const [email,setEmail]= useState(account.email);
   const [phone,setPhone]= useState(account.phoneNumber);
   const [note,setNote]= useState("");
+  const [typePayment,setTypePayment]= useState("paypal");
+  
   var url_string = window.location;
   var url = new URL(url_string);
   var sl = url.searchParams.get("sl");
@@ -626,6 +628,11 @@ function BookingPage() {
     console.log("ATM");
     setPayments(true);
   };
+  const handleTypeChange=(e)=>{
+    setTypePayment(e.target.value)
+    console.log(e.target.value)
+  }
+
   function sendNotification (mess,type) {
      addDoc(collection(db, "notification"), {
       text: mess,
@@ -649,25 +656,44 @@ function BookingPage() {
   }
   const handlePayPal = async(e)=>{
     setLoading(true)
-    e.preventDefault();
     let amount=((tour.price)-tour.sale*tour.price)*sl;
     let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0}; 
     let mail={toEmail:email,subject:"Booking thành công",body:b(fullName,tour.title,tour.price-(tour.price*tour.sale),sl,tour.inteval,schedule.dayStart,amount,schedule.tourGuide,schedule.phone,"...Paypal")}
     try{
+      const sendmail=await axios.post(BaseUrl+'mail/html',mail)
       const res= await axios.post(BaseUrl+'invoice', regObj);
       console.log(res?.data)
       sendNotification("Booking & Thanh toan thanh cong","invoice"); 
-      const sendmail=await axios.post(BaseUrl+'mail/html',mail)
       const pay= await axios.post(BaseUrl+'pay/paypal', res?.data.invoice);
       setLoading(false)
       window.location=pay?.data;
-    }catch(err){alert('Khong co ket noi');setLoading(false)}
+    }catch(err){alert('Email không tồn tại');setLoading(false)}
+  }
+  const handleVnpay =async(e)=>{
+        const check =axios.get("https://emailvalidation.abstractapi.com/v1/?api_key=183dde3bc7654e83bcbda3ca0942296a&email="+email);
+        console.log(JSON.parse(check))
+        if(check?.data.deliverability==="DELIVERABLE"){
+        setLoading(true)
+        let amount=((tour.price)-tour.sale*tour.price)*sl;
+        let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0}; 
+        let mail={toEmail:email,subject:"Booking thành công",body:b(fullName,tour.title,tour.price-(tour.price*tour.sale),sl,tour.inteval,schedule.dayStart,amount,schedule.tourGuide,schedule.phone,"...VNPAY")}
+        try{
+          const res= await axios.post(BaseUrl+'invoice', regObj);
+          console.log(res?.data)
+          sendNotification("Booking & Thanh toan thanh cong","invoice"); 
+          const sendmail=await axios.post(BaseUrl+'mail/html',mail)
+          window.location="http://travel-app.infinityfreeapp.com/VNPAY_TT/thanhtoanvnpay.php?id="+res?.data.invoice.id+"&amount="+res?.data.invoice.amount;
+          setLoading(false)
+        }catch(err){alert('Khong co ket noi');setLoading(false)}
+      }
+      else toast.warning("Email không tồn tại")
+
   }
   
   const HandleBookTour=async(e)=>{  
-    if(!email){toast.warning("Vui lòng điền đầy đủ thông tin")}else
+    if(!email){}else
     {
-    e.preventDefault();
+   // e.preventDefault();
     setLoading(true)
     let amount=((tour.price)-tour.sale*tour.price)*sl;
     let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0};
@@ -682,13 +708,23 @@ function BookingPage() {
     }catch(err){alert('Vui lòng kiểm tra email');setLoading(false)}
   }
   }
+  
   useEffect(() => {
     getScheduleById();   
   }, []);
+  const book=()=>{
+    if(payments){
+      if(typePayment==="paypal")
+        handlePayPal()
+      else handleVnpay();
+    }else {HandleBookTour()}
+
+  }
 
   return (
-    <Spin spinning={loading}>
-    
+    <Form  onFinish={book}>
+    <Spin spinning={loading} >
+
         <div className="shadow-md p-3 bg-white my-4 rounded-md mt-28">
         <div className="flex justify-center items-center font-[700] text-3xl text-maintext uppercase">
           Booking tour
@@ -699,7 +735,8 @@ function BookingPage() {
             Thông tin liên lạc
           </h2>
           <div className="flex flex-col md:flex-row justify-between">
-            <div className="w-full">
+            
+            <div className="w-full"   >
               <div className="flex flex-col lg:flex-row items-center m-3">
                 <div className="relative z-0 w-full mb-6 group mr-8">
                   <Input
@@ -814,6 +851,13 @@ function BookingPage() {
                 <div>
                   {payments?( <div className="w-full">
                     <div className="flex items-center my-4 ">
+
+                    <Radio.Group value={typePayment} onChange={handleTypeChange}>
+                      <Radio.Button value="paypal">Paypal</Radio.Button>
+                      <Radio.Button value="vnpay">VnPay</Radio.Button>
+       
+                    </Radio.Group>
+
                       <div className="p-2 rounded-md mx-4 bg-slate-100 shadow-md cursor-pointer">
                         <img src='https://blog.logomyway.com/wp-content/uploads/2022/02/visa-logo-2.jpg' className="w-24 h-12 hover:scale-105"/>
                       </div>
@@ -822,7 +866,7 @@ function BookingPage() {
                       </div>
 
                     </div>
-                  <Button type='primary' onClick={handlePayPal}>Xác nhận tour & Thanh toán</Button>
+                  <Button type='primary' htmlType="submit"  >Xác nhận tour & Thanh toán</Button>
                   </div> 
                   ):(<div className="flex flex-col text-maintext m-3">
                     <div className="flex w-full bg-[#f1f5f9] my-2 shadow-md">
@@ -859,13 +903,14 @@ function BookingPage() {
                         <div>156 Nguyễn thị thập, Thanh Khuê</div>
                       </div>
                     </div>
-                    <Button type='primary' onClick={HandleBookTour} >Xác nhận và đặt tour</Button>
+                    <Button type='primary' htmlType="submit"  >Xác nhận và đặt tour</Button>
                   </div>)}
                 </div>
 
                 </div>
               </div>
             </div>
+            
 
             <div className="mt-16 md:mt-2">
               <div className="w-full md:w-80 lg:w-96">
@@ -875,15 +920,18 @@ function BookingPage() {
                 />
               </div>
               <div className="text-white bg-mainbg w-full md:w-80 lg:w-96 p-2">
-                <span className="uppercase font-[600] mr-2 text-[#f8d000]">
-                  Tour01
-                </span>
-                <span className="font-[500]">
+              <Divider style={{}}>{tour.title}</Divider>
+                {/* <span className="font-[500]">
                   {tour.title}| {tour.subTitle}
+                </span><br/> */}
+                Mã tour:
+                <span className="uppercase font-[600] mr-2 text-[#f8d000]">
+                  {tour.id}
                 </span>
+                
                 <div className="flex items-center">
                   <MdLocationOn size={20} />{" "}
-                  <span className="ml-2">Hồ chí minh</span>
+                  <span className="ml-2">{tour.address}</span>
                 </div>
                 <div className="flex items-center">
                   <AiFillSchedule size={20} />
@@ -901,22 +949,24 @@ function BookingPage() {
                   <span className="ml-2">{tour.inteval}</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="mr-2">Phương tiện</span>{" "}
-                  <BsFillCarFrontFill size={20} />
-                  <MdTrain size={20} />
-                  <MdAirplanemodeActive size={20} />
+                <BsFillCarFrontFill size={20} /> <span className="ml-2">{tour.vehicle}</span>
                 </div>
+                <Divider>Chi tiết</Divider>
                 <div className="flex items-center">
                   <AiFillSchedule size={20} />
                   <span className="ml-2">{schedule.dayStart}</span>
+                </div>
+                <div className="flex items-center">
+                <BsFillCarFrontFill size={20} />
+                  <span className="ml-2">{schedule.addressStart}</span>
                 </div>
                 <div className="flex items-center">
                   <AiFillSchedule size={20} />
                   <span className="ml-2">Hướng dẫn viên: {schedule.tourGuide}</span>
                 </div>
                 <div className="flex items-center">
-                  <AiFillSchedule size={20} />
-                  <span className="ml-2">Số điện thoại:{schedule.phone}</span>
+                <PhoneOutlined style={{fontSize:20}} />
+                  <span className="ml-2">{schedule.phone}</span>
                 </div>
               </div>
               <div className="flex items-center justify-around bg-[#f8d000] rounded-b-md text-maintext font-[500] w-full md:w-80 lg:w-96 text-xl">
@@ -932,12 +982,12 @@ function BookingPage() {
                 </p>
                 <p>Mọi thắc mắc xin liên hệ hotline: 1900 111 222</p>
               </div>
-              
             </div>
           </div>
         </div>
       </div>
     </Spin>
+    </Form>
   )
 }
 

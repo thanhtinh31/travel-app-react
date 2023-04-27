@@ -63,6 +63,8 @@ function loc_xoa_dau(str) {
    return str;
 }
 function DetailTourPage() {
+  const [loading,setLoading]=useState(true);
+  const [loadingpage,setLoadingPage]=useState(true);
     var url_string = window.location;
     var urla = new URL(url_string);
     var id = urla.searchParams.get("id");
@@ -74,7 +76,8 @@ function DetailTourPage() {
     const [people,setPeople] =useState(1);
     const [hanhtrinh,setHanhtrinh]=useState([]);
     const [listRating,setListRating]=useState([])
-    const [loading,setLoading]=useState(true);
+    
+
     const [tongquat,setTongquat]=useState({})
     const  navigate = useNavigate()
     const handleBooking = async()=>{
@@ -91,13 +94,16 @@ function DetailTourPage() {
         }
     }
     async function fetchApi() {
+        setLoadingPage(true)
         try{
             const res= await axios.get(BaseUrl+'tour/'+id);
             setTour(res?.data);  
             setHanhtrinh(res?.data.hanhtrinh)
             setImages(res?.data.image);
+            setLoadingPage(false)
             const r= await axios.get(BaseUrl+'schedule/active/'+id); 
             setListSchedule(r?.data);
+            
         }catch(err){alert('Khong co ket noi');}        
     }
     async function ratingApi() {
@@ -116,7 +122,8 @@ function DetailTourPage() {
       ratingApi();
       }, []);
   return (
-   
+
+   <Spin spinning={loadingpage} >
     <div className="max-w-screen-lg mx-auto bg-white shadow-lg mt-28">
     <h1 className="font-[700] text-xl mx-2 py-4 text-mainbg">
         {tour.title} | {tour.subTitle}
@@ -415,7 +422,9 @@ function DetailTourPage() {
 
         </div>
       </div>
-    </div>   
+    </div>  
+    </Spin> 
+
   )
 }
 

@@ -22,35 +22,35 @@ import {
   import LazyLoad from "react-lazyload";
   const { Option } = Select;
 
-  const Tour = ({ id, title, image ,price,inteval,sale }) => (
+  const Tour = ({ id, title, image,address ,price,inteval,sale }) => (
     <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
                   <div className="h-full w-full lg:w-[55%]">
                     <Link to={"/detailtour?id="+id} >
-                    {/* <LazyLoad  once={true} placeholder={<img src=""></img>}> */}
-                    <img src={image[0].url} className="p-2 rounded-md h-full" ></img>
-                    {/* </LazyLoad>  */}
+                    <LazyLoad  once={true} placeholder={<img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921"></img>}>
+                    <img src={image[0].url} className="p-2 rounded-md h-full" loading='lazy'></img>
+                    </LazyLoad> 
                     </Link>
                   </div>
                   <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
                     <div className="text-base font-[600] p-1">
-                      <a href="">{title}</a>
+                      <a href="">{title}- {inteval}</a>
                     </div>
                     <div className="px-1 text-sm font-[500]">
-                      {" "}
-                      {inteval}{" "}
+                      {address}
                     </div>
-                    <div className="flex items-center px-1 text-sm font-[500]">
+                    {/* <div className="flex items-center px-1 text-sm font-[500]">
                       <span className="mr-2">Phương tiện: </span>
-                      <BsFillCarFrontFill size={15} />
-                      <MdTrain size={15} />
-                      <MdAirplanemodeActive size={15} />
+                      
+                    </div> */}
+                    <div className="flex text-yellow-500">
+                      <Rate value={5} disabled></Rate>
                     </div>
                     <div className="flex justify-around p-1">
-                      <MdCheckCircle size={15} />
+                      {/* <MdCheckCircle size={15} />
                       <FaUtensils size={15} />
                       <BsShieldFillCheck size={15} />
                       <BsTicketPerforatedFill size={15} />
-                      <BsBusFront />
+                      <BsBusFront /> */}
                     </div>
                     <div className="text-sm font-[500] text-red-600 p-1">
                       {new Intl.NumberFormat("vi-VN", {
@@ -66,10 +66,7 @@ import {
                       }).format(price)}{" "}
                       / người
                     </div>
-                    <div className="flex text-yellow-500">
-                      <Rate value={5} disabled></Rate>
-                    </div>
-                    <button onClick={() => {}} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm text-center px-2 py-1 float-right m-2">Xem thêm</button>
+                    
                   </div>
     </div>
   )
@@ -244,7 +241,7 @@ import {
             </Select></>
 
         </div>
-        <div className="w-full h-screen mt-10 ml-3 overflow-y-scroll">
+        <div className="w-full  mt-10 ml-3 ">
         <h2 className="text-sm md:text-base font-[500] text-maintext"> 
           <Row>
             <Col>{address==null||address===""?idCategory==null||idCategory.length==0?"Tất cả các tour...":"Lọc tour theo danh mục":"Lọc tour theo địa chỉ: "+address} </Col>
@@ -254,15 +251,15 @@ import {
           </h2>
           <Spin spinning={loading}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8" navi>
-          {/* {tour.map(item => (
+          {tour.map(item => (
        <LazyLoad key={item.id}
        height={100}
        offset={[-100,100]}
        placeholder={<Skeleton/>}>
          <Tour key={item.id} {...item} />
        </LazyLoad>
-          ))} */}
-            {tour.map((item) => {
+          ))}
+            {/* {tour.map((item) => {
               return (
                 <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
                   <div className="h-full w-full lg:w-[55%]">
@@ -316,7 +313,7 @@ import {
                   </div>
                 </div>
               );
-            })}
+            })} */}
           </div>
           </Spin>
         </div>

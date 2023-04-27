@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom';
 import BaseUrl from '../../util/BaseUrl';
 import { Spin } from 'antd';
+import { CalendarOutlined ,SmileOutlined,CarOutlined,ClockCircleOutlined} from '@ant-design/icons';
+import CountDown from '../user/CountDown';
 
 function TourInvoice(props) {
    const [loading,setLoading]=useState(true);
@@ -14,7 +16,7 @@ function TourInvoice(props) {
    const [link,setlink]=useState("");
    const fetchData=async()=>{
     try {  
-        setLoading(true)
+        setLoading(true);
         const tour = await axios.get(BaseUrl+'schedule/gettour/'+props.id)
         setTour(tour?.data)
         const sche = await axios.get(BaseUrl+'schedule/getschedule/'+props.id)
@@ -33,10 +35,18 @@ function TourInvoice(props) {
   return (
     
     <>
-    <Spin spinning={loading}>
-    <Link to={link} target="_blank">Tour: {tour?tour.title:""}</Link>
+     <Spin spinning={loading}>
+    {schedule?
+    <>
+    <SmileOutlined style={{fontSize:20,color:'yellow'}} /> <Link to={link} target="_blank">{tour?tour.title:""}</Link>
     <br/>
-    Xuất phát ngày: {schedule?schedule.dayStart:""}
+    <CalendarOutlined style={{fontSize:20,color:'green'}} /> Ngày xuất phát: {schedule.dayStart}
+    <br/>
+    <CarOutlined style={{fontSize:20,color:'red'}}/> Địa điểm xuất phát: {schedule.addressStart}
+    {/* <br/>
+    <ClockCircleOutlined  style={{fontSize:20}}/><CountDown dayStart={schedule.dayStart} />  */}
+    
+    </>:<></>}
     </Spin>
     </>
   )

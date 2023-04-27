@@ -31,7 +31,7 @@ function TopAccountChar(props) {
       }
     useEffect(() => {
         fetchData(props.top)
-      }, [props]);
+      }, [props.top]);
 
     return (
     <Spin spinning={loading}>
