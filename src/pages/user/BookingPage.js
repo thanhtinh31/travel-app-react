@@ -670,9 +670,7 @@ function BookingPage() {
     }catch(err){alert('Email không tồn tại');setLoading(false)}
   }
   const handleVnpay =async(e)=>{
-        const check =axios.get("https://emailvalidation.abstractapi.com/v1/?api_key=183dde3bc7654e83bcbda3ca0942296a&email="+email);
-        console.log(JSON.parse(check))
-        if(check?.data.deliverability==="DELIVERABLE"){
+       
         setLoading(true)
         let amount=((tour.price)-tour.sale*tour.price)*sl;
         let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0}; 
@@ -685,8 +683,7 @@ function BookingPage() {
           window.location="http://travel-app.infinityfreeapp.com/VNPAY_TT/thanhtoanvnpay.php?id="+res?.data.invoice.id+"&amount="+res?.data.invoice.amount;
           setLoading(false)
         }catch(err){alert('Khong co ket noi');setLoading(false)}
-      }
-      else toast.warning("Email không tồn tại")
+      
 
   }
   
