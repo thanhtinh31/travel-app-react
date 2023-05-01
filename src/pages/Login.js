@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BsEyeSlash, BsEye, BsFacebook } from "react-icons/bs";
+import { BsEyeSlash, BsEye, BsFacebook,BsArrowRightShort } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -7,6 +7,8 @@ import BaseUrl from "../util/BaseUrl";
 import axios from "axios";
 import { LoginSocialFacebook } from 'reactjs-social-login';
 import { Spin } from "antd";
+import isEmpty from "validator/lib/isEmpty"
+import isEmail from "validator/lib/isEmail";
 
 function Login() {
   const [loading,setLoading]=useState(false)
@@ -21,6 +23,7 @@ function Login() {
   const [showpw, setShowpw] = useState(false);
   const [email, getEmail] = useState("");
   const [password, getPassword] = useState("");
+  const [validator, setVadidator] = useState("")
 
   const navigate = useNavigate();
   const showPassword = () => {
@@ -70,18 +73,18 @@ function Login() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
           <div className="hidden md:block bg-[url('./assets/login.jpg')] h-[80vh] bg-center bg-cover bg-no-repeat"></div>
           <div className="justify-center mx-auto w-[90%]">
-            <h2 className="font-bold dark:text-white text-3xl mb-4">Login</h2>
+            <h2 className="font-bold dark:text-white text-3xl mb-4">Đăng nhập</h2>
             <p className="text-[#707070] dark:text-white my-4">
               Welcome to <strong>Blue House Travel</strong>
             </p>
             <div>
               <form onSubmit={handleLogin}>
-                <div className="relative z-0 w-full mb-6 group">
+                <div className="relative z-0 w-full mb-2 group">
                   <input
                     value={email}
                     onChange={(e) => getEmail(e.target.value)}
                     type="email"
-                    name="floating_email"
+                    name="email"
                     autoFocus
                     id="floating_email"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -103,8 +106,8 @@ function Login() {
                     value={password}
                     onChange={(e) => getPassword(e.target.value)}
                     type={showpw ? "type" : "password"}
-                    name="floating_text"
-                    id="floating_text"
+                    name="password"
+                    id="password"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
@@ -113,6 +116,7 @@ function Login() {
                     Your password
                   </label>
                 </div>
+                <p className="text-red-500 text-xs mb-4">{validator.password}</p>
                 <ReCAPTCHA
                   sitekey="6Lfve_EkAAAAAMI4TLGxpqPqTc9cIa8_9XK-VwVw"
                   onChange={reCaptCha}
@@ -120,25 +124,27 @@ function Login() {
                 <div>
                   <div className="flex flex-row justify-between my-2">
                   <div className="flex items-start">
-                    <div className="flex items-center h-5">
-                      <input
-                      onChange={savePassWord}
-                        id="remember"
-                        type="checkbox"
-                        value=""
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                        required
-                      />
-                    </div>
-                    <label
-                      className="ml-2 text-sm font-medium text-gray-900 "
-                    >
-                      Remember me
-                    </label>
+                      <div className="flex items-center h-5">
+                        <input
+                          onChange={savePassWord}
+                          id="remember"
+                          type="checkbox"
+                          value=""
+                          className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                          required
+                        />
+                      </div>
+                      <label className="ml-2 text-sm font-medium text-gray-900 ">
+                        Remember me
+                      </label>
                   </div>
                   <div className="text-sm font-medium text-gray-900">
                       <Link to="/resetpassword">Forget password ?</Link>
+                    </div>
                   </div>
+                  <div className="flex items-center text-sm font-medium text-blue-500 py-2">
+                  <BsArrowRightShort size={25}/>
+                      <Link to="/register">Sign in</Link>
                   </div>
                 </div>
                 <button onClick={handleLogin}

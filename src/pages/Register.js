@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { BsGoogle, BsEyeSlash, BsEye, BsFacebook } from "react-icons/bs";
+import { BsGoogle, BsEyeSlash, BsEye, BsFacebook ,BsArrowRightShort} from "react-icons/bs";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoginSocialFacebook } from 'reactjs-social-login';
 import BaseUrl from "../util/BaseUrl";
 import { Spin } from "antd";
+import isEmpty from "validator/lib/isEmpty";
+import isEmail from "validator/lib/isEmail";
 function Register() {
     const [showpw, setShowpw] = useState(false);
     // const [id, setId] = useState("")
@@ -18,11 +20,35 @@ function Register() {
     const [status, setStt] = useState(1);
     const [loading,setLoading] =useState(false)
     const [profile, setProfile] = useState(null);
+    const [validator, setVadidator] = useState("")
     const showPassword = () => {
       setShowpw(!showpw);
     };
     const navigate = useNavigate();
+    const validateAll = ()=>{
+      const msg = {}
+      if(isEmpty(email)){
+        msg.email = "Email không được bỏ trống"
+      }else if(!isEmail(email)){
+        msg.email = "Nhập sai định dạng Email"
+      }
+      if(isEmpty(phoneNumber)){
+        msg.phoneNumber = "Số điện thoại không được bỏ trống"
+      }
+      if(isEmpty(nameAccount)){
+        msg.nameAccount = "Tên người dùng không được bỏ trống"
+      }
+      if(isEmpty(password)){
+        msg.password = "Password không được bỏ trống"
+      }
+
+      setVadidator(msg)
+      if(Object.keys(msg).length>0) return false
+      return true
+    }
     const handleRegister = async (e) => {
+      const isValid = validateAll()
+    if(!isValid) return
       e.preventDefault();
       setLoading(true)
       let regObj = { email, phoneNumber ,address, nameAccount, password , status ,typeAccount };
@@ -66,7 +92,7 @@ function Register() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
           <div className="hidden md:block bg-[url('./assets/login.jpg')] h-[80vh] bg-center bg-cover bg-no-repeat"></div>
           <div className="justify-center mx-auto w-[90%]">
-            <h2 className="font-bold text-3xl dark:text-white mb-4">Register</h2>
+            <h2 className="font-bold text-3xl dark:text-white mb-4">Đăng ký</h2>
             <p className="text-[#707070] dark:text-white my-4">
               Welcome to <strong>Blue House Travel</strong>
             </p>
@@ -77,9 +103,9 @@ function Register() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
-                    name="floating_email"
+                    name="email"
                     autoFocus
-                    id="floating_email"
+                    id="email"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
@@ -88,6 +114,7 @@ function Register() {
                     Email
                   </label>
                 </div>
+                <p className="text-red-500 text-xs mb-4">{validator.email}</p>
 
                 <div className="relative z-0 w-full mb-6 group">
                   <input
@@ -95,8 +122,8 @@ function Register() {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     type="tel"
                     pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                    name="floating_phone"
-                    id="floating_phone"
+                    name="phoneNumber"
+                    id="phoneNumber"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
@@ -109,8 +136,8 @@ function Register() {
                   <input
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    name="floating_phone"
-                    id="floating_phone"
+                    name="username"
+                    id="username"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=""
                     required
@@ -125,8 +152,8 @@ function Register() {
                     value={nameAccount}
                     onChange={(e) => setNameAccount(e.target.value)}
                     type="text"
-                    name="floating_text"
-                    id="floating_text"
+                    name="username"
+                    id="username"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
@@ -147,8 +174,8 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type={showpw ? "type" : "password"}
-                    name="floating_text"
-                    id="floating_text"
+                    name="password"
+                    id="password"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     minLength={6}
@@ -158,11 +185,15 @@ function Register() {
                     Mật khẩu
                   </label>
                 </div>
+                <p className="text-red-500 text-xs mb-4">{validator.password}</p>
+                <div className="flex items-center text-sm font-medium text-blue-500 py-2">
+                  <BsArrowRightShort size={25}/>
+                      <Link to="/login">Log in</Link>
+                  </div>
+                <button type="submit" onClick={handleRegister} className="relative inline-flex w-full items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
 
-
-                <button className="relative inline-flex w-full items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
                   <span className="relative px-5 py-2.5 w-full transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Create an account
+                    Đăng ký ngay
                   </span>
                 </button>
               </form>
@@ -177,7 +208,7 @@ function Register() {
               >
                 <div className="flex items-center"> 
                 <BsFacebook/>               
-                  <span className="px-2">Sign in with Facebook</span>
+                  <span className="px-2">Đăng nhập bằng Facebook</span>
                 </div>
               </button>
               </LoginSocialFacebook >
