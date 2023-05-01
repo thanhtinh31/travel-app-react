@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import UserLayout from "../../layout/UserLayout";
 import BaseUrl from "../../util/BaseUrl";
-import { Rate } from "antd";
+import { Rate, DatePicker, Form, Input, Select, InputNumber } from "antd";
 
 import {
   BsBusFrontFill,
@@ -23,6 +23,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import dayjs from "dayjs";
+
 import {
   MdAirplanemodeActive,
   MdLocationOn,
@@ -59,9 +62,13 @@ function loc_xoa_dau(str) {
   return str;
 }
 function DetailTourPage() {
+  dayjs.extend(customParseFormat);
+  const { RangePicker } = DatePicker;
+  const { TextArea } = Input;
   var url_string = window.location;
   var urla = new URL(url_string);
   var id = urla.searchParams.get("id");
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [tour, setTour] = useState({});
   const [listSchedule, setListSchedule] = useState([]);
@@ -69,6 +76,7 @@ function DetailTourPage() {
   const [idSchedule, setIdSchedule] = useState("0");
   const [people, setPeople] = useState(1);
   const navigate = useNavigate();
+
   const handleBooking = async () => {
     const account = sessionStorage.getItem("user");
     if (!account) {
@@ -94,6 +102,21 @@ function DetailTourPage() {
   useEffect(() => {
     getTourById();
   }, []);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsModalOpen(false);
+    }, 3000);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="max-w-screen-lg mx-auto bg-white shadow-lg mt-28">
       <h1 className="font-[700] text-xl mx-2 py-4 text-mainbg">
@@ -361,12 +384,120 @@ function DetailTourPage() {
               </span>
             </div>
             <div className="flex justify-center items-center my-8">
-              <Button type="primary" onClick={handleBooking}>
+              <Button type="primary" onClick={handleBooking} className="">
                 Đặt tour
               </Button>
             </div>
           </div>
+          <div className="my-3 mx-2 flex justify-center items-center">
+            <Button type="primary" onClick={showModal}>
+              Đặt tour theo yêu cầu
+            </Button>
+            <Modal
+            bodyStyle={{height: 500}}
+              title="Đặt tour theo yêu cầu"
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              footer={[
+                <Button key="back" onClick={handleCancel}>
+                  Cancel
+                </Button>,
+                <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+                  Gửi yêu cầu
+                </Button>,
+              ]}
+            >
+              <div className="p-3 h-80 mx-2">
+                <h1 className="font-[500] text-lg py-2 text-mainbg">
+                  {tour.title} | {tour.inteval}
+                </h1>
+                <div className="text-sm font-[500] text-[#f8d000]">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(tour.price - tour.price * tour.sale)}{" "}
+                  /1 nguoi
+                </div>
+                <div className="line-through text-xs text-[#f8d000]">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(tour.price)}{" "}
+                  / 1 nguoi
+                </div>
+                <Form
+                  name="basic"
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                  style={{ maxWidth: 600 }}
+                  // initialValues={account}
+                  // onFinish={onFinish}
+                  // onFinishFailed={onFinishFailed}
+                  autoComplete="off"
+                >
+                  <Form.Item
+                    label="Khởi hành"
+                    name="khoihanh"
+                    rules={[
+                      {
+                        required: true,
+                        message: "vui lòng chọn ngày khởi hành",
+                      },
+                    ]}
+                  >
+                    {/* <DatePicker
+                      placeholder="Ngày khởi hành"
+                      format="DD-MM-YYYY"
+                    /> */}
+                    <RangePicker format={["DD-MM-YYYY", "DD-MM-YYYY"]} />
+                  </Form.Item>
 
+                  <Form.Item
+                    label="Số người"
+                    name="soluong"
+                    rules={[
+                      { required: true, message: "Vui lòng chọn số lượng" },
+                    ]}
+                  >
+                    <InputNumber min={1} max={50} defaultValue={1} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Địa điểm khởi hành"
+                    name="diadiem"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng chọn địa điểm khởi hành",
+                      },
+                    ]}
+                  >
+                    <Input type="text" />
+                  </Form.Item>
+                  <Form.Item label="Yêu cầu khác" name="yeucau" rules={[{}]}>
+                    <TextArea
+                      rows={4}
+                      placeholder="Nhập yêu cầu"
+                      maxLength={6}
+                    />
+                  </Form.Item>
+                </Form>
+                <div className="flex text-[#f8d000] py-2">
+              <MdOutlineWarningAmber size={30} />
+              <span className="ml-2 italic">
+                Quý khách vui lòng kiểm tra lại thông tin và yêu cầu trước khi
+                xác nhận đặt tour theo yêu cầu
+              </span>
+            </div>
+            <div className="flex text-[#f8d000] py-2">
+              <MdOutlineWarningAmber size={30} />
+              <span className="ml-2 italic">
+                Hệ thống sẽ liên hệ với quý khác thông qua số điện thoại và email để thông báo chi tiết về kế hoạch tổ chức tour
+              </span>
+            </div>
+              </div>
+            </Modal>
+          </div>
           <div className="my-3 mx-2">
             <div className="uppercase font-[600] flex items-center justify-center bg-mainbg text-white h-10">
               Liên hệ với chúng tôi
@@ -397,6 +528,13 @@ function DetailTourPage() {
             <BsFacebook size={25} />
             <BsInstagram size={25} />
             <BsTwitter size={25} />
+          </div>
+          <hr className="my-3" />
+          <div className="my-3 mx-2">
+            <div className="uppercase font-[600] flex items-center justify-center bg-mainbg text-white h-10">
+              Tour Hot
+            </div>
+            <div></div>
           </div>
           <hr className="my-3" />
         </div>

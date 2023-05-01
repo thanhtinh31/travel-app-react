@@ -1,62 +1,84 @@
 import React, { useState } from "react";
-import { BsEyeSlash, BsEye, BsFacebook } from "react-icons/bs";
+import { BsEyeSlash, BsEye, BsFacebook, BsArrowRightShort } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
 import BaseUrl from "../util/BaseUrl";
 import axios from "axios";
-import { LoginSocialFacebook } from 'reactjs-social-login';
+import { LoginSocialFacebook } from "reactjs-social-login";
+import isEmpty from "validator/lib/isEmpty"
+import isEmail from "validator/lib/isEmail";
 
 function Login() {
   const reCaptCha = () => {
     setActive(true);
   };
-  const savePassWord = ()=>{
+  const savePassWord = () => {
     console.log("save");
-  }
+  };
   const [profile, setProfile] = useState(null);
   const [active, setActive] = useState(false);
   const [showpw, setShowpw] = useState(false);
   const [email, getEmail] = useState("");
   const [password, getPassword] = useState("");
+  const [validator, setVadidator] = useState("")
 
   const navigate = useNavigate();
   const showPassword = () => {
     setShowpw(!showpw);
   };
-  const handleLoginFB=async(response)=>{
-    const userfb= {idFacebook:response.data.id,nameAccount:response.data.name,image:response.data.picture.data.url,typeAccount: 1};
-    
+  const handleLoginFB = async (response) => {
+    const userfb = {
+      idFacebook: response.data.id,
+      nameAccount: response.data.name,
+      image: response.data.picture.data.url,
+      typeAccount: 1,
+    };
 
-    try{
-      const r = await axios.post(BaseUrl+'account/loginFB', userfb);
+    try {
+      const r = await axios.post(BaseUrl + "account/loginFB", userfb);
       console.log(r.data.account);
-      sessionStorage.setItem('user',JSON.stringify(r?.data.account));      
-      window.location="/home";
-      
-    }catch(err){
+      sessionStorage.setItem("user", JSON.stringify(r?.data.account));
+      window.location = "/home";
+    } catch (err) {
       console.log(err);
+    }
+  };
 
+  const validateAll = ()=>{
+    const msg = {}
+    if(isEmpty(email)){
+      console.log("sai");
+      msg.email = "Email không được bỏ trống"
+    }else if(!isEmail(email)){
+      msg.email = "Nhập sai định dạng Email"
+    }
+    if(isEmpty(password)){
+      msg.password = "Password không được bỏ trống"
     }
 
-
+    setVadidator(msg)
+    if(Object.keys(msg).length>0) return false
+    return true
   }
-  const handleLogin =async(e) => {
+  const handleLogin = async (e) => {
+    const isValid = validateAll()
+    if(!isValid) return
     e.preventDefault();
-    let regObj = { email, password};
-    try{
-      const res= await axios.post(BaseUrl+'account/login', regObj);      
-      if(res?.data.status==='1') { 
-       sessionStorage.setItem('user',JSON.stringify(res?.data.account));
-       if(JSON.parse(sessionStorage.getItem('user')).typeAccount<2) navigate("/home"); 
-       else if(JSON.parse(sessionStorage.getItem('user')).typeAccount<3) navigate("/seller");
-       else navigate('/admin')}
-      else toast.error(res?.data.message);
-
-    }catch(err){
-      alert('Khong co ket noi');
-
-                }
+    let regObj = { email, password };
+    try {
+      const res = await axios.post(BaseUrl + "account/login", regObj);
+      if (res?.data.status === "1") {
+        sessionStorage.setItem("user", JSON.stringify(res?.data.account));
+        if (JSON.parse(sessionStorage.getItem("user")).typeAccount < 2)
+          navigate("/home");
+        else if (JSON.parse(sessionStorage.getItem("user")).typeAccount < 3)
+          navigate("/seller");
+        else navigate("/admin");
+      } else toast.error(res?.data.message);
+    } catch (err) {
+      alert("Khong co ket noi");
+    }
   };
   return (
     <div className="h-[100vh] pt-10">
@@ -70,22 +92,21 @@ function Login() {
             </p>
             <div>
               <form onSubmit={handleLogin}>
-                <div className="relative z-0 w-full mb-6 group">
+                <div className="relative z-0 w-full mb-2 group">
                   <input
                     value={email}
                     onChange={(e) => getEmail(e.target.value)}
                     type="email"
-                    name="floating_email"
+                    name="email"
                     autoFocus
-                    id="floating_email"
+                    id="email"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Email address
                   </label>
                 </div>
+                <p className="text-red-500 text-xs mb-4">{validator.email}</p>
                 <div className="relative z-0 w-full mb-6 group">
                   <div
                     className="absolute right-1 top-[50%]"
@@ -97,45 +118,49 @@ function Login() {
                     value={password}
                     onChange={(e) => getPassword(e.target.value)}
                     type={showpw ? "type" : "password"}
-                    name="floating_text"
-                    id="floating_text"
+                    name="password"
+                    id="password"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Your password
                   </label>
                 </div>
+                <p className="text-red-500 text-xs mb-4">{validator.password}</p>
                 <ReCAPTCHA
                   sitekey="6Lfve_EkAAAAAMI4TLGxpqPqTc9cIa8_9XK-VwVw"
                   onChange={reCaptCha}
                 />
                 <div>
                   <div className="flex flex-row justify-between my-2">
-                  <div className="flex items-start">
-                    <div className="flex items-center h-5">
-                      <input
-                      onChange={savePassWord}
-                        id="remember"
-                        type="checkbox"
-                        value=""
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                        required
-                      />
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
+                        <input
+                          onChange={savePassWord}
+                          id="remember"
+                          type="checkbox"
+                          value=""
+                          className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                          required
+                        />
+                      </div>
+                      <label className="ml-2 text-sm font-medium text-gray-900 ">
+                        Remember me
+                      </label>
                     </div>
-                    <label
-                      className="ml-2 text-sm font-medium text-gray-900 "
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                  <div className="text-sm font-medium text-gray-900">
+                    <div className="text-sm font-medium text-gray-900">
                       <Link to="/resetpassword">Forget password ?</Link>
+                    </div>
                   </div>
+                  <div className="flex items-center text-sm font-medium text-blue-500 py-2">
+                  <BsArrowRightShort size={25}/>
+                      <Link to="/register">Sign in</Link>
                   </div>
                 </div>
-                <button onClick={handleLogin}
+                <button
+                type="button"
+                  onClick={handleLogin}
                   disabled={!active}
                   className="relative inline-flex w-full items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
                 >
@@ -144,22 +169,27 @@ function Login() {
                   </span>
                 </button>
               </form>
-              <LoginSocialFacebook appId='988527735837751' 
-                fieldsProfile='name,picture'
-                onResolve={(response) => {setProfile(response.data);handleLoginFB(response);}} 
-                onReject={(error)=>{alert("Login Facebook thất bại!");}}
-                >              
-                
-              <button
-                type="button"
-                className="text-white w-full justify-center bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
+              <LoginSocialFacebook
+                appId="988527735837751"
+                fieldsProfile="name,picture"
+                onResolve={(response) => {
+                  setProfile(response.data);
+                  handleLoginFB(response);
+                }}
+                onReject={(error) => {
+                  alert("Login Facebook thất bại!");
+                }}
               >
-                <div className="flex items-center"> 
-                <BsFacebook/>               
-                  <span className="px-2">Sign in with Facebook</span>
-                </div>
-              </button>
-              </LoginSocialFacebook >
+                <button
+                  type="button"
+                  className="text-white w-full justify-center bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
+                >
+                  <div className="flex items-center">
+                    <BsFacebook />
+                    <span className="px-2">Sign in with Facebook</span>
+                  </div>
+                </button>
+              </LoginSocialFacebook>
             </div>
           </div>
         </div>
