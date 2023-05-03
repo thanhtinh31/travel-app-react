@@ -219,8 +219,8 @@ function DetailTourPage() {
             <h2 className="text-maintext my-2 font-[700] ">
               ĐIỂM NỔI BẬT NHẤT
             </h2>
-            <ul className="pl-6 text-sm max-w-xs">
-              <pre className='w-auto'>{tour.interesting}</pre>
+            <ul className="">
+              <p className='text-sm font-[500] text-justify'>{tour.interesting}</p>
             </ul>
           </div>
           <hr className="my-3" />
