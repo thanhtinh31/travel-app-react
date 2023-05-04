@@ -173,7 +173,6 @@ const thanhtoan=async(invoice)=>{
   setLable("Đang xử lý...")
   setXuLy(true)
   try {  
-    
     const pay= await axios.post(BaseUrl+'pay/paypal', invoice);
     setLoading(false)
     window.location=pay?.data;

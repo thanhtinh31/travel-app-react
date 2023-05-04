@@ -38,6 +38,7 @@ import ThongKeTaiKhoanPage from "./pages/admin/ThongKeTaiKhoanPage";
 import ThongKeDoanhThuPage from "./pages/admin/ThongKeDoanhThuPage";
 import ChotTourPage from "./pages/seller/ChotTourPage";
 import HistoryBookingPage from "./pages/user/HistoryBookingPage";
+import ForgotPassword from "./pages/ForgotPassword";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verify" element={<VerifyPage/>}/>
+        <Route path="/forgot" element={<ForgotPassword/>}/>
         <Route path="/authorized" element={<AuthorizedPage/>}/>
         <Route path="*" element={<NotFoundPage/>}/>
         <Route path="/" element={<UserLayout />}>

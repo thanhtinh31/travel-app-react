@@ -73,7 +73,7 @@ function Login() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
           <div className="hidden md:block bg-[url('./assets/login.jpg')] h-[80vh] bg-center bg-cover bg-no-repeat"></div>
           <div className="justify-center mx-auto w-[90%]">
-            <h2 className="font-bold dark:text-white text-3xl mb-4">Đăng nhập</h2>
+            <h2 className="font-bold dark:text-white text-3xl mb-4">Login</h2>
             <p className="text-[#707070] dark:text-white my-4">
               Welcome to <strong>Blue House Travel</strong>
             </p>
@@ -139,7 +139,7 @@ function Login() {
                       </label>
                   </div>
                   <div className="text-sm font-medium text-gray-900">
-                      <Link to="/resetpassword">Forget password ?</Link>
+                      <Link to="/forgot">Forget password ?</Link>
                     </div>
                   </div>
                   <div className="flex items-center text-sm font-medium text-blue-500 py-2">
