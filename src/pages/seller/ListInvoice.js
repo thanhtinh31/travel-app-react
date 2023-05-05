@@ -7,6 +7,7 @@ import { CloseCircleOutlined,MailOutlined,PhoneOutlined,UserOutlined} from "@ant
 import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber, Dropdown, Badge, Spin } from "antd";
 import TourInvoice from '../../components/seller/TourInvoice';
 import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
+import DetailInvoice from '../../components/user/DetailInvoice';
 
 
 function ListInvoice() {
@@ -16,6 +17,8 @@ function ListInvoice() {
     const [invoices,setInvoices] =useState([])
     const [tours, setTours] = useState([]);
     const [type,settype]=useState('0');
+    const [open,setOpen]=useState(false);
+    const [id,setId]=useState();
     const columns = [
         {
           title: 'Thông tin người đặt',
@@ -85,7 +88,7 @@ function ListInvoice() {
           key:'10',
           render: (record) => {
             return (
-              <Button key={record.id} onClick={()=>{}}>Xem</Button>
+              <Button key={record.id} onClick={()=>{setId(record.id);setOpen(true)}}>Xem</Button>
             )},
            
             ellipsis: false,
@@ -259,7 +262,7 @@ const xuLyXoa=()=>{
     }
     useEffect(() => {
       fetchData(type);
-    }, [tours,type]);
+    }, [tours,type,id]);
     
     return (
     <>
@@ -304,6 +307,20 @@ const xuLyXoa=()=>{
           type: 'checkbox',
           ...rowSelection,
         }} columns={columns} dataSource={invoices} loading={loading} /> 
+        <Modal
+        title={"Chi tiết hóa đơn"}
+        footer={null}
+        okText=''
+        cancelText='Thoát'
+        okType='ghost'
+        centered
+        open={open}
+        // onOk={handSubmit}
+        onCancel={() => setOpen(false)}
+        width={700}   
+      >         
+      <DetailInvoice id={id}/>
+      </Modal>
     </Spin>
     </>
     )

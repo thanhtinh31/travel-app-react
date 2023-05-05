@@ -7,6 +7,7 @@ import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, R
 import TourInvoice from '../../components/seller/TourInvoice';
 import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
 import CountDown from '../../components/user/CountDown';
+import DetailInvoice from '../../components/user/DetailInvoice';
 function HistoryBookingPage() {
   const idAccount=sessionStorage.getItem('user');
   const [xuly,setXuLy]=useState(false);
@@ -15,6 +16,8 @@ function HistoryBookingPage() {
   const [invoices,setInvoices] =useState([])
   const [tours, setTours] = useState([]);
   const [type,settype]=useState('0');
+  const [open,setOpen]=useState(false);
+  const [id,setId]=useState();
   const columns = [
       {
         title: 'Thông tin người đặt',
@@ -98,7 +101,7 @@ function HistoryBookingPage() {
           return (
             <>
              <Space size={1} direction='vertical'>
-                   <Button type='primary' onClick={()=>{}}>Chi tiết</Button>
+             <Button key={record.id} onClick={()=>{setId(record.id);setOpen(true)}}>Xem</Button>
                   {type==="1"?
                   <Button onClick={()=>{thanhtoan(record)}} style={{backgroundColor:'yellowgreen'}} type='primary'>Thanh toán</Button>:<></>}
               </Space>
@@ -227,7 +230,7 @@ getCheckboxProps: (record) => ({
   }
   useEffect(() => {
     fetchData(type);
-  }, [tours,type]);
+  }, [tours,type,id]);
   
   return (
   <>
@@ -269,6 +272,20 @@ getCheckboxProps: (record) => ({
         type: 'checkbox',
         ...rowSelection,
       }} columns={columns} dataSource={invoices} loading={loading} /> 
+      <Modal
+        title={"Chi tiết hóa đơn"}
+        footer={null}
+        okText=''
+        cancelText='Thoát'
+        okType='ghost'
+        centered
+        open={open}
+        // onOk={handSubmit}
+        onCancel={() => setOpen(false)}
+        width={700}   
+      >         
+      <DetailInvoice id={id}/>
+      </Modal>
   </Spin>
   </div>
   </div>

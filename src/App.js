@@ -39,6 +39,7 @@ import ThongKeDoanhThuPage from "./pages/admin/ThongKeDoanhThuPage";
 import ChotTourPage from "./pages/seller/ChotTourPage";
 import HistoryBookingPage from "./pages/user/HistoryBookingPage";
 import ForgotPassword from "./pages/ForgotPassword";
+import BookingSuccess from "./pages/user/BookingSuccess";
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
           <Route path="*" element={<NotFoundPage/>}/>
           <Route path="filter" element={<Filtertour/>}/>
           <Route path="history" element={<HistoryBookingPage/>}/>
+          <Route path="bookingsuccess" element={<BookingSuccess/>}/>
         </Route>
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />

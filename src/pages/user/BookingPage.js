@@ -670,21 +670,17 @@ function BookingPage() {
     }catch(err){alert('Email không tồn tại');setLoading(false)}
   }
   const handleVnpay =async(e)=>{
-       
         setLoading(true)
         let amount=((tour.price)-tour.sale*tour.price)*sl;
         let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account,status:0}; 
         let mail={toEmail:email,subject:"Booking thành công",body:b(fullName,tour.title,tour.price-(tour.price*tour.sale),sl,tour.inteval,schedule.dayStart,amount,schedule.tourGuide,schedule.phone,"...VNPAY")}
         try{
           const res= await axios.post(BaseUrl+'invoice', regObj);
-          console.log(res?.data)
           sendNotification("Booking & Thanh toan thanh cong","invoice"); 
           const sendmail=await axios.post(BaseUrl+'mail/html',mail)
           window.location="http://travel-app.infinityfreeapp.com/VNPAY_TT/thanhtoanvnpay.php?id="+res?.data.invoice.id+"&amount="+res?.data.invoice.amount;
           setLoading(false)
         }catch(err){alert('Khong co ket noi');setLoading(false)}
-      
-
   }
   
   const HandleBookTour=async(e)=>{  
@@ -700,7 +696,7 @@ function BookingPage() {
       const sendmail=await axios.post(BaseUrl+'mail/html',mail)
       setLoading(false)
       toast.success("Đặt tour thành công")
-      navigate("/history")
+      navigate("/bookingsuccess?id="+res?.data.invoice.id)
     }catch(err){alert('Vui lòng kiểm tra email');setLoading(false)}
   }
   }
