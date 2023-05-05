@@ -38,6 +38,7 @@ import ThongKeTaiKhoanPage from "./pages/admin/ThongKeTaiKhoanPage";
 import ThongKeDoanhThuPage from "./pages/admin/ThongKeDoanhThuPage";
 import ChotTourPage from "./pages/seller/ChotTourPage";
 import HistoryBookingPage from "./pages/user/HistoryBookingPage";
+import Lichsudattour from "./pages/user/Lichsudattour";
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
       <BrowserRouter>
       <Routes>
       <Route path="/create" element={<CreateTourPage/>}/>
+      <Route path="/ls" element={<Lichsudattour/>}/>
       
       
         <Route path="/login" element={<Login/>}/>
