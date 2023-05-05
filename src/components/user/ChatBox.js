@@ -10,7 +10,7 @@ function ChatBox(props) {
     const [mess,setMess] =useState("");
     const [messages, setMessages] = useState([]);
     const [myState, setState] = useState(props)
-    const user=JSON.parse(sessionStorage.getItem('user'))
+    const user=sessionStorage.getItem('user');
     
     useEffect(() => {
         if(props.roomchat!=null)
@@ -34,8 +34,8 @@ function ChatBox(props) {
 //      
         try {
             await addDoc(collection(db, 'chat', roomId, 'messages'), {
-                uid: user.id,
-                name:user.nameAccount,
+                uid: user,
+                name:user,
                 status:"0",
                 text: text.trim(),
                 timestamp: serverTimestamp(),
@@ -51,7 +51,7 @@ function ChatBox(props) {
     <>
      <div class="max-h-80 overflow-y-auto bg-gradient-to-l from-[#53A6D8] to-[#88CDF6] my-2 rounded-md">
     {messages?.map((message) =>  {
-        if(message.uid!=user.id)
+        if(message.uid!=user)
         return (<p className='border w-3/5 float-left p-2 rounded-lg m-1' key={message.id}>{message.text}</p>)
       else return(
 

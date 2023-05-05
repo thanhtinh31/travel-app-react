@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
-import Headers from "../components/seller/Header";
 import { FileOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Button, Layout, Menu, message, theme } from 'antd';
 
 import HeaderAdmin from "../components/admin/HeaderAdmin";
+import axios from "axios";
+import BaseUrl from "../util/BaseUrl";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -16,6 +17,7 @@ function getItem(label, key, icon, children) {
   };
 }
 const AdminLayout = ({title = "Title", className, children}) => {
+  const [open,setOpen]=useState(false)
   const  navigate = useNavigate()
   const [path,setPath] = useState("listcategory");
   const items = [
@@ -29,16 +31,29 @@ const AdminLayout = ({title = "Title", className, children}) => {
     getItem('Team', 'sub2', <UserOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
   ];
-useEffect(()=>{
-  const account  = sessionStorage.getItem('user');
-  if(!account){
-     navigate('/login');
-  }
-  else if(JSON.parse(account).typeAccount<3)
-    navigate("/authorized");
-    else{
 
-    }
+  const check= async()=>{
+    const id  = sessionStorage.getItem('user');
+   try{
+     const user= await axios.get(BaseUrl+'account/getAccount/'+id);
+    if(!user.data){
+      navigate('/login');
+   }
+   else if(user?.data.typeAccount<3)
+     {console.log(user?.data.typeAccount)
+     navigate("/authorized");
+     }
+     else{
+      console.log(user?.data.typeAccount)
+     }
+  }
+  catch{
+    navigate("/authorized");
+
+  }
+  }
+useEffect( ()=>{
+  check();
 })
 const [collapsed, setCollapsed] = useState(false);  
   const {

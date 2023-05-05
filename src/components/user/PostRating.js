@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 function PostRating(props) {
     const [star,setStar]=useState(5);
     const [comment,setComment]=useState("");
-    const idAccount=JSON.parse(sessionStorage.getItem('user')).id;
+    const idAccount=sessionStorage.getItem('user');
     const idTour=props.idTour;
     
     const guiDanhGia=async()=>{

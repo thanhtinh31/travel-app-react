@@ -16,7 +16,7 @@ const UserLayout = ({title = "Title", className, children}) => {
   const navigate =useNavigate();
   const handelkhoitao= ()=>{
         if(sessionStorage.getItem('user')){
-          khoitao(JSON.parse(sessionStorage.getItem('user')).id);
+          khoitao(sessionStorage.getItem('user'));
           xem()
           setOpen((true))
         }
@@ -28,7 +28,7 @@ const UserLayout = ({title = "Title", className, children}) => {
   const xem=async()=>{
     const qer = query(
       collection(db, 'chat', roomChat, 'messages'),
-      where("uid","!=",JSON.parse(sessionStorage.getItem('user')).id)
+      where("uid","!=",sessionStorage.getItem('user'))
     );
     const q=await getDocs(qer)
     q.forEach((doc) => {updateDoc(doc.ref,{status:"1"})})
@@ -41,13 +41,13 @@ const UserLayout = ({title = "Title", className, children}) => {
     if(!roomChat){
       const q = query(
         collection(db, "chat"),
-        where("room","==",JSON.parse(sessionStorage.getItem('user')).id)
+        where("room","==",sessionStorage.getItem('user'))
        );
         const querySnapshot = await getDocs(q)
         if(querySnapshot.size==0)
               { await addDoc(usersCollectionRef, {
-                      room:JSON.parse(sessionStorage.getItem('user')).id,
-                      name:JSON.parse(sessionStorage.getItem('user')).nameAccount
+                      room:sessionStorage.getItem('user'),
+                      name:sessionStorage.getItem('user')
                   })
               }
         }
@@ -59,7 +59,7 @@ const UserLayout = ({title = "Title", className, children}) => {
       if(sessionStorage.getItem('user')){
       const qAll = query(
         collection(db, "chat"),
-        where("room","==",JSON.parse(sessionStorage.getItem('user')).id)
+        where("room","==",sessionStorage.getItem('user'))
       );
       onSnapshot(qAll,(querySnapshot) => {querySnapshot.docs.map((doc) => {setRoomChat(doc.id)});})
       }

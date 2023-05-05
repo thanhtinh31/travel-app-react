@@ -8,7 +8,7 @@ function CountNewMessage(props) {
         onSnapshot(
           query(
               collection(db, 'chat', props.idRoom, 'messages'),
-              where("uid","!=",JSON.parse(sessionStorage.getItem('user')).id)
+              where("uid","!=",sessionStorage.getItem('user'))
           ),
           (querySnapshot) => {
             var c=0;

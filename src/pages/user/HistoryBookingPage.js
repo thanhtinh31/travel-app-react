@@ -8,7 +8,7 @@ import TourInvoice from '../../components/seller/TourInvoice';
 import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
 import CountDown from '../../components/user/CountDown';
 function HistoryBookingPage() {
-  const idAccount=JSON.parse(sessionStorage.getItem('user')).id;
+  const idAccount=sessionStorage.getItem('user');
   const [xuly,setXuLy]=useState(false);
   const [lable,setLable]=useState("Đang xử lý...")
   const [loading,setLoading] =useState(true);
@@ -75,18 +75,20 @@ function HistoryBookingPage() {
       {
         title: 'Tình trạng',
         render: (record) => {
+          const a=new Date(record.payDay)
           return (
             <>
             <TinhTrangHoaDon key={record.id} id={record.idSchedule} type={type}/>
             {record.status==2?<>
-            Hình thức: {record.payments}<br/>
-            Ngày: {record.payDay}
+            TT:{record.payments}<br/>
+            Time: {a.getHours()}h{a.getMinutes()}p--{a.getDate()}/{a.getMonth()+1}/{a.getFullYear()}
             </>:<></>}
             </>
           );
         }  ,
         key:'tinhtrang',
         ellipsis: false,
+        width:'17%'
       },
       
       {
@@ -183,6 +185,7 @@ const thanhtoan=async(invoice)=>{
       setXuLy(false)
     }
   }
+
   const xoa=async(id)=>{
     setLable("Đang xóa...")
     setXuLy(true)

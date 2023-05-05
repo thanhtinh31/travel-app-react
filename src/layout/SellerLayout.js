@@ -5,6 +5,8 @@ import { FileOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons'
 import { Badge, Breadcrumb, Button, Layout, Menu, notification, theme } from 'antd';
 import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../firebase";
+import axios from "axios";
+import BaseUrl from "../util/BaseUrl";
 const { Header, Content, Footer, Sider } = Layout;
 const key = 'updatable';
 function getItem(label, key, icon, children) {
@@ -17,6 +19,7 @@ function getItem(label, key, icon, children) {
 }
 const SellerLayout = ({title = "Title", className, children}) => {
   const [count,setCount]=useState(0);
+  const [open,setOpen]=useState(false);
   const  navigate = useNavigate()
   const [path,setPath] = useState("listtour");
   const xem= async()=>{
@@ -49,14 +52,20 @@ const SellerLayout = ({title = "Title", className, children}) => {
       key
     });
   };
-useEffect(()=>{
-  const account  = sessionStorage.getItem('user');
-  if(!account){
-     navigate('/login');
-  }
-  else if(JSON.parse(account).typeAccount<2)
-    navigate("/authorized");
-    else{
+
+  const check= async()=>{
+    const id  = sessionStorage.getItem('user');
+   try{
+     const user= await axios.get(BaseUrl+'account/getAccount/'+id);
+    if(!user.data){
+      navigate('/login');
+   }
+   else if(user?.data.typeAccount<2)
+     {
+     navigate("/authorized");
+     }
+     else{
+      setOpen(true)
       onSnapshot(
         query(
             collection(db, 'notification'),
@@ -69,13 +78,23 @@ useEffect(()=>{
           setCount(c);
       }
     );
-    }
+     }
+  }
+  catch{
+    navigate("/authorized");
+
+  }
+  }
+useEffect(()=>{
+ check();
 })
 const [collapsed, setCollapsed] = useState(false);  
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
+    <>
+    {open?
     <Layout>
       {contextHolder}
       <Sider
@@ -146,7 +165,8 @@ const [collapsed, setCollapsed] = useState(false);
           Ant Design ©2023 Created by Ant UED
         </Footer>
       </Layout>
-    </Layout>
+    </Layout>:<></>}
+    </>
   );
 }
 

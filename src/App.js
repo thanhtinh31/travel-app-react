@@ -44,9 +44,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 function App() {
   const [user,setUser] =useState(0);
   useEffect(() => {
-    const account = sessionStorage.getItem('user');
-    if(account) {setUser(JSON.parse(account).typeAccount);
-    console.log(JSON.parse(account).typeAccount);}
+  
   }, []);
   return (
     <div>

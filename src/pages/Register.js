@@ -51,7 +51,7 @@ function Register() {
     if(!isValid) return
       e.preventDefault();
       setLoading(true)
-      let regObj = { email, phoneNumber ,address, nameAccount, password , status ,typeAccount };
+      let regObj = { email:email.toLowerCase(), phoneNumber ,address, nameAccount, password , status ,typeAccount };
       const res = await axios.post(BaseUrl+'account/register',regObj);
       console.log(res?.data);
       if(res?.data.status==="0"){

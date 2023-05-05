@@ -40,7 +40,7 @@ function Login() {
         setLoading(false)
       }else
       {
-      sessionStorage.setItem('user',JSON.stringify(r?.data.account));      
+      sessionStorage.setItem('user',r?.data.account.id);      
       window.location="/home";
       }
     }catch(err){
@@ -51,14 +51,14 @@ function Login() {
   const handleLogin =async(e) => {
     setLoading(true)
     e.preventDefault();
-    let regObj = { email, password};
+    let regObj = { email:email.toLowerCase(), password};
     try{
       const res= await axios.post(BaseUrl+'account/login', regObj);  
       setLoading(false)    
       if(res?.data.status==='1') { 
-       sessionStorage.setItem('user',JSON.stringify(res?.data.account));
-       if(JSON.parse(sessionStorage.getItem('user')).typeAccount<2) navigate("/home"); 
-       else if(JSON.parse(sessionStorage.getItem('user')).typeAccount<3) navigate("/seller");
+       sessionStorage.setItem('user',res?.data.account.id);
+       if(res?.data.account.typeAccount<2) navigate("/home"); 
+       else if(res?.data.account.typeAccount<3) navigate("/seller");
        else navigate('/admin')}
       else toast.error(res?.data.message);
     }catch(err){

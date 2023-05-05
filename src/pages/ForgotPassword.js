@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
     const [email,setEmail]=useState("");
+    const [id,setId]=useState("");
     const [code, setCode] = useState();
     const [oldPass,setOldPass]=useState("");
     const [password,setPassword]=useState("");
@@ -75,6 +76,7 @@ function ForgotPassword() {
                 {
                     sessionStorage.setItem('verify',r?.data.code)
                     setOldPass(r?.data.account.password);
+                    setId(r?.data.account.id)
                     setCurrent(current + 1);
                     setLoading(false)
                 }else
@@ -102,7 +104,7 @@ function ForgotPassword() {
         setLoading(true)
         console.log(oldPass)
         try{
-            let reg={email,oldPass,newPass}
+            let reg={id,oldPass,newPass}
             const r = await axios.post(BaseUrl+'account/changepassword',reg);
             if(r?.data.status==="1")
             {

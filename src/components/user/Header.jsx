@@ -69,21 +69,32 @@ function Header() {
   const [togglebtn, setTogglebtn] = useState(false);
   const [key, setKey] = useState("");
   let isLogin = sessionStorage.getItem("user") ? true : false;
-  var url_string = window.location;
-  var url = new URL(url_string);
-  var keys = url.searchParams.get("key");
+
+  const [avt,setAvt]=useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
+  const [name,setName]=useState("");
   const toggleNavbar = () => {
     setTogglebtn(!togglebtn);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("a");
-    window.location = "/search?key=" + key;
-  };
-  useState(async () => {
-    setKey(keys);
-  }, []);
+  const check = async()=>{
+    if(sessionStorage.getItem('user')){
+    try{
+      const account= await axios.get(BaseUrl+'account/getAccount/'+sessionStorage.getItem('user'));
+      setName(account?.data.nameAccount)
+      if(account?.data.image) setAvt(account?.data.image)
+    }
+    catch{
+        console.log('lỗi kết nối')
+
+    }
+  }
+  }
+  useEffect(() => {
+    check();
+  }, [avt]);
+
+  
+  
 
   const [nav, setNav] = useState(false);
   const setActive = (props) => {
@@ -202,14 +213,10 @@ function Header() {
             <div className="flex">
               <div className="flex items-center px-5">
               <Dropdown menu={{ items }}   placement="bottomRight" arrow={{ pointAtCenter: true }}>
-                <Avatar size={'large'} src={
-                    JSON.parse(sessionStorage.getItem("user")).image
-                      ? JSON.parse(sessionStorage.getItem("user")).image
-                      : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                  }>
+                <Avatar size={'large'} src={avt}>
                 </Avatar>
               </Dropdown>
-                
+               
               </div>
             
             </div>

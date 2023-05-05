@@ -599,17 +599,17 @@ function BookingPage() {
     </div>
    </body>
   </html>`}
-  const account  = JSON.parse(sessionStorage.getItem('user'));
+  const account  = sessionStorage.getItem('user');
   const [loading,setLoading]=useState(false)
   const [payments, setPayments] = useState(false);
   const[schedule,setSchedule] =useState({});
   const[tour,setTour] =useState({});
   const [invoice,setInvoice]=useState({});
   const [image,setImgage]=useState();
-  const [fullName,setFullName]= useState(account.nameAccount);
-  const [address,setAddress]= useState(account.address);
-  const [email,setEmail]= useState(account.email);
-  const [phone,setPhone]= useState(account.phoneNumber);
+  const [fullName,setFullName]= useState("");
+  const [address,setAddress]= useState("");
+  const [email,setEmail]= useState("");
+  const [phone,setPhone]= useState("");
   const [note,setNote]= useState("");
   const [typePayment,setTypePayment]= useState("paypal");
   
@@ -636,7 +636,7 @@ function BookingPage() {
   function sendNotification (mess,type) {
      addDoc(collection(db, "notification"), {
       text: mess,
-      account:account.nameAccount,
+      account:account,
       type:type,
       status:0,
       dayCreate:new Date().toDateString(),
@@ -657,7 +657,7 @@ function BookingPage() {
   const handlePayPal = async(e)=>{
     setLoading(true)
     let amount=((tour.price)-tour.sale*tour.price)*sl;
-    let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0}; 
+    let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account,status:0}; 
     let mail={toEmail:email,subject:"Booking thành công",body:b(fullName,tour.title,tour.price-(tour.price*tour.sale),sl,tour.inteval,schedule.dayStart,amount,schedule.tourGuide,schedule.phone,"...Paypal")}
     try{
       const sendmail=await axios.post(BaseUrl+'mail/html',mail)
@@ -673,7 +673,7 @@ function BookingPage() {
        
         setLoading(true)
         let amount=((tour.price)-tour.sale*tour.price)*sl;
-        let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0}; 
+        let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account,status:0}; 
         let mail={toEmail:email,subject:"Booking thành công",body:b(fullName,tour.title,tour.price-(tour.price*tour.sale),sl,tour.inteval,schedule.dayStart,amount,schedule.tourGuide,schedule.phone,"...VNPAY")}
         try{
           const res= await axios.post(BaseUrl+'invoice', regObj);
@@ -690,10 +690,9 @@ function BookingPage() {
   const HandleBookTour=async(e)=>{  
     if(!email){}else
     {
-   // e.preventDefault();
     setLoading(true)
     let amount=((tour.price)-tour.sale*tour.price)*sl;
-    let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account.id,status:0};
+    let regObj = {fullName,email,phone,address,note,people:sl,amount,idSchedule,idAccount:account,status:0};
     let mail={toEmail:email,subject:"Booking thành công",body:b(fullName,tour.title,tour.price-(tour.price*tour.sale),sl,tour.inteval,schedule.dayStart,amount,schedule.tourGuide,schedule.phone,"Chưa thanh toán - Chờ xác nhận")}
     try{
       const res= await axios.post(BaseUrl+'invoice', regObj);
@@ -701,12 +700,21 @@ function BookingPage() {
       const sendmail=await axios.post(BaseUrl+'mail/html',mail)
       setLoading(false)
       toast.success("Đặt tour thành công")
-      navigate("/home")
+      navigate("/history")
     }catch(err){alert('Vui lòng kiểm tra email');setLoading(false)}
   }
   }
+  const getThongTinAccount= async()=>{
+      const user=await axios.get(BaseUrl+'account/getAccount/'+account)
+      setFullName(user?.data.nameAccount)
+      setEmail(user?.data.email)
+      setAddress(user?.data.address)
+      setPhone(user?.data.phoneNumber)
+
+  }
   
   useEffect(() => {
+    getThongTinAccount();
     getScheduleById();   
   }, []);
   const book=()=>{
@@ -812,7 +820,7 @@ function BookingPage() {
                   id="floating_other"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required
+                  
                 />
                 <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                   Yêu cầu khác

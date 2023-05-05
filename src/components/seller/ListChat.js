@@ -21,7 +21,7 @@ function ListChat(props) {
   const xem=async()=>{
     const qer = query(
       collection(db, 'chat', props.id, 'messages'),
-      where("uid","!=",JSON.parse(sessionStorage.getItem('user')).id)
+      where("uid","!=",sessionStorage.getItem('user'))
     );
     const q=await getDocs(qer)
     q.forEach((doc) => {updateDoc(doc.ref,{status:"1"})})
