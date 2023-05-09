@@ -10,7 +10,6 @@ import isEmpty from "validator/lib/isEmpty";
 import isEmail from "validator/lib/isEmail";
 function Register() {
     const [showpw, setShowpw] = useState(false);
-    // const [id, setId] = useState("")
     const [email, setEmail] = useState("");
     const [nameAccount, setNameAccount] = useState("");
     const [address, setAddress] = useState("");
@@ -60,7 +59,6 @@ function Register() {
           
       }else
       {
-          
           sessionStorage.setItem("verify",JSON.stringify(res?.data));
           navigate('/verify')
           setLoading(false)
@@ -99,7 +97,7 @@ function Register() {
             <div>
               <form onSubmit={handleRegister}>
                 <div className="relative z-0 w-full mb-6 group">
-                  <input
+                  <inputs
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"

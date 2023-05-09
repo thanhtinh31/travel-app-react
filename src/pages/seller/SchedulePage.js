@@ -41,7 +41,7 @@ function SchedulePage() {
      
       useEffect(() => {
         fetchData();
-      }, [idTour]);
+      }, []);
 
       const columns = [
         {
@@ -107,7 +107,7 @@ function SchedulePage() {
       expandable={{
         expandedRowRender: (record) => (
           <>
-          <Schedule load={()=>{fetchData()}} id={record.id}/>
+          <Schedule  id={record.id}/>
           </>
         ),
       }}

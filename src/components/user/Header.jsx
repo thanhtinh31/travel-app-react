@@ -33,21 +33,21 @@ const items = [
   {
     key: '7',
     label: (
-      <Link to={'history'}>Lịch sử đặt tour</Link>
+      <Link to={'history'}>Lịch sử hóa đơn</Link>
     ),
     icon: <SmileOutlined />
   },
   {
     key: '1',
     label: (
-      <Link to={'profile'}>Thông tin tài khoản</Link>
+      <Link to={'mytour'}>Lịch sử tour</Link>
     ),
     icon: <SmileOutlined />
   },
   {
     key: '2',
     label: (
-      <Link to={'/profile'}>Đổi mật khẩu</Link>
+      <Link to={'profile'}>Thông tin tài khoản</Link>
     ),
     icon: <SmileOutlined />
   },

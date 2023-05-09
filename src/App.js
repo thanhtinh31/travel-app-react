@@ -14,6 +14,7 @@ import ListTourPage from "./pages/seller/ListTourPage";
 
 import DetailTourPage from "./pages/user/DetailTourPage";
 import ListCategory from "./pages/admin/ListCategory";
+import ListServices from "./pages/admin/ListServices";
 import SearchPage from "./pages/user/SearchPage";
 
 
@@ -40,6 +41,7 @@ import ChotTourPage from "./pages/seller/ChotTourPage";
 import HistoryBookingPage from "./pages/user/HistoryBookingPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import BookingSuccess from "./pages/user/BookingSuccess";
+import MyTour from "./components/user/MyTour";
 
 
 function App() {
@@ -75,12 +77,14 @@ function App() {
           <Route path="filter" element={<Filtertour/>}/>
           <Route path="history" element={<HistoryBookingPage/>}/>
           <Route path="bookingsuccess" element={<BookingSuccess/>}/>
+          <Route path="mytour" element={<MyTour/>}/>
         </Route>
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />
-          <Route path="listcategory" element={<ListCategory />} />
-          <Route path="listaccount" element={<ListAccount />} />
-          <Route path="listaccount" element={<ListCategory />} />
+          <Route path="category" element={<ListCategory />} />
+          <Route path="service" element={<ListServices />} />
+          <Route path="account" element={<ListAccount />} />
+          
           <Route path="thongketour" element={<ThongKeTourPage />} />
           <Route path="thongketaikhoan" element={<ThongKeTaiKhoanPage />} />
           <Route path="thongkedoanhthu" element={<ThongKeDoanhThuPage />} />

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import BaseUrl from '../../util/BaseUrl';
 import { CloseCircleOutlined,MailOutlined,PhoneOutlined,UserOutlined} from "@ant-design/icons";
-import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber, Dropdown, Badge, Spin } from "antd";
+import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber, Dropdown, Badge, Spin, Drawer } from "antd";
 import TourInvoice from '../../components/seller/TourInvoice';
 import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
 import DetailInvoice from '../../components/user/DetailInvoice';
@@ -12,6 +12,7 @@ import DetailInvoice from '../../components/user/DetailInvoice';
 
 function ListInvoice() {
     const [xuly,setXuLy]=useState(false);
+    const [opentt,setOpentt]=useState(false);
     const [lable,setLable]=useState("Đang xử lý...")
     const [loading,setLoading] =useState(true);
     const [invoices,setInvoices] =useState([])
@@ -19,6 +20,7 @@ function ListInvoice() {
     const [type,settype]=useState('0');
     const [open,setOpen]=useState(false);
     const [id,setId]=useState();
+    const [nv,setNhanVien]=useState("");
     const columns = [
         {
           title: 'Thông tin người đặt',
@@ -105,7 +107,7 @@ function ListInvoice() {
                 </>
               :type=="1"?<>
               <Space size={1} direction='vertical'>
-                   <Button onClick={()=>{thanhtoan(record.id)}} style={{backgroundColor:'yellowgreen'}} type='primary'>Thanh toán</Button>
+                   <Button onClick={()=>{setId(record.id); setOpentt(true)}} style={{backgroundColor:'yellowgreen'}} type='primary'>Thanh toán</Button>
                    <Button onClick={()=>{changeStatus(record.id,0)}} >Đơn mới</Button>
               </Space>
               </>:
@@ -194,7 +196,7 @@ function ListInvoice() {
     setLable("Đang thanh toán...")
     setXuLy(true)
     try {  
-        const xn = await axios.put(BaseUrl+'invoice/thanhtoan/'+id+'?nhanVien=Tran Van A')
+        const xn = await axios.put(BaseUrl+'invoice/thanhtoan/'+id+'?nhanVien='+nv)
         fetchData(type)
         toast.success(xn?.data)
         setXuLy(false)
@@ -322,6 +324,11 @@ const xuLyXoa=()=>{
       <DetailInvoice id={id}/>
       </Modal>
     </Spin>
+    <Drawer title="Thanh toán hoán đơn" placement="right" onClose={()=>{setOpentt(false)}} open={opentt}>
+        <p>Nhân viên thanh toán</p>
+        <Input value={nv} onChange={(e)=>{setNhanVien(e.target.value)}}></Input>
+        <Button onClick={()=>{thanhtoan(id)}}>Xác nhận thanh toán</Button>
+      </Drawer>
     </>
     )
 }

@@ -17,7 +17,7 @@ function VerifyPage() {
     const handleVerify =async()=>{
             const reg = JSON.parse(sessionStorage.getItem('verify')).account;
             const codeVerify =JSON.parse(sessionStorage.getItem('verify')).code;        
-            console.log(codeVerify)    
+          
         if(code==codeVerify){
             const res = await axios.post(BaseUrl+'account',reg);        
             alert("Đăng kí thành công");

@@ -102,14 +102,11 @@ function Profile() {
       <div className="flex flex-col md:flex-row px-4 py-2">
         <div className="w-36 rounded-full flex flex-col mx-auto items-center">
         <Upload
-        name="avatar"
-        listType="picture-circle"
-        className="avatar-uploader"
         showUploadList={false}
-       
+        style={{width:'300px'}}
         customRequest={customUpload}>
-        <div>
-          {avt ? <img className="rounded-full" src={avt} alt="avatar" style={{ height: '130px',width:'130px' }} /> : uploadButton}
+        <div >
+          {avt ? <img  src={avt} alt="avatar" style={{ width:'300px' }} /> : uploadButton}
         </div>
       </Upload>
          

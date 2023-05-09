@@ -140,7 +140,8 @@ function DetailInvoice(props) {
                 <span className="text-[#fadb14]">{new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(invoice?invoice.amount:0)}</span>(<>{invoice?.status==0?"Chờ xác nhận":invoice?.status==1?"Chưa thanh toán":invoice?.status==2?"Đã thanh toán":"Đã hủy"}</>)
+                    }).format(invoice?invoice.amount:0)}</span> {"  "}
+                    (<>{invoice?.status==0?"Chờ xác nhận":invoice?.status==1?"Chưa thanh toán":invoice?.status==2?"Đã thanh toán":<>Đã hủy - {invoice?.status==3?invoice?.payDay?invoice?.confirm==false?<><span style={{color:'red'}}>Chưa xử lý</span></>:<><span style={{color:'green'}}>Đã hoàn tiền</span></>:<></>:<></>}</>}</>)
               </td>
             </tr>
           </tbody>

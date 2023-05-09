@@ -32,7 +32,7 @@ import Post24h from "../../components/user/Post24h";
 import { Col, Rate, Row } from "antd";
 import data from '../../data.json'
 function HomePage() {
-  const [tour, setTour] = useState(data.tourdata);
+  const [tour, setTour] = useState([]);
   const [category, setCategory] = useState(data.categorydata);
   const [listSchedule,setListSchedule] = useState(data.tourgiochot);
   const navigate =useNavigate()
@@ -141,7 +141,7 @@ function HomePage() {
                     / người
                   </div>
                   <div className="flex text-yellow-500">
-                  <Rate disabled defaultValue={5} />
+                  <Rate disabled allowHalf defaultValue={item.star} />
                   </div>
                   <button onClick={()=>detailClick(item.id)} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right m-2">Chi tiết</button>
                 </div>

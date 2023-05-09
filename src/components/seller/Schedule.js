@@ -36,7 +36,7 @@ function Schedule(props) {
       setIdSchedule(e)
     }
     const themmoithanhcong=()=>{
-      props.load();
+     
       fetchData("0");
       toast.success("Thành công")
       setOpen1(false)
@@ -69,7 +69,7 @@ function Schedule(props) {
       }
       useEffect(() => {
         fetchData(status);
-      }, [props.load()]);
+      }, []);
 
         const columns = [
           {

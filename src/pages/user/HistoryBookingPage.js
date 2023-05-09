@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import BaseUrl from '../../util/BaseUrl';
 import { CloseCircleOutlined,MailOutlined,PhoneOutlined,UserOutlined} from "@ant-design/icons";
-import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber, Dropdown, Badge, Spin } from "antd";
+import { Button, Table, Modal, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber, Dropdown, Badge, Spin, Drawer } from "antd";
 import TourInvoice from '../../components/seller/TourInvoice';
 import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
 import CountDown from '../../components/user/CountDown';
@@ -18,6 +18,9 @@ function HistoryBookingPage() {
   const [type,settype]=useState('0');
   const [open,setOpen]=useState(false);
   const [id,setId]=useState();
+  const [openTT,setOpentt]=useState(false);
+  const [invoice,setInvoice]=useState();
+  let now=new Date();
   const columns = [
       {
         title: 'Thông tin người đặt',
@@ -103,7 +106,7 @@ function HistoryBookingPage() {
              <Space size={1} direction='vertical'>
              <Button key={record.id} onClick={()=>{setId(record.id);setOpen(true)}}>Xem</Button>
                   {type==="1"?
-                  <Button onClick={()=>{thanhtoan(record)}} style={{backgroundColor:'yellowgreen'}} type='primary'>Thanh toán</Button>:<></>}
+                  <Button onClick={()=>{setInvoice(record);setOpentt(true)}} style={{backgroundColor:'yellowgreen'}} type='primary'>Thanh toán</Button>:<></>}
               </Space>
             </>
           )},
@@ -117,9 +120,10 @@ function HistoryBookingPage() {
         title: 'Hủy đơn',
         key:'ds',
         render: (record) => {
+          
           return (
             <>
-            {record.status!=3?<CloseCircleOutlined style={{fontSize:20}}  onClick={()=>{huy(record.id)}}/>:<>Đã hủy</>
+            {record.status!=3?<CloseCircleOutlined style={{fontSize:20}} hidden={record.status==2?true:false}  onClick={()=>{huy(record.id)}}/>:<>Đã hủy</>
         }</>
           )},
           width:"5%"
@@ -187,6 +191,13 @@ const thanhtoan=async(invoice)=>{
       console.error(error);
       setXuLy(false)
     }
+  }
+  const thanhtoanvnpay=async(invoice)=>{
+    if(invoice)
+    try{
+      window.location="http://travel-app.infinityfreeapp.com/VNPAY_TT/thanhtoanvnpay.php?id="+invoice.id+"&amount="+invoice.amount;
+
+    }catch{}
   }
 
   const xoa=async(id)=>{
@@ -287,6 +298,10 @@ getCheckboxProps: (record) => ({
       <DetailInvoice id={id}/>
       </Modal>
   </Spin>
+  <Drawer title="Thanh toán hóa đơn" placement="right" onClose={()=>{setOpentt(false)}} open={openTT}>
+      <Button onClick={()=>{thanhtoan(invoice)}}>Thanh toán PayPal</Button>     
+      <Button onClick={()=>{thanhtoanvnpay(invoice)}}>Thanh toán VNPay</Button>
+  </Drawer>
   </div>
   </div>
   </>

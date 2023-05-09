@@ -75,6 +75,7 @@ function DetailTourPage() {
     const [idSchedule,setIdSchedule] = useState("0");
     const [people,setPeople] =useState(1);
     const [hanhtrinh,setHanhtrinh]=useState([]);
+    const [services,setServices] =useState([{}]);
     const [listRating,setListRating]=useState([])
     
 
@@ -100,6 +101,15 @@ function DetailTourPage() {
             setTour(res?.data);  
             setHanhtrinh(res?.data.hanhtrinh)
             setImages(res?.data.image);
+            let arr=[{}]
+            res?.data.idService.map(async(item)=>{
+              console.log(item)
+              let service= await axios.get(BaseUrl+'service/'+item)
+              console.log(service?.data)
+              arr.push(service?.data)
+            })
+            console.log(arr)
+            setServices(arr)
             setLoadingPage(false)
             const r= await axios.get(BaseUrl+'schedule/active/'+id); 
             setListSchedule(r?.data);
@@ -187,11 +197,13 @@ function DetailTourPage() {
             {/* Dịch vụ kèm theo */}
             <h2 className="text-maintext my-2 font-[700]">DỊCH VỤ KÈM THEO</h2>
             <div className="flex justify-between text-xs my-2 font-[600]">
+              {services.map((item)=>{if(item.name) return (<>
               <div className="flex items-center">
-                <AiOutlineFileProtect size={15} />{" "}
-                <span className="ml-2">Bảo hiểm</span>
+                <img src={item.icon} width={30}></img>{" "}
+                <span className="ml-2">{item.name}</span>
               </div>
-              <div className="flex items-center">
+              </>);})}
+              {/* <div className="flex items-center">
                 <GiKnifeFork size={15} />
                 <span className="ml-2">Bữa ăn</span>
               </div>
@@ -207,7 +219,7 @@ function DetailTourPage() {
               <div className="flex items-center">
                 <BsBusFrontFill size={15} />
                 <span className="ml-2">Vé thăm quan</span>
-              </div>
+              </div> */}
             </div>
             <h2 className="text-maintext my-2 font-[700]">MÔ TẢ</h2>
             <p className="text-sm font-[500] text-justify">
