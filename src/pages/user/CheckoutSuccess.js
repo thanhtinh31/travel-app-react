@@ -27,6 +27,7 @@ export const CheckoutSuccess = () => {
 
   }
   useEffect(() => {
+    if(sessionStorage.getItem('user'))
     xulythanhcong()
   }, []);
   return (

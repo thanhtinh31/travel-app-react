@@ -27,20 +27,19 @@ import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Avatar, Dropdown, message } from "antd";
-import {  MenuProps} from 'antd';
-import { SmileOutlined } from "@ant-design/icons";
+import { SmileOutlined ,HistoryOutlined,InfoCircleOutlined,LogoutOutlined} from "@ant-design/icons";
 const items = [
   {
     key: '7',
     label: (
       <Link to={'history'}>Lịch sử hóa đơn</Link>
     ),
-    icon: <SmileOutlined />
+    icon: <HistoryOutlined />
   },
   {
     key: '1',
     label: (
-      <Link to={'mytour'}>Lịch sử tour</Link>
+      <Link to={'mytour'}>My Tour</Link>
     ),
     icon: <SmileOutlined />
   },
@@ -49,7 +48,7 @@ const items = [
     label: (
       <Link to={'profile'}>Thông tin tài khoản</Link>
     ),
-    icon: <SmileOutlined />
+    icon: <InfoCircleOutlined />
   },
   {
     key: '3',
@@ -57,7 +56,7 @@ const items = [
     label: (
       <Link onClick={()=>{logout()}} to={'/login'}>Thoát</Link>
     ),
-    icon: <SmileOutlined />
+    icon: <LogoutOutlined />
   },
  
 ];

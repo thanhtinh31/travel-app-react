@@ -3,15 +3,18 @@ import DetailInvoice from '../../components/user/DetailInvoice'
 import { Spin } from 'antd'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function BookingSuccess() {
     var url_string = window.location;
     var url = new URL(url_string);
     var id = url.searchParams.get("id");
     const [loading,setLoading]=useState(true)
-    
+    const navigate=useNavigate();
     useEffect(() => {
-        setLoading(false)
+        if(sessionStorage.getItem('user'))
+          setLoading(false)
+          else navigate('login')
       }, []);
   return (
     <Spin spinning={loading}>

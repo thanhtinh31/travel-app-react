@@ -9,6 +9,7 @@ import BaseUrl from "../../util/BaseUrl";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebase";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
     const [account,setAccount]=useState()
@@ -20,6 +21,7 @@ function Profile() {
     const [oldPass,setOldPass]=useState("");
     const [newPass,setNewPass]=useState("");
     const [rNewPass,setRNewPass]=useState("");
+    const navigate=useNavigate();
     const onFinish = async() => {
       let obj={id:sessionStorage.getItem('user'),nameAccount,email,phoneNumber,address,image:avt}
         try{
@@ -55,12 +57,20 @@ function Profile() {
     console.log("Failed:", errorInfo);
   };
   const getAccount=async()=>{
+    if(sessionStorage.getItem('user'))
+    {
+      try{
         const user=await axios.get(BaseUrl+'account/getAccount/'+sessionStorage.getItem('user'));
         setNameAccount(user?.data.nameAccount)
         setEmail(user?.data.email)
         setPhoneNumber(user?.data.phoneNumber)
         setAddress(user?.data.address)
         setAvt(user?.data.image)
+      }catch{alert('Không có kết nối')}
+    }
+    else{
+      navigate('/login')
+    }
   }
   useEffect(() => {
     getAccount()          

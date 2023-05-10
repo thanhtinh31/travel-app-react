@@ -8,6 +8,7 @@ import TourInvoice from '../../components/seller/TourInvoice';
 import TinhTrangHoaDon from '../../components/seller/TinhTrangHoaDon';
 import CountDown from '../../components/user/CountDown';
 import DetailInvoice from '../../components/user/DetailInvoice';
+import { useNavigate } from 'react-router-dom';
 function HistoryBookingPage() {
   const idAccount=sessionStorage.getItem('user');
   const [xuly,setXuLy]=useState(false);
@@ -224,9 +225,11 @@ getCheckboxProps: (record) => ({
   name: record.id,
 }),
 };
-
+const navigate=useNavigate();
   
   async function fetchData(type) {
+    if(sessionStorage.getItem('user'))
+    {
     try {  
       const invoice = await axios.get(BaseUrl+'invoice/idstatus/'+idAccount+"/"+type)
       let arr=invoice?.data;
@@ -238,6 +241,10 @@ getCheckboxProps: (record) => ({
     } catch (error) {
       console.error(error);
     }
+  }
+  else{
+    navigate('/login')
+  }
   }
   useEffect(() => {
     fetchData(type);
