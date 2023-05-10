@@ -97,7 +97,7 @@ function Register() {
             <div>
               <form onSubmit={handleRegister}>
                 <div className="relative z-0 w-full mb-6 group">
-                  <inputs
+                  <input
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
