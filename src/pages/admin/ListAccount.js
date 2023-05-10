@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import BaseUrl from '../../util/BaseUrl';
 
-import { Button, Table, Modal, Input, Drawer, Space, Checkbox, Select, Upload, Form, Radio, Switch, Avatar } from "antd";
+import { Button, Table, Modal, Input, Drawer, Space, Checkbox, Select, Upload, Form, Radio, Switch, Avatar, Row, Col } from "antd";
 
 
 
@@ -117,7 +117,9 @@ function ListAccount() {
     
      
     return <>
-    <h1>QUẢN LÝ DANH SÁCH TÀI KHOẢN</h1>
+      <Row style={{marginBottom:15}}>
+      <Col span={21}><h2 style={{fontSize:20,textAlign:'center',color:'royalblue'}}>DANH SÁCH TÀI KHOẢN</h2></Col>
+      </Row>
       <Table rowKey={account.id} columns={columns} dataSource={account} loading={loading}/> 
       </>
 }

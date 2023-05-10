@@ -1,16 +1,19 @@
-import { Button, Col, Input, Modal, Row } from 'antd'
-import { addDoc, collection, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
+import { Avatar, Input, message } from 'antd'
+import { addDoc, collection, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
 import { db } from '../../firebase';
 import { BsSendFill } from 'react-icons/bs';
 
+
 function ChatBox(props) {
     const [mess,setMess] =useState("");
     const [messages, setMessages] = useState([]);
     const [myState, setState] = useState(props)
     const user=sessionStorage.getItem('user');
+    const [avt,setAvt] =useState("");
+    const [name,setName]=useState("");
     
     useEffect(() => {
         if(props.roomchat!=null)
@@ -32,6 +35,8 @@ function ChatBox(props) {
     
     async function sendMessage(roomId, text) {  
 //      
+        if(text==null||text==="") message.error('Vui lòng nhập tin nhắn!');
+        else
         try {
             await addDoc(collection(db, 'chat', roomId, 'messages'), {
                 uid: user,
@@ -43,21 +48,18 @@ function ChatBox(props) {
         } catch (error) {
             console.error(error);
         }
-      
-
     } 
 
   return (
     <>
-     <div class="max-h-80 overflow-y-auto bg-gradient-to-l from-[#53A6D8] to-[#88CDF6] my-2 rounded-md">
+     <div class="max-h-80 overflow-y-auto my-2 rounded-md" style={{border:1}}>
     {messages?.map((message) =>  {
         if(message.uid!=user)
-        return (<p className='border w-3/5 float-left p-2 rounded-lg m-1' key={message.id}>{message.text}</p>)
+        return (<p className='border w-3/5 float-left p-2 rounded-lg m-1 bg-slate-50' style={{backgroundColor:'#DCDCDC'}} key={message.id}><Avatar/> {message.text}</p>)
       else return(
-
-        <p className='border w-3/5 float-right p-2 rounded-lg m-1 bg-slate-100' key={message.id}>
+        <p className='border w-3/5 float-right p-2 rounded-lg m-1' style={{backgroundColor:'#1E90FF'}} key={message.id}>
         {message.text}
-      </p>
+        </p>
         )
         }    
     )}

@@ -1,17 +1,11 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { toast } from 'react-toastify';
-import AdminLayout from '../../layout/AdminLayout';
 import BaseUrl from '../../util/BaseUrl';
-import { EditOutlined, DeleteOutlined,MinusCircleOutlined } from "@ant-design/icons";
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Table, Modal, Input, Drawer, Space, Checkbox, Select, Upload, Form, Radio, Col, Row, InputNumber } from "antd";
-import firebase, { db, storage, storageRef } from '../../firebase';
+import { Button, Input, Space, Select, Upload, Form, Radio, Col, Row, InputNumber } from "antd";
+import  {  storage} from '../../firebase';
 import TextArea from 'antd/es/input/TextArea';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import SellerLayout from '../../layout/SellerLayout';
-import Hanhtrinh from '../../components/seller/Hanhtrinh';
-import { async } from 'q';
 const { Option } = Select;
 const CreateTourPage = (props) => {
     const [title,setTitle] =useState(null);
@@ -26,20 +20,19 @@ const CreateTourPage = (props) => {
     const [sale,setSale] =useState(0);
     const [status,setStatus] =useState(true);
     const [image,setImage] =useState([]);
-    const [open, setOpen] = useState(false);
     const [hanhtrinh,setHanhtrinh]=useState([]);
     const [categories, setCategories] = useState([]);
     const [fileList, setFileList] = useState([]);
     const handleSubmit=async()=>{
       if(window.confirm("Xác nhận tạo tour")){
-        let regObj = {idAccount:JSON.parse(sessionStorage.getItem('user')).id,title,subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,hanhtrinh,idCategory};
+        let regObj = {idAccount:sessionStorage.getItem('user'),title,subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,hanhtrinh,idCategory};
         console.log(regObj); 
         try{
           const res= await axios.post(BaseUrl+'tour', regObj);    
           console.log(res?.data);  
-          toast.success("thanh cong")
+          toast.success("Thêm mới tour thành công")
           props.parentCallback(true);
-        }catch(err){alert('Khong co ket noi');}
+        }catch(err){alert('Không có kết nối');}
     
     }
     }
@@ -71,9 +64,8 @@ const CreateTourPage = (props) => {
 }
   
 const onChange = (infor,fileList) => {
-  console.log(infor)
+  
   const new_arr = image.filter(item => item !== infor);
-  console.log(new_arr)
   setImage(new_arr)
 };
   const getCategories= async()=>{
@@ -100,10 +92,10 @@ const onChange = (infor,fileList) => {
       >
     <Row gutter={[24, 0]}>
         <Col span={12}>
-          <Form.Item label="Title"> 
+          <Form.Item label="Tiêu đề"> 
           <Input value={title} onChange={(e)=>{setTitle(e.target.value)}} required />
         </Form.Item></Col>
-        <Col span={12}><Form.Item label="Subtitle">
+        <Col span={12}><Form.Item label="Tiêu đề phụ">
           <Input value={subTitle} onChange={(e)=>{setSubTitle(e.target.value)}} />
         </Form.Item></Col>
     </Row>  
@@ -167,7 +159,7 @@ const onChange = (infor,fileList) => {
         </Form.Item></Col>
     </Row> 
     <Row gutter={[24, 0]}>
-        <Col span={12}><Form.Item label="Hinh anh">
+        <Col span={12}><Form.Item label="Hình ảnh">
 
         <Upload
         listType="picture-card"
@@ -182,7 +174,7 @@ const onChange = (infor,fileList) => {
         </Form.Item>
         </Col>
 
-        <Col span={12}><Form.Item label="Status">
+        <Col span={12}><Form.Item label="Trạng thái">
         
         <Radio.Group
         options={[
@@ -208,11 +200,11 @@ const onChange = (infor,fileList) => {
         </Col>
         <Col span={12}>
         <Form.Item>
-      <Button type="primary" htmlType="submit">
-        Save
+      <Button htmlType="submit" style={{marginRight:'10px',backgroundColor:'#7CFC00'}}>
+        Thêm mới
       </Button>
-      <Button type="dashed" onClick={()=>{props.parentCallback(false)}}>
-        Canncel
+      <Button style={{marginRight:'10px',backgroundColor:'#FF0000'}} onClick={()=>{props.parentCallback(false)}}>
+        Hủy
       </Button>
     </Form.Item>
          </Col>

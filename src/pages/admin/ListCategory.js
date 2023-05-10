@@ -6,10 +6,11 @@ import AdminLayout from '../../layout/AdminLayout';
 import BaseUrl from '../../util/BaseUrl';
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Table, Modal, Input, Drawer, Space, Checkbox, Select, Upload, Form, Radio } from "antd";
+import { Button, Table, Modal, Input, Drawer, Space, Checkbox, Select, Upload, Form, Radio, Row, Col } from "antd";
 import firebase, { db, storage, storageRef } from '../../firebase';
 import TextArea from 'antd/es/input/TextArea';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import CreateCategory from './CreateCategory';
 
 
 
@@ -21,7 +22,15 @@ function ListCategory() {
     const [status,setStatus]=useState(true);
     const [image,setImage] =useState(null);
     const [open, setOpen] = useState(false);
+    const [open2, setOpen2] = useState(false);
     const columns = [
+      {
+        title: 'STT',
+        render: (record) => {
+          return (<>{categories.indexOf(record)+1}</>);
+        },
+        width:'3%',  
+      },
         {
           title: 'Tên danh mục',
           dataIndex: 'name',
@@ -91,6 +100,12 @@ function ListCategory() {
         toast.success(xoa?.data);
         }  
       }
+      const callbackFunction = (childData) => {
+        if(childData){
+              fetchData()
+        }
+        setOpen2(false)
+      }
     
     async function fetchData() {
       try {  
@@ -100,6 +115,9 @@ function ListCategory() {
       } catch (error) {
         console.error(error);
       }
+    }
+    const handleSubmit=async()=>{
+
     }
     useState(() => {
       fetchData();
@@ -144,6 +162,13 @@ function ListCategory() {
         </div>
         );
     return <>
+     <Row style={{marginBottom:15}}>
+      <Col span={21}><h2 style={{fontSize:20,textAlign:'center',color:'royalblue'}}>DANH SÁCH DANH MỤC TOUR</h2></Col>
+      <Col span={3}>
+        <Button type='primary' onClick={()=>{setOpen2(true)}}>Thêm mới</Button>
+       {/* {ids==null||ids.length==0?<></>:<Button type='primary' onClick={()=>{deleteList(ids)}}>Xóa</Button>} */}
+      </Col>
+    </Row>
       <Table rowKey={categories.id} columns={columns} dataSource={categories} loading={loading}/> 
       <Modal
         title="Chỉnh sửa danh mục"
@@ -199,6 +224,20 @@ function ListCategory() {
         />
         </Form.Item>
       </Form>
+      </Modal>
+      <Modal
+        title={"Thêm mới Dịch vụ "}
+        footer={null}
+        okText=''
+        cancelText='Thoát'
+        okType='ghost'
+        centered
+        open={open2}
+        onOk={handleSubmit}
+        onCancel={() => setOpen2(false)}
+        width={800}   
+      >         
+      <CreateCategory  parentCallback={callbackFunction}/>
       </Modal>
       </>
 }

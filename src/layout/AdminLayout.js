@@ -78,9 +78,11 @@ const [collapsed, setCollapsed] = useState(false);
           style={{
             height: 32,
             margin: 16,
+            color: 'red',
+            fontSize:25
           //  background: 'rgba(255, 255, 255, 0.2)',
           }}
-        > ADmin</div>
+        > Travel-app</div>
         
         <Menu
           theme="dark"

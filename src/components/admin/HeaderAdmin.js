@@ -12,13 +12,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+// const pages = ['Products', 'Pricing', 'Blog'];
+const settings = ['Profile', 'Logout'];
 
 function HeaderAdmin() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate =useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,6 +36,12 @@ function HeaderAdmin() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleSetting=(setting)=>{
+    if(setting==="Logout") {
+      sessionStorage.removeItem('user');
+      navigate('/login')
+    }else if(setting==="Profile") navigate('/profile')
+  }
 
   return (
     <AppBar position="static" color='default'>
@@ -44,7 +52,7 @@ function HeaderAdmin() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/admin"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -55,7 +63,7 @@ function HeaderAdmin() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            ADMIN
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -87,11 +95,11 @@ function HeaderAdmin() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {/* {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -111,10 +119,10 @@ function HeaderAdmin() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            ADMIN
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {/* {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -122,13 +130,13 @@ function HeaderAdmin() {
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -149,7 +157,7 @@ function HeaderAdmin() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography onClick={()=>{handleSetting(setting)}} textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

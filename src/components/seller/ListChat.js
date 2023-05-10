@@ -13,9 +13,9 @@ function ListChat(props) {
     const [newmessage,setNewmessage]=useState(0);
     const [name,setName]=useState("No Name");
     const [avt,setAvt]=useState();
-  const onclick=(id,name)=>{
+  const onclick=(id,name,avt)=>{
     console.log(id)
-    props.chon(id,name)
+    props.chon(id,name,avt)
   }
   const setcount=(c)=>{
     setNewmessage(c);
@@ -48,7 +48,7 @@ function ListChat(props) {
     style={{border:'none',marginBottom:'17px',boxShadow:'none'}}
                   onClick={() => {
                     xem()
-                    onclick(props.id,name)
+                    onclick(props.id,name,avt)
                   }}
                 >
                   <Avatar size={'large'} src={avt}></Avatar>

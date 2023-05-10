@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import Headers from "../components/seller/Header";
-import { FileOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons';
+import {CommentOutlined,BarChartOutlined ,CalendarOutlined,ContainerOutlined,RiseOutlined,AreaChartOutlined,SettingOutlined,SafetyCertificateOutlined,FormOutlined} from '@ant-design/icons';
 import { Badge, Breadcrumb, Button, Layout, Menu, notification, theme } from 'antd';
 import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../firebase";
@@ -32,16 +32,17 @@ const SellerLayout = ({title = "Title", className, children}) => {
 
   }
   const items = [
-    getItem(<Link to={"listtour"} onClick={()=>{setPath("listtour");}}>Quản lý Tour du lịch</Link>, 'listtour', <PieChartOutlined />),
+    getItem(<Link to={"listtour"} onClick={()=>{setPath("listtour");}}>Quản lý Tour du lịch</Link>, 'listtour', <ContainerOutlined />),
 
-    getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Quản lý lịch trình</Link>, 'schedule', <UserOutlined />,
-    [getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Lịch trình tour</Link>, 'schedule', <UserOutlined />),
-    getItem(<Link to={"chottour"} onClick={()=>{setPath("chottour");}}>Chốt tour</Link>, 'chottour', <UserOutlined />)])
+    getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Quản lý lịch trình</Link>, 'schedule', <CalendarOutlined />,
+    [getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Lịch trình tour</Link>, 'schedule', <SettingOutlined />),
+    getItem(<Link to={"chottour"} onClick={()=>{setPath("chottour");}}>Chốt tour</Link>, 'chottour', <SafetyCertificateOutlined />)])
     ,
-    getItem(<Link  to={"chatbox"} onClick={()=>{setPath("chatbox");}}>Chat box</Link>, 'chatbox', <PieChartOutlined />),
-    getItem(<Badge count={count}><Link style={{color:"HighlightText"}} to={"listinvoice"} onClick={()=>{xem();setPath("listinvoice");}}>Quản lý hóa đơn</Link></Badge>, 'listinvoice', <PieChartOutlined />),
-    getItem('Team', 'sub2', <UserOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem(<Link  to={"chatbox"} onClick={()=>{setPath("chatbox");}}>Chat box (CSKH)</Link>, 'chatbox', <CommentOutlined />),
+    getItem(<Badge count={count}><Link style={{color:"HighlightText"}} to={"listinvoice"} onClick={()=>{xem();setPath("listinvoice");}}>Quản lý hóa đơn</Link></Badge>, 'listinvoice', <FormOutlined />),
+    getItem(<Link to={"schedule"} onClick={()=>{setPath("thongke");}}>Thống kê</Link>, 'thongke', <BarChartOutlined />,
+    [getItem(<Link to={"schedule"} onClick={()=>{setPath("thongkedoannhthu");}}>Thống kê doanh thu</Link>, 'thongkedoannhthu', <RiseOutlined />),
+    getItem(<Link to={"chottour"} onClick={()=>{setPath("chottour");}}>Thống kê tour</Link>, 'chottour', <AreaChartOutlined />)])
   ];
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type,content) => {
@@ -60,7 +61,7 @@ const SellerLayout = ({title = "Title", className, children}) => {
     if(!user.data){
       navigate('/login');
    }
-   else if(user?.data.typeAccount<2)
+   else if(user?.data.typeAccount<2||user?.data.status==false)
      {
      navigate("/authorized");
      }
@@ -112,9 +113,11 @@ const [collapsed, setCollapsed] = useState(false);
           style={{
             height: 32,
             margin: 16,
+            fontSize:25,
+            color:'green'
           //  background: 'rgba(255, 255, 255, 0.2)',
           }}
-        > ADmin</div>
+        > Travel-app</div>
         
         <Menu
           theme="dark"
@@ -137,6 +140,7 @@ const [collapsed, setCollapsed] = useState(false);
         <Content
           style={{
             margin: '24px 16px 0',
+            minHeight:'550px'
           }}
         >
           <Breadcrumb

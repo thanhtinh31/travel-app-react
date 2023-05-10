@@ -26,10 +26,11 @@ function ChatBoxPage() {
 
 }, [idRoom]);
 
-const chon=(id,name)=>{
+const chon=(id,name,avt)=>{
   console.log(id)
   setIdRoom(id)
   setName(name)
+  
 
 }
   return (
@@ -55,7 +56,7 @@ const chon=(id,name)=>{
         
         <Col span={18}>
           <Row>{name?<>Chat với {name}</>:<>Box chat</>} </Row>
-          {idRoom ? <ChatBox roomchat={idRoom} /> : <></>}
+          {idRoom ? <ChatBox roomchat={idRoom}  /> : <></>}
         </Col>
       </Row>
     </div>

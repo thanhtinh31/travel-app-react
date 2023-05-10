@@ -22,11 +22,11 @@ import {
   MdMenu,
 } from "react-icons/md";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Avatar, Dropdown } from "antd";
+import { Avatar, Dropdown, message } from "antd";
 import {  MenuProps} from 'antd';
 import { SmileOutlined } from "@ant-design/icons";
 const items = [
@@ -61,6 +61,7 @@ const items = [
   },
  
 ];
+
 function logout(){
    sessionStorage.removeItem('user')
 }
@@ -80,8 +81,11 @@ function Header() {
     if(sessionStorage.getItem('user')){
     try{
       const account= await axios.get(BaseUrl+'account/getAccount/'+sessionStorage.getItem('user'));
+      if(account?.data.status==false) {sessionStorage.removeItem('user'); message.info('Tài khoản của bạn đã bị khóa tạm thời!');navigate('/')}
+      else{
       setName(account?.data.nameAccount)
       if(account?.data.image) setAvt(account?.data.image)
+      }
     }
     catch{
         console.log('lỗi kết nối')
@@ -103,6 +107,7 @@ function Header() {
     const nav = document.querySelector("." + props);
     nav.classList.add("active");
   };
+  const navigate =useNavigate()
 
   const links = [
     {

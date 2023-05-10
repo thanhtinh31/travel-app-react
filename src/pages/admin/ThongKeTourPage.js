@@ -1,8 +1,9 @@
-import { Col, Divider, Row, Select } from 'antd'
+import { Card, Col, Divider, Row, Select, Statistic } from 'antd'
 import React, { useEffect, useState } from 'react'
 import TopTourChart from '../../components/admin/TopTourChart'
 import axios from 'axios';
 import BaseUrl from '../../util/BaseUrl';
+import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 
 
 function ThongKeTourPage() {
@@ -22,15 +23,51 @@ function ThongKeTourPage() {
   return (
     <>
     <Divider orientation="left">Tổng quan</Divider>
-    <Row>
+    <Row gutter={30}>
       <Col span={6} order={1}>
-        Tổng số danh mục {tongquat?tongquat.countCategory:0}
+      <Card bordered={false} style={{backgroundColor:'burlywood'}} >
+        <Statistic
+          title="Tổng số danh mục"
+          value={tongquat?tongquat.countCategory:0}
+          precision={0}
+          valueStyle={{
+            color: '#3f8600',
+          }}
+          prefix={<ArrowUpOutlined />}
+          suffix=""
+        />
+      </Card>
+        {/* Tổng số danh mục {tongquat?tongquat.countCategory:0} */}
       </Col>
       <Col span={6} order={2}>
-        Tổng số dịch vụ {tongquat?tongquat.countService:0}
+      <Card bordered={false} style={{backgroundColor:'gray'}}>
+        <Statistic
+          title="Tổng số dịch vụ"
+          value={tongquat?tongquat.countService:0}
+          precision={0}
+          valueStyle={{
+            color: '#3f8600',
+          }}
+          prefix={<ArrowUpOutlined />}
+          suffix=""
+        />
+      </Card>
+        {/* Tổng số dịch vụ {tongquat?tongquat.countService:0} */}
       </Col>
       <Col span={6} order={3}>
-        Tổng số tour {tongquat?tongquat.countTour:0}
+      <Card bordered={false}>
+        <Statistic
+          title="Tổng số tour"
+          value={tongquat?tongquat.countTour:0}
+          precision={0}
+          valueStyle={{
+            color: '#3f8600',
+          }}
+          prefix={<ArrowUpOutlined />}
+          suffix=""
+        />
+      </Card>
+        {/* Tổng số tour {tongquat?tongquat.countTour:0} */}
       </Col>
       <Col span={6} order={4}>
         ...

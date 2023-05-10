@@ -24,6 +24,13 @@ function ListCategory() {
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
     const columns = [
+      {
+        title: 'STT',
+        render: (record) => {
+          return (<>{services.indexOf(record)+1}</>);
+        },
+        width:'3%',  
+      },
         {
           title: 'Tên dịch vụ',
           dataIndex: 'name',
@@ -37,7 +44,7 @@ function ListCategory() {
           render: (record) => {
             return (
               <>
-               <img src={record.icon} width='70px'></img>
+               <img src={record.icon} width='70px' height='50px'></img>
               </>
             );
           },
@@ -155,8 +162,9 @@ function ListCategory() {
         </div>
         );
     return <>
-    <Row >
-      <Col push={20}>
+    <Row style={{marginBottom:15}}>
+    <Col span={21} ><h2 style={{fontSize:20,textAlign:'center',color:'royalblue'}}>DANH SÁCH DỊCH VỤ</h2></Col>
+      <Col span={3}>
         <Button type='primary' onClick={()=>{setOpen2(true)}}>Thêm mới</Button>
        {/* {ids==null||ids.length==0?<></>:<Button type='primary' onClick={()=>{deleteList(ids)}}>Xóa</Button>} */}
       </Col>

@@ -8,13 +8,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import BaseUrl from '../../util/BaseUrl';
 
-function CreateService(props) {
+function CreateCategory(props) {
   const [loading,setLoading] =useState(true);
-    const [id,setId] =useState(null);
+    
     const [name,setName] =useState(null);
-    const [describle,setDescrible] =useState(null)
+    const [content,setContent] =useState(null)
     const [status,setStatus]=useState(true);
-    const [icon,setIcon] =useState(null);
+    const [image,setImage] =useState(null);
     const customUpload = async({ onError, onSuccess, file }) => {
       const fileName = `uploads/images/${Date.now()}-${file.name}`;
       const imageRef = ref(storage, fileName);
@@ -22,12 +22,12 @@ function CreateService(props) {
       .then(() => {
         getDownloadURL(imageRef)
           .then((url) => {                         
-            setIcon(url);
+            setImage(url);
           })
           .catch((error) => {
             console.log(error.message, "error getting the image url");
           });
-        setIcon(null);
+        setImage(null);
       })
       .catch((error) => {
         console.log(error.message);
@@ -41,13 +41,13 @@ function CreateService(props) {
       const handleSubmit=async()=>{
         if(window.confirm("Xác nhận thêm mới")){
         try{
-          let obj={name,describle,icon,status}
-          const service=await axios.post(BaseUrl+'service',obj);
-          if(service?.data.status=="1") {
+          let obj={name,content,image,status}
+          const cate=await axios.post(BaseUrl+'category',obj);
+          if(cate?.data.status=="1") {
             toast.success("Thêm mới thành công")
             props.parentCallback(true)
           }else{
-            toast.warning(service?.data.message)
+            toast.warning(cate?.data.message)
           }
 
         }
@@ -57,7 +57,6 @@ function CreateService(props) {
       }
 
       }
-
 
   return (
     <>
@@ -69,20 +68,20 @@ function CreateService(props) {
         onFinish={handleSubmit}
       >
        
-        <Form.Item label="Tên dịch vụ">
+        <Form.Item label="Tên danh mục">
           <Input value={name} onChange={(e)=>{setName(e.target.value)}} required />
         </Form.Item>
                  
-        <Form.Item label="Mô tả" onChange={(e)=>{setDescrible(e.target.value)}}>
-          <TextArea rows={4} value={describle}/>
+        <Form.Item label="Nội dung" onChange={(e)=>{setContent(e.target.value)}}>
+          <TextArea rows={4} value={content} required/>
         </Form.Item>
        
         <Form.Item label="Hình Ảnh" valuePropName="fileList">
-          <Upload maxCount="1" fileList={[{url:icon}]} listType="picture-card"
+          <Upload maxCount="1" fileList={[{url:image}]} listType="picture-card"
            showUploadList={false}
            customRequest={customUpload}>
             <div>
-              {icon ? <img src={icon} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+              {image ? <img src={image} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
             </div>
           </Upload>
         </Form.Item>
@@ -124,4 +123,4 @@ function CreateService(props) {
   )
 }
 
-export default CreateService
+export default CreateCategory

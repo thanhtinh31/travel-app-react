@@ -159,7 +159,6 @@ function ListTourPage() {
         setStatus(record.status);
         setHanhtrinh(record.hanhtrinh)
         setIdService(record.idService)
-        console.log(record.hanhtrinh)
         setOpen(true);
       };
 
@@ -248,11 +247,11 @@ function ListTourPage() {
         try{
             const res= await axios.put(BaseUrl+'tour', regObj);    
             console.log(res?.data);  
-             toast.success("thanh cong")
+             toast.success("Cập nhật thành công")
              fetchData()
              setOpen(false)
              setOpen1(false)
-          }catch(err){alert('Khong co ket noi');}
+          }catch(err){alert('Không có kết nối');}
         }
     }
 
@@ -278,11 +277,13 @@ function ListTourPage() {
   
     return (
     <>
-    <Row >
-      <Col push={20}>
+    <Row style={{marginBottom:15}}>
+      <Col span={20}><h2 style={{fontSize:20,textAlign:'center',color:'royalblue'}}>DANH SÁCH TOUR DU LỊCH</h2></Col>
+      <Col span={2}>
         <Button type='primary' onClick={()=>{setOpen2(true)}}>Thêm mới</Button>
-       {ids==null||ids.length==0?<></>:<Button type='primary' onClick={()=>{deleteList(ids)}}>Xóa</Button>}
+       
       </Col>
+      <Col>{ids==null||ids.length==0?<></>:<Button style={{backgroundColor:'#DC143C'}} onClick={()=>{deleteList(ids)}}>Xóa</Button>}</Col>
     </Row>
     
       <Table rowSelection={{
@@ -326,7 +327,7 @@ function ListTourPage() {
     style={{
       width: '100%',
     }}
-    placeholder="select one country"
+    placeholder="select category"
     value={idCategory}
     onChange={handleChangeCate}
   >
@@ -545,7 +546,7 @@ function ListTourPage() {
   </Form>
       </Modal>
       <Modal
-        title={"Hành trình cụ thể tour "+title}
+        title={"Thêm mới tour du lịch "}
         footer={null}
         okText=''
         cancelText='Thoát'
