@@ -23,9 +23,11 @@ const CreateTourPage = (props) => {
     const [hanhtrinh,setHanhtrinh]=useState([]);
     const [categories, setCategories] = useState([]);
     const [fileList, setFileList] = useState([]);
+    const [service,setService]=useState([]);
+    const [idService,setIdService]=useState([]);
     const handleSubmit=async()=>{
       if(window.confirm("Xác nhận tạo tour")){
-        let regObj = {idAccount:sessionStorage.getItem('user'),title,subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,hanhtrinh,idCategory};
+        let regObj = {idAccount:sessionStorage.getItem('user'),idService,title,subTitle,image,describe,interesting,address,inteval,vehicle,price,sale,status,hanhtrinh,idCategory};
         console.log(regObj); 
         try{
           const res= await axios.post(BaseUrl+'tour', regObj);    
@@ -39,6 +41,10 @@ const CreateTourPage = (props) => {
     const handleChangeCate = (value) => {
       setIdCategory(value)
   };
+  const handleChangeService = (value) => {
+    setIdService(value)
+    console.log(`selected ${value}`);
+};
   const customUpload = async({ onError, onSuccess, file }) => {
     console.log(file)
     const fileName = `uploads/images/${Date.now()}-${file.name}`;
@@ -78,6 +84,8 @@ const onChange = (infor,fileList) => {
   }
   useState(async() => {
     getCategories()
+    const services = await axios.get(BaseUrl+'service/active')
+    setService(services?.data)
     
   }, []);
 
@@ -192,7 +200,30 @@ const onChange = (infor,fileList) => {
         optionType="button"
         buttonStyle="solid"
         />
-        </Form.Item></Col>
+        </Form.Item>
+        <Form.Item label="Dịch vụ">
+          <Select required
+    mode="multiple"
+    style={{
+      width: '100%',
+    }}
+    placeholder="select one country"
+    value={idService}
+    onChange={handleChangeService}
+  >
+      {service.map((item) => {
+            return (
+    <Option value={item.id} key={item.id} >
+      <Space>
+        {item.name}
+      </Space>
+    </Option>
+            )})}
+   
+  </Select>
+          </Form.Item>
+        
+        </Col>
     </Row>  
     <Row gutter={[24, 0]}>
         <Col span={10}>

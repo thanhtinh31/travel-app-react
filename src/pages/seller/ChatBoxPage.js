@@ -54,7 +54,7 @@ const chon=(id,name,avt)=>{
           })}
         </Col>
         
-        <Col span={18}>
+        <Col span={12}>
           <Row>{name?<>Chat với {name}</>:<>Box chat</>} </Row>
           {idRoom ? <ChatBox roomchat={idRoom}  /> : <></>}
         </Col>

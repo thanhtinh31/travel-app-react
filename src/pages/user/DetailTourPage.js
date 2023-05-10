@@ -40,6 +40,7 @@ import Weather from './Weather';
 import TextArea from 'antd/es/input/TextArea';
 import Rating from '../../components/user/Rating';
 import PostRating from '../../components/user/PostRating';
+import Post24h2 from '../../components/user/Post24h2';
 function loc_xoa_dau(str) {
   // Gộp nhiều dấu space thành 1 space
   str = str.replace(/\s+/g, ' ');
@@ -196,9 +197,9 @@ function DetailTourPage() {
 
             {/* Dịch vụ kèm theo */}
             <h2 className="text-maintext my-2 font-[700]">DỊCH VỤ KÈM THEO</h2>
-            <div className="flex justify-between text-xs my-2 font-[600]">
+            <div className="flex ">
               {services.map((item)=>{if(item.name) return (<>
-              <div className="flex items-center">
+              <div className="flex" style={{marginRight:'30px'}}>
                 <img src={item.icon} width={30}></img>{" "}
                 <span className="ml-2">{item.name}</span>
               </div>
@@ -231,7 +232,7 @@ function DetailTourPage() {
             <h2 className="text-maintext my-2 font-[700] ">
               ĐIỂM NỔI BẬT NHẤT
             </h2>
-            <ul className="pl-6 text-sm max-w-xs">
+            <ul className="pl-6 text-sm max-w-xs" >
               <pre className='w-auto'>{tour.interesting}</pre>
             </ul>
           </div>
@@ -266,13 +267,13 @@ function DetailTourPage() {
             {new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(tour.price - tour.price * tour.sale)}{" "} /1 nguoi
+                    }).format(tour.price - tour.price * tour.sale)}{" "} /1 người
             </div>
             <div className="line-through text-md text-[#f8d000]">
             {new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(tour.price)}{" "} / 1 nguoi
+                    }).format(tour.price)}{" "} / 1 người
             </div>
             <div className="flex justify-around my-4">
               <label for="select-time" className="text-white">
@@ -369,13 +370,13 @@ function DetailTourPage() {
         <div className="flex flex-col">
           <div className="">
             <h2 className="text-maintext m-2 font-[600] text-lg uppercase">
-              Các đánh giá tour:
+              Các đánh giá tour
             </h2>
             {tongquat?
             <div className="flex flex-col md:flex-row">
               <div className="text-[#fadb14] text-lg flex flex-col items-center px-3">
                 <h2 className="font-[600]">.</h2>
-                <Rate disabled value={tongquat.trungbinh} allowHalf />
+                <Rate disabled value={tongquat.tong==0?5:tongquat.trungbinh} allowHalf />
               </div>
               <div className="flex items-center flex-col md:flex-row my-6">
                 <div className="flex justify-center items-center border border-slate-400 rounded-md w-20 h-8 mx-4 my-1 cursor-pointer rate active">
@@ -413,13 +414,13 @@ function DetailTourPage() {
 
 
         <h2 className="text-maintext mx-2 my-4  mt-10 font-[600] text-lg uppercase">
-          Bài viết liên quan:
+          Tin tức du lịch
         </h2>
         <div className="flex justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
          
 
-         <Post24h/>
+         <Post24h2/>
 
         </div>
         <Modal

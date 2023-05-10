@@ -44,7 +44,7 @@ function PostRating(props) {
             marginLeft:30
           }}
            placeholder="Nhập nội dung đánh giá" />
-           <Button onClick={guiDanhGia}>Gửi đánh giá</Button>
+           <Button type='primary' style={{marginLeft:'20px'}} onClick={guiDanhGia}>Gửi đánh giá</Button>
           </div>
         </div>
    </>

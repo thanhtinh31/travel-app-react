@@ -33,8 +33,8 @@ import { Col, Rate, Row } from "antd";
 import data from '../../data.json'
 function HomePage() {
   const [tour, setTour] = useState([]);
-  const [category, setCategory] = useState(data.categorydata);
-  const [listSchedule,setListSchedule] = useState(data.tourgiochot);
+  const [category, setCategory] = useState([]);
+  const [listSchedule,setListSchedule] = useState([]);
   const navigate =useNavigate()
   async function fetchData() {
     try {

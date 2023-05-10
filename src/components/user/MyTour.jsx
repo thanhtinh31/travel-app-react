@@ -3,30 +3,13 @@ import styled from "styled-components";
 import Destination1 from "../../assets/bg1.jpg";
 import Destination2 from "../../assets/bg1.jpg";
 import { ArrowDownOutlined, UserOutlined } from '@ant-design/icons';
-import { Badge, Card, Col, Descriptions, Empty, Progress, Rate, Row, Space, Statistic } from "antd";
+import { Badge, Card, Col, Descriptions, Empty, Progress, Rate, Row, Space, Spin, Statistic } from "antd";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
+import { useNavigate } from "react-router-dom";
 
 export default function MyTour() {
-  // const data = [
-  //   {
-  //     image: Destination1,
-  //     title: "Singapore",
-  //     subTitle: "Singapore, officialy thr Republic of Singapore, is a",
-  //     cost: "38,800",
-  //     duration: "Approx 2 night trip",
-  //   },
-  //   {
-  //     image: Destination2,
-  //     title: "Thailand",
-  //     subTitle: "Thailand is a Southeast Asia country. It's known for",
-  //     cost: "54,200",
-  //     duration: "Approx 2 night trip",
-  //   },
-  
-  // ];
-
-
+  const [loading,setLoading]=useState(true);
 
   const packages = [
     "Tour chưa xuất phát",
@@ -37,11 +20,18 @@ export default function MyTour() {
 
   const [active, setActive] = useState(1);
   const [data,setData] =useState([]);
+  const navigate=useNavigate();
   const getListMyTour= async ()=>{
     if(sessionStorage.getItem('user')){
-      
+      try{
       const mytour= await axios.get(BaseUrl+'invoice/mytour/'+sessionStorage.getItem('user'));
       setData(mytour?.data)
+      setLoading(false)
+      }catch{
+        alert('Lỗi kết nối')
+      }
+    }else{
+        navigate('/login')
     }
   }
   useEffect(() => {
@@ -49,6 +39,8 @@ export default function MyTour() {
      
   }, []);
   return (
+    <>
+    <Spin spinning={loading}>
     <Section id="recommend">
       <div className="title">
         <h2>Recommended Destinations</h2>
@@ -77,17 +69,14 @@ export default function MyTour() {
               <Row >
                 <Col span={12}>
               <img src={item.image.url} alt="" />
-              <h3>{item.title}</h3>
-              <p>{item.subTitle}</p>
-              <div className="info">
-                <div className="services">
-                <span>2 ngày 2 đêm</span>
-                </div>
-                <h4>1.100.000</h4>
-              </div>
+              <h3>TOUR:{item.title}| {item.subTitle}</h3>
+              <h3>Thời gian:{item.inteval}</h3>
+              <h3>Địa chỉ:{item.address}</h3>
+              
+             
               <div className="distance">
-                <Rate disabled defaultValue={5} />
-                <span>1.000.000</span>
+                <Rate disabled defaultValue={item.star} />
+                <span style={{marginLeft:'270px'}}>{item.price} VNĐ</span>
               </div>
               </Col>
               <Col span={12}>
@@ -144,6 +133,15 @@ export default function MyTour() {
     <Descriptions.Item label="Số điện thoại ">{item.phone}</Descriptions.Item>
   </Descriptions>
                 </Row>
+                <Row>
+                <Descriptions column={2} title="Thông tin hóa đơn">
+    <Descriptions.Item label="Trạng thái">{item.status==2?"Đã thanh toán":item.status==3?"Đã hủy":"Chưa thanh toán"}</Descriptions.Item>
+    <Descriptions.Item label="Hình thúc thanh toán">{item.payments?item.payments:"--"}</Descriptions.Item>
+    <Descriptions.Item label="Tổng tiền thanh toán">{item.amount}</Descriptions.Item>
+    <Descriptions.Item label="Ngày thanh toán">{item.payDay?item.payDay:"--"}</Descriptions.Item>
+    
+  </Descriptions>
+                </Row>
               </Col>
               </Row>
             </div>
@@ -151,8 +149,9 @@ export default function MyTour() {
           else return(<></>);
         })}
       </div>
-    
     </Section>
+    </Spin>
+    </>
   );
 }
 
@@ -217,7 +216,7 @@ const Section = styled.section`
       }
       .distance {
         display: flex;
-        justify-content: space-between;
+        
       }
     }
   }
