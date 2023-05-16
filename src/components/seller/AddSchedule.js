@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, Radio, Upload } from 'antd';
+import { Button, DatePicker, Form, Input, InputNumber, Radio, Upload } from 'antd';
 import axios from 'axios';
 
 import React from 'react'
@@ -16,22 +16,21 @@ function AddSchedule(props) {
     const [addressStart,setaddressStart]=useState(null);
     const [idTour,setIdTour]=useState(props.idTour);
     const [status,setStatus]=useState(true);
+    const [expectedPeople,setExpectedPeople] =useState(1);
     const onChange = (date, dateString) => {
         const a=new Date(dateString);
         setDayStart(dateString)
       };
     const themmoi=async()=>{
         try {  
-            let regObj = {dayStart,idTour,phone,addressStart,tourGuide,status};
+            let regObj = {dayStart,idTour,phone,addressStart,tourGuide,expectedPeople,progress:0,type:"HT",status};
             const add = await axios.post(BaseUrl+'schedule',regObj)
             if(add?.data.status==0) {toast.error(add?.data.message);} else {
                 props.thanhcong()
             }
-
           } catch (error) {
             console.error(error);
           }
-
     }
   return (
     <>
@@ -58,6 +57,9 @@ function AddSchedule(props) {
        
         <Form.Item label="Địa điểm xuất phát" >
         <Input value={addressStart} onChange={(e)=>{setaddressStart(e.target.value)}} required />
+        </Form.Item>
+        <Form.Item label="Số người dự kiến" >
+        <Input type='number' min={1} value={expectedPeople} onChange={(e)=>{setExpectedPeople(e.target.value)}} required />
         </Form.Item>
        
         <Form.Item label="Status">

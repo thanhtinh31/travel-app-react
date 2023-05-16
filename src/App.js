@@ -27,7 +27,6 @@ import SellerLayout from "./layout/SellerLayout";
 import AdminLayout from "./layout/AdminLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthorizedPage from "./pages/AuthorizedPage";
-
 import ChatBoxPage from "./pages/seller/ChatBoxPage";
 import Filtertour from "./pages/user/Filtertour";
 import Profile from "./pages/user/Profile";
@@ -42,6 +41,8 @@ import HistoryBookingPage from "./pages/user/HistoryBookingPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import BookingSuccess from "./pages/user/BookingSuccess";
 import MyTour from "./components/user/MyTour";
+import LichTour from "./components/seller/LichTour";
+import RequestPage from "./pages/seller/RequestPage";
 
 
 function App() {
@@ -55,9 +56,9 @@ function App() {
       
       <BrowserRouter>
       <Routes>
-      <Route path="/create" element={<CreateTourPage/>}/>
       
       
+      <Route path="/test" element={<LichTour/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verify" element={<VerifyPage/>}/>
@@ -96,6 +97,7 @@ function App() {
           <Route path="chottour" element={<ChotTourPage />} />
           <Route path="chatbox" element={<ChatBoxPage />} />
           <Route path="listinvoice" element={<ListInvoice />} />
+          <Route path="request" element={<RequestPage />} />
           <Route path="*" element={<NotFoundPage/>}/>
         </Route>
       </Routes>

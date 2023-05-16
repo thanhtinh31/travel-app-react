@@ -41,6 +41,7 @@ import TextArea from 'antd/es/input/TextArea';
 import Rating from '../../components/user/Rating';
 import PostRating from '../../components/user/PostRating';
 import Post24h2 from '../../components/user/Post24h2';
+import Request from '../../components/user/Request';
 function loc_xoa_dau(str) {
   // Gộp nhiều dấu space thành 1 space
   str = str.replace(/\s+/g, ' ');
@@ -78,7 +79,7 @@ function DetailTourPage() {
     const [hanhtrinh,setHanhtrinh]=useState([]);
     const [services,setServices] =useState([{}]);
     const [listRating,setListRating]=useState([])
-    
+    const [open1,setOpen1]=useState(false);
 
     const [tongquat,setTongquat]=useState({})
     const  navigate = useNavigate()
@@ -94,6 +95,22 @@ function DetailTourPage() {
             else
             navigate('/booking?idSchedule='+idSchedule+'&sl='+people);
         }
+    }
+    const thanhcong=(e)=>{
+        setOpen1(e);
+    }
+    const handleRequest =()=>{
+      const account  = sessionStorage.getItem('user');
+      if(!account){
+          alert("vui long dang nhap de dat tour")
+          navigate("/login")
+      }
+      else{
+        setOpen1(true);
+
+
+      }
+
     }
     async function fetchApi() {
         setLoadingPage(true)
@@ -112,7 +129,7 @@ function DetailTourPage() {
             console.log(arr)
             setServices(arr)
             setLoadingPage(false)
-            const r= await axios.get(BaseUrl+'schedule/active/'+id); 
+            const r= await axios.get(BaseUrl+'schedule/idtourprogress/'+id+'/0'); 
             setListSchedule(r?.data);
             
         }catch(err){alert('Khong co ket noi');}        
@@ -312,12 +329,13 @@ function DetailTourPage() {
             </div>
             <div className="flex justify-center items-center my-8">
               <Button type='primary' onClick={handleBooking}>Đặt tour</Button>
+             
             </div>
           </div>
 
           <div className="my-3 mx-2">
             <div className="uppercase font-[600] flex items-center justify-center bg-mainbg text-white h-10">
-              Liên hệ với chúng tôi
+            <Button type='primary' onClick={handleRequest}>Đặt tour theo yêu </Button>
             </div>
             <div className="text-maintext">
               <h2 className=" my-2 font-[600]">Hotline</h2>
@@ -372,7 +390,8 @@ function DetailTourPage() {
             <h2 className="text-maintext m-2 font-[600] text-lg uppercase">
               Các đánh giá tour
             </h2>
-            {tongquat?
+
+            {tongquat?tongquat.tong==0?<>Chưa có đánh giá...</>:
             <div className="flex flex-col md:flex-row">
               <div className="text-[#fadb14] text-lg flex flex-col items-center px-3">
                 <h2 className="font-[600]">.</h2>
@@ -429,13 +448,24 @@ function DetailTourPage() {
       title="Thời tiết"
       footer={null}
       width={900}
-    >
+        >
      {tour.address?<Weather city={loc_xoa_dau(tour.address)}/>:<></>}
     </Modal>
 
         </div>
       </div>
     </div>  
+
+    <Modal
+      open={open1}
+      onCancel={()=>{setOpen1(false)}}
+      title="Đặt tour theo yêu cầu"
+      footer={null}
+      width={700}
+      >
+     
+     <Request idTour={id} thanhcong={thanhcong}/>
+    </Modal>
     </Spin> 
 
   )

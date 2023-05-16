@@ -246,7 +246,14 @@ const navigate=useNavigate();
     navigate('/login')
   }
   }
+  const checkLogin=async()=>{
+    if(sessionStorage.getItem('user'))
+    try{
+        const user= await axios.get(BaseUrl+'account/getAccount/'+sessionStorage.getItem('user'))
+    }catch{sessionStorage.removeItem('user');window.location='/home'}
+  }
   useEffect(() => {
+    checkLogin()
     fetchData(type);
   }, [tours,type,id]);
   

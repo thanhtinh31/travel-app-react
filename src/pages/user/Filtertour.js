@@ -59,6 +59,7 @@ import {
                       }).format(price - price * sale)}{" "}
                       / người
                     </div>
+                    {sale==0?<></>:
                     <div className="line-through text-sm font-[400] text-red-500 p-1">
                       {new Intl.NumberFormat("vi-VN", {
                         style: "currency",
@@ -66,6 +67,7 @@ import {
                       }).format(price)}{" "}
                       / người
                     </div>
+                    }
                     
                   </div>
     </div>
@@ -241,7 +243,7 @@ import {
             </Select></>
 
         </div>
-        <div className="w-full  mt-10 ml-3 ">
+        <div className="w-full  mt-10 ml-3 " style={{marginBottom:'50px'}}>
         <h2 className="text-sm md:text-base font-[500] text-maintext"> 
           <Row>
             <Col>{address==null||address===""?idCategory==null||idCategory.length==0?"Tất cả các tour...":"Lọc tour theo danh mục":"Lọc tour theo địa chỉ: "+address} </Col>
@@ -259,61 +261,7 @@ import {
          <Tour key={item.id} {...item} />
        </LazyLoad>
           ))}
-            {/* {tour.map((item) => {
-              return (
-                <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
-                  <div className="h-full w-full lg:w-[55%]">
-                    <Link to={"/detailtour?id="+item.id}>
-                      <img
-                        src={item.image[0].url}
-                        alt=""
-                        className="p-2 rounded-md h-full"
-                      />
-                    </Link>
-                  </div>
-                  <div className="w-full lg:w-[45%] text-maintext dark:text-darkmaintext">
-                    <div className="text-base font-[600] p-1">
-                      <a href="">{item.title}</a>
-                    </div>
-                    <div className="px-1 text-sm font-[500]">
-                      {" "}
-                      {item.inteval}{" "}
-                    </div>
-                    <div className="flex items-center px-1 text-sm font-[500]">
-                      <span className="mr-2">Phương tiện: </span>
-                      <BsFillCarFrontFill size={15} />
-                      <MdTrain size={15} />
-                      <MdAirplanemodeActive size={15} />
-                    </div>
-                    <div className="flex justify-around p-1">
-                      <MdCheckCircle size={15} />
-                      <FaUtensils size={15} />
-                      <BsShieldFillCheck size={15} />
-                      <BsTicketPerforatedFill size={15} />
-                      <BsBusFront />
-                    </div>
-                    <div className="text-sm font-[500] text-red-600 p-1">
-                      {new Intl.NumberFormat("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      }).format(item.price - item.price * item.sale)}{" "}
-                      / người
-                    </div>
-                    <div className="line-through text-sm font-[400] text-red-500 p-1">
-                      {new Intl.NumberFormat("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      }).format(item.price)}{" "}
-                      / người
-                    </div>
-                    <div className="flex text-yellow-500">
-                      <Rate value={5} disabled></Rate>
-                    </div>
-                    <button onClick={() => detailClick(item.id)} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm text-center px-2 py-1 float-right m-2">Xem thêm</button>
-                  </div>
-                </div>
-              );
-            })} */}
+         
           </div>
           </Spin>
         </div>

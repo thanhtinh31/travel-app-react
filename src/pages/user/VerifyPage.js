@@ -15,10 +15,12 @@ function VerifyPage() {
       })
     
     const handleVerify =async()=>{
-            const reg = JSON.parse(sessionStorage.getItem('verify')).account;
-            const codeVerify =JSON.parse(sessionStorage.getItem('verify')).code;        
+      if(sessionStorage.getItem('verify')){
+          const reg = JSON.parse(sessionStorage.getItem('verify')).account;
+          const codeVerify =JSON.parse(sessionStorage.getItem('verify')).code;        
           
         if(code==codeVerify){
+          sessionStorage.removeItem('verify')
             const res = await axios.post(BaseUrl+'account',reg);        
             alert("Đăng kí thành công");
           //  delete session
@@ -28,6 +30,7 @@ function VerifyPage() {
         else{
             alert("Không trùng khớp");
         } 
+      }
     }
   return (
     <div className="flex flex-col max-w-lg bg-slate-300 p-4 mx-auto items-center rounded-md my-10">

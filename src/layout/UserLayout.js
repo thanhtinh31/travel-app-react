@@ -8,6 +8,8 @@ import { addDoc, collection, doc, getDocs, onSnapshot, query, updateDoc, where }
 import { db } from "../firebase";
 import { MessageFilled } from '@ant-design/icons';
 import CountNewMessage from "../components/user/CountNewMessage";
+import axios from "axios";
+import BaseUrl from "../util/BaseUrl";
 const UserLayout = ({title = "Title", className, children}) => {
   const [open,setOpen] =useState(false);
   const [roomChat,setRoomChat] =useState();
@@ -55,7 +57,14 @@ const UserLayout = ({title = "Title", className, children}) => {
   const khoitao = async () => {
     check()
     }
+    const checkLogin=async()=>{
+      if(sessionStorage.getItem('user'))
+      try{
+          const user= await axios.get(BaseUrl+'account/getAccount/'+sessionStorage.getItem('user'))
+      }catch{sessionStorage.removeItem('user');window.location='/home'}
+    }
     useEffect(() => {
+      checkLogin()
       if(sessionStorage.getItem('user')){
       const qAll = query(
         collection(db, "chat"),

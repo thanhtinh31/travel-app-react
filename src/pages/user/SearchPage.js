@@ -48,13 +48,14 @@ const Tour = ({ id, title, image ,price,inteval,sale,address ,vehicle}) => (
       }).format(price - price * sale)}{" "}
       / người
     </div>
+    {sale==0?<></>:
     <div className="line-through text-sm font-[400] text-red-400 p-1">
       {new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
       }).format(price)}{" "}
       / người
-    </div>
+    </div>}
     <div className="flex text-yellow-500">
       <Rate disabled value={5}></Rate>
     </div>
@@ -116,7 +117,7 @@ function SearchPage() {
       <span className="italic">"{key}"</span>
     </h2>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8" style={{marginBottom:'50px'}}>
     {tours.map(item => (
         <LazyLoad key={item.id}
         height={100}

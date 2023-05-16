@@ -133,6 +133,7 @@ function HomePage() {
                     }).format(item.price - item.price * item.sale)}{" "}
                     / người
                   </div>
+                  {item.sale==0?<></>:
                   <div className="line-through text-sm font-[400] text-red-500 p-1">
                     {new Intl.NumberFormat("vi-VN", {
                       style: "currency",
@@ -140,6 +141,7 @@ function HomePage() {
                     }).format(item.price)}{" "}
                     / người
                   </div>
+                  }
                   <div className="flex text-yellow-500">
                   <Rate disabled allowHalf defaultValue={item.star} />
                   </div>

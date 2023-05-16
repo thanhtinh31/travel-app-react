@@ -103,8 +103,8 @@ export default function MyTour() {
                     
                   <Card bordered={false}>
                 <Statistic
-                  title="Tổng số người"
-                  value={item.totalpeople.dtt}
+                  title="Số người dự kiến"
+                  value={item.expectedPeople}
                   precision={0}
                   valueStyle={{
                   color: '#3f8600',

@@ -682,7 +682,12 @@ function BookingPage() {
           setLoading(false)
         }catch(err){alert('Khong co ket noi');setLoading(false)}
   }
-  
+  const checkLogin=async()=>{
+    if(sessionStorage.getItem('user'))
+    try{
+        const user= await axios.get(BaseUrl+'account/getAccount/'+sessionStorage.getItem('user'))
+    }catch{sessionStorage.removeItem('user');window.location='/home'}
+  }
   const HandleBookTour=async(e)=>{  
     if(!email){}else
     {
@@ -710,6 +715,7 @@ function BookingPage() {
   }
   
   useEffect(() => {
+    checkLogin()
     getThongTinAccount();
     getScheduleById();   
   }, []);

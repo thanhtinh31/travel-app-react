@@ -59,6 +59,7 @@ function Schedule(props) {
 
     }
     async function fetchData(st) {
+      setLoading(true)
         try {  
           const sche = await axios.get(BaseUrl+'schedule/'+st+'/'+props.id)
           setSchedules(sche?.data)
@@ -92,6 +93,11 @@ function Schedule(props) {
             title: 'Số điện thoại',
             dataIndex: 'phone',
             key: 'phone',
+          },
+          {
+            title: 'Dự kiến',
+            dataIndex: 'expectedPeople',
+            key: 'expectedPeople',
           },
           {
             title:'Số lượng (Người)',

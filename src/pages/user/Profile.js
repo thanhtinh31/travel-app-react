@@ -56,6 +56,12 @@ function Profile() {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  const checkLogin=async()=>{
+    if(sessionStorage.getItem('user'))
+    try{
+        const user= await axios.get(BaseUrl+'account/getAccount/'+sessionStorage.getItem('user'))
+    }catch{sessionStorage.removeItem('user');window.location='/home'}
+  }
   const getAccount=async()=>{
     if(sessionStorage.getItem('user'))
     {
@@ -73,6 +79,7 @@ function Profile() {
     }
   }
   useEffect(() => {
+    checkLogin()
     getAccount()          
   }, []);
   const [loading, setLoading] = useState(false);

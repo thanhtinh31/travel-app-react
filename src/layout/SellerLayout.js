@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import Headers from "../components/seller/Header";
-import {CommentOutlined,BarChartOutlined ,CalendarOutlined,ContainerOutlined,RiseOutlined,AreaChartOutlined,SettingOutlined,SafetyCertificateOutlined,FormOutlined} from '@ant-design/icons';
+import {CommentOutlined,BarChartOutlined ,CalendarOutlined,ContainerOutlined,RiseOutlined,NotificationOutlined,AreaChartOutlined,SettingOutlined,SafetyCertificateOutlined,FormOutlined} from '@ant-design/icons';
 import { Badge, Breadcrumb, Button, Layout, Menu, notification, theme } from 'antd';
 import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../firebase";
@@ -19,6 +19,7 @@ function getItem(label, key, icon, children) {
 }
 const SellerLayout = ({title = "Title", className, children}) => {
   const [count,setCount]=useState(0);
+  const [countrequest,setCountRequest]=useState(0);
   const [open,setOpen]=useState(false);
   const  navigate = useNavigate()
   const [path,setPath] = useState("listtour");
@@ -38,6 +39,7 @@ const SellerLayout = ({title = "Title", className, children}) => {
     [getItem(<Link to={"schedule"} onClick={()=>{setPath("schedule");}}>Lịch trình tour</Link>, 'schedule', <SettingOutlined />),
     getItem(<Link to={"chottour"} onClick={()=>{setPath("chottour");}}>Chốt tour</Link>, 'chottour', <SafetyCertificateOutlined />)])
     ,
+    getItem(<Badge count={countrequest}><Link style={{color:"HighlightText"}} to={"request"} onClick={()=>{setPath("request");}}>Yêu cầu đặt tour</Link></Badge>, 'request', <NotificationOutlined />),
     getItem(<Link  to={"chatbox"} onClick={()=>{setPath("chatbox");}}>Chat box (CSKH)</Link>, 'chatbox', <CommentOutlined />),
     getItem(<Badge count={count}><Link style={{color:"HighlightText"}} to={"listinvoice"} onClick={()=>{xem();setPath("listinvoice");}}>Quản lý hóa đơn</Link></Badge>, 'listinvoice', <FormOutlined />),
     getItem(<Link to={"schedule"} onClick={()=>{setPath("thongke");}}>Thống kê</Link>, 'thongke', <BarChartOutlined />,
@@ -86,8 +88,18 @@ const SellerLayout = ({title = "Title", className, children}) => {
 
   }
   }
+  const fetchData=async()=>{
+    try{
+      const c=await axios.get(BaseUrl+'request/count/0')
+      setCountRequest(c?.data)
+
+    }catch{
+
+    }
+  }
 useEffect(()=>{
  check();
+ fetchData()
 })
 const [collapsed, setCollapsed] = useState(false);  
   const {

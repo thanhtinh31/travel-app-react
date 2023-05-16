@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react'
 
 import BaseUrl from '../../util/BaseUrl';
 
-import { Table, Select, Switch, Avatar, Button, Row, Col, Drawer, Input } from "antd";
+import { Table, Select, Switch, Avatar, Button, Row, Col, Drawer, Input, message } from "antd";
 import DetailPeople from '../../components/seller/DetailPeople';
 import DetailTour from '../../components/seller/DetailTour';
 import { toast } from 'react-toastify';
 import { DeleteOutline } from '@mui/icons-material';
 import CountDown from '../../components/user/CountDown';
-import { CalendarOutlined, CarOutlined, StarTwoTone } from '@ant-design/icons';
+import { CalendarOutlined, CarOutlined, StarTwoTone,CloseOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 
 
@@ -17,8 +17,8 @@ function ChotTourPage() {
     const [loading,setLoading] =useState(true);
     const [schedule, setSchedules] = useState([]);
     const [loadingstatus,setLoadingStatus]=useState(false);
-    const [loai,setLoai] =useState("chuachot");
-    const [id,setId]=useState();
+    const [loai,setLoai] =useState("0");
+    const [id,setId]=useState("");
     const [open,setOpen]=useState(false);
     const [lydo,setLydo]=useState("");
     const columns = [
@@ -62,18 +62,23 @@ function ChotTourPage() {
               <DetailPeople idSchedule={record.id}/>
               </>
             )},
-            width:"18%"
+            width:"15%"
+        },
+        {
+          title: 'Dự kiến',
+          dataIndex: 'expectedPeople',
+          width:"5%"
         },
         
         {
-          title: 'Trạng thái',
+          title: 'Loại tour',
           render: (record) => {
             return (
               <>
-              {record.progress==0?record.status?<>Đang mở đặt</>:<>Đã chốt</>:record.progress==1?<>Đang khởi hành</>:record.progress==2?<>Đã hoàn thành</>:<>Đã hủy</>}
+              {record.type==="HT"?"Hệ thống":record.type==="YC"?"Yêu cầu":""}
               </>
             )},
-            width:"12%"
+            width:"8%"
         },
 
         {
@@ -81,27 +86,38 @@ function ChotTourPage() {
           render: (record) => {
             return (
                 <>
-              {loai=="chuachot"?
-             <> 
-              <Button onClick={()=>{handleChange(record.id,false)}}> Chốt tour</Button> <Button onClick={()=>{deleteHandle(record.id)}} icon={<DeleteOutline/>}></Button> </>:<>
-              {record.progress==0?
-              <Button onClick={()=>{handleChange(record.id,true)}} style={{color:'blueviolet'}}> Mở đặt tour</Button>:<></>}
-              {record.progress==0?
-              <Button onClick={()=>{changeProgress(record.id,1)}} style={{color:'blueviolet'}}> Xuất phát</Button>:<></>}
+             
+              {record.progress==0?<><Button onClick={()=>{changeProgress(record.id,1)}}> Chốt tour</Button> </>:<></>}
               {record.progress==1?
-              <Button onClick={()=>{changeProgress(record.id,2)}} style={{color:'blueviolet'}}> Hoàn thành</Button>:<></>}
-              </>}
-              {loai==="chuachot"||loai==="dachot"?
-              <Button onClick={()=>{setOpen(true);setId(record.id)}}>Hủy tour</Button>:<></>}
+              <Button onClick={()=>{changeProgress(record.id,0)}} style={{color:'blueviolet'}}> Mở đặt</Button>:<></>}
+              {record.progress==1?
+              <Button onClick={()=>{changeProgress(record.id,2)}} style={{color:'blueviolet'}}> Xuất phát</Button>:<></>}
+              {record.progress==2?
+              <Button onClick={()=>{changeProgress(record.id,3)}} style={{color:'blueviolet'}}> Hoàn thành</Button>:<></>}
               </>
-            )}
+            )},
+            width:"8%"
+        },
+        {
+          title: 'Hủy',
+        
+          render: (record) => {
+            return (
+              <>
+              {loai==="0"||loai==="1"?
+              <CloseOutlined onClick={()=>{setId(record.id);setOpen(true)}} />:<></>}
+              </>
+            )},
+          width:"5%"
         },
     ];   
     const changeProgress=async(id,progress)=>{
-      if(window.confirm("Xác nhận xóa")){
+      if(window.confirm("Xác nhận")){
         try {  
           const del = await axios.put(BaseUrl+'schedule/changeprogress/'+id+'/'+progress)
+          message.success('Thành công !')
           fetchData(loai);
+
         } catch (error) {
           console.error(error);
         }
@@ -155,8 +171,9 @@ function ChotTourPage() {
     async function fetchData(loai) {
       try {  
         setLoading(true)
-        const account= await axios.get(BaseUrl+'schedule/listdetailschedule/'+loai)
+        const account= await axios.get(BaseUrl+'schedule/progress/'+loai)
         setSchedules(account.data)
+        console.log(account.data)
         setLoading(false)
       } catch (error) {
         console.error(error);
@@ -173,29 +190,29 @@ function ChotTourPage() {
       onChange={(value)=>{setLoai(value);fetchData(value)}}
        options={[
         {
-          value: "chuachot",
+          value: "0",
           label: 'Chưa chốt',
         },
         {
-          value: "dachot",
+          value: "1",
           label: 'Đã chốt',
         },
         {
-          value: "dangkhoihanh",
+          value: "2",
           label: 'Đang khởi hành',
         },
         {
-            value: "dahoanthanh",
+            value: "3",
             label: 'Đã hoàn thành',
         },
         {
-          value: "dahuy",
+          value: "4",
           label: 'Đã hủy',
       },
       ]}>
         
       </Select>
-    <h1>Danh sách lịch trình {loai==="chuachot"?"Chưa chốt":loai==="dachot"?"Đã chốt":loai==="dangkhoihanh"?"Đang khởi hành":loai==="dahoanthanh"?"Đã hoàn thành":"Đã hủy"}</h1>
+    <h1>Danh sách lịch trình  {loai==="0"?"Đang mở đặt":loai==="1"?"Đã chốt":loai==="2"?"Đang khởi hành":loai==="3"?"Đã hoàn thành":"Đã hủy"}</h1>
       <Table rowKey={schedule.idSchedule} columns={columns} dataSource={schedule} loading={loading}/> 
       <Drawer title="Hủy Tour" placement="right" onClose={()=>{setOpen(false)}} open={open}>
         <p>{id}</p>
@@ -203,7 +220,6 @@ function ChotTourPage() {
         <TextArea value={lydo} onChange={(e)=>{setLydo(e.target.value)}} ></TextArea>
         <Button onClick={()=>{handleHuyTour(id)}} >Xác nhận hủy</Button>
       </Drawer>
-
     </>
 }
 
