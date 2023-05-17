@@ -168,7 +168,7 @@ function Weather(props) {
         );
         setCitySugges(cityCurrent);
       };
-      if (!click && city.length > 1) {
+      if (!click && city) {
         fetchCity();
       } else {
         setCitySugges([]);

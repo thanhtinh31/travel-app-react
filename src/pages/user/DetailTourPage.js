@@ -187,7 +187,7 @@ function DetailTourPage() {
 
           </Swiper>
           <div className="text-mainbg">
-            <h2 className="text-maintext font-[600]">Mã Tour: {tour.id}</h2>
+            <h2 className="text-maintext font-[600] py-3">Mã Tour: {tour.id}</h2>
             <div className="flex justify-between text-sm my-2">
               <div className="flex items-center">
                 <MdLocationOn size={20} />{" "}
@@ -249,7 +249,9 @@ function DetailTourPage() {
             <h2 className="text-maintext my-2 font-[700] ">
               ĐIỂM NỔI BẬT NHẤT
             </h2>
+
             <ul className="pl-6 text-sm max-w-xs" >
+
               <pre className='w-auto'>{tour.interesting}</pre>
             </ul>
           </div>
@@ -366,17 +368,6 @@ function DetailTourPage() {
           </div>
           <hr className="my-3" />
 
-
-          <div className="my-3 mx-2">
-            
-            <div className="text-maintext">
-              <h2 className=" my-2 font-[600]">Tour hot</h2>
-              
-              <div className="flex items-center px-4">
-                dàagagad
-              </div>
-            </div>
-          </div>
           
         </div>
       </div>
