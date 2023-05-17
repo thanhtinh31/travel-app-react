@@ -38,6 +38,9 @@ function Register() {
       if(isEmpty(nameAccount)){
         msg.nameAccount = "Tên người dùng không được bỏ trống"
       }
+      if(isEmpty(address)){
+        msg.address = "Tên người dùng không được bỏ trống"
+      }
       if(isEmpty(password)){
         msg.password = "Password không được bỏ trống"
       }
@@ -136,6 +139,8 @@ function Register() {
                     Số điện thoại
                   </label>
                 </div>
+                <p className="text-red-500 text-xs mb-4">{validator.phoneNumber}</p>
+
 
                 <div className="relative z-0 w-full mb-6 group">
                   <input
@@ -152,6 +157,7 @@ function Register() {
                     Địa chỉ
                   </label>
                 </div>
+                <p className="text-red-500 text-xs mb-4">{validator.address}</p>
 
                 <div className="relative z-0 w-full mb-6 group">
                   <input
@@ -168,6 +174,7 @@ function Register() {
                     Họ Tên
                   </label>
                 </div>
+                <p className="text-red-500 text-xs mb-4">{validator.nameAccount}</p>
 
                 <div className="relative z-0 w-full mb-6 group">
                   <div

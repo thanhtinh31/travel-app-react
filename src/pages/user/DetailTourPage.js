@@ -250,8 +250,7 @@ function DetailTourPage() {
               ĐIỂM NỔI BẬT NHẤT
             </h2>
 
-            <ul className="pl-6 text-sm max-w-xs" >
-
+            <ul className="pl-6 text-sm w-full overflow-auto">
               <pre className='w-auto'>{tour.interesting}</pre>
             </ul>
           </div>
