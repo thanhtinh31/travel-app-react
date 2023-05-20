@@ -66,8 +66,11 @@ function App() {
         <Route path="/authorized" element={<AuthorizedPage/>}/>
         <Route path="*" element={<NotFoundPage/>}/>
         <Route path="/" element={<UserLayout />}>
+          
           <Route index element={<HomePage />} />
+
           <Route path="profile" element={<Profile/>} />
+          <Route path="/gioithieu" element={<IntroducePage/>} />
           <Route path="weather" element={<Weather/>} />  
           <Route path="home" element={<HomePage/>}/>
           <Route path="detailtour" element={<DetailTourPage />} />

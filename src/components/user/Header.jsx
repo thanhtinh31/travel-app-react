@@ -171,7 +171,7 @@ function Header() {
               key={id}
               className={`${
                 id === 1 ? "active" : ""
-              } px-4 mx-1 cursor-pointer capitalize font-medium text-[1.25rem] text-white dark:text-lime-200 hover:scale-105 duration-200 main-text ${link}`}
+              } flex items-center justify-center px-4 mx-1 cursor-pointer capitalize font-medium text-[1.25rem] text-white dark:text-lime-200 hover:scale-105 duration-200 main-text ${link}`}
             >
               <Link
                 onClick={() => setActive(link)}
