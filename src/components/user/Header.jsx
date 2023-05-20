@@ -28,6 +28,7 @@ import BaseUrl from "../../util/BaseUrl";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Avatar, Dropdown, message } from "antd";
 import { SmileOutlined ,HistoryOutlined,InfoCircleOutlined,LogoutOutlined} from "@ant-design/icons";
+import logo1 from "../../assets/logo2.png"
 const items = [
   {
     key: '7',
@@ -153,14 +154,14 @@ function Header() {
     <div className="flex justify-center items-center w-full h-20 text-white bg-mainbg shadow-sm shadow-gray-500 fixed top-0 z-20">
       <div className="flex justify-between w-full max-w-screen-xl px-4 md:mx-2">
         <div className="">
-          <a href="https://flowbite.com/" className="flex items-center">
+          <a href="/" className="flex items-center">
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8 mr-3"
+              src={logo1}
+              className="h-12 mr-3"
               alt="Flowbite Logo"
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
+              Travel
             </span>
           </a>
         </div>
