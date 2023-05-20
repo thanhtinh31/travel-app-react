@@ -35,7 +35,15 @@ function ChotTourPage() {
         },
         {
           title: 'Hướng dẫn viên',
-          dataIndex: 'tourGuide',
+          render: (record) => {
+            return (
+              <>
+              {record.tourGuide}<br/>
+              {record.phone}
+
+              </>
+            )},
+          
           width:"12%"
         },
         {
@@ -52,7 +60,7 @@ function ChotTourPage() {
                 </Row>
                 </>
               )},
-              width:"23%"
+              width:"25%"
         },
         {
           title: 'Số lượng người',

@@ -6,7 +6,6 @@ import BaseUrl from '../../util/BaseUrl';
 function AddSchedulePage() {
  
   const [listSchedule,setListSchedule] = useState([]);
-  
   useState(async() => {    
     const res= await axios.get(BaseUrl+'schedule/all/active');
     setListSchedule(res?.data)

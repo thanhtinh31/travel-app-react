@@ -98,6 +98,8 @@ function App() {
           <Route path="chatbox" element={<ChatBoxPage />} />
           <Route path="listinvoice" element={<ListInvoice />} />
           <Route path="request" element={<RequestPage />} />
+          <Route path="thongkedoanhthu" element={<ThongKeDoanhThuPage />} />
+          <Route path="thongketour" element={<ThongKeTourPage />} />
           <Route path="*" element={<NotFoundPage/>}/>
         </Route>
       </Routes>

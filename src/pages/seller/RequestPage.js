@@ -58,7 +58,7 @@ function RequestPage() {
                 </Row>
                 </>
               )},
-              width:"17%"
+              width:"20%"
         },
         {
           title: 'Số lượng người',

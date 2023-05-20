@@ -26,6 +26,7 @@ export default function MyTour() {
       try{
       const mytour= await axios.get(BaseUrl+'invoice/mytour/'+sessionStorage.getItem('user'));
       setData(mytour?.data)
+      console.log(mytour?.data)
       setLoading(false)
       }catch{
         alert('Lỗi kết nối')
@@ -63,10 +64,10 @@ export default function MyTour() {
         {data.length==0?<Empty />:<></>}
         {data.map((item) => {
           let dayStart=new Date(item.dayStart);
-          if(item.progress==active)
+          if(item.progress==active-1)
           return (
             <div className="destination">
-              {active}
+              
               <Row >
                 <Col span={12}>
               <img src={item.image.url} alt="" />

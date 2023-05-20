@@ -42,9 +42,9 @@ const SellerLayout = ({title = "Title", className, children}) => {
     getItem(<Badge count={countrequest}><Link style={{color:"HighlightText"}} to={"request"} onClick={()=>{setPath("request");}}>Yêu cầu đặt tour</Link></Badge>, 'request', <NotificationOutlined />),
     getItem(<Link  to={"chatbox"} onClick={()=>{setPath("chatbox");}}>Chat box (CSKH)</Link>, 'chatbox', <CommentOutlined />),
     getItem(<Badge count={count}><Link style={{color:"HighlightText"}} to={"listinvoice"} onClick={()=>{xem();setPath("listinvoice");}}>Quản lý hóa đơn</Link></Badge>, 'listinvoice', <FormOutlined />),
-    getItem(<Link to={"schedule"} onClick={()=>{setPath("thongke");}}>Thống kê</Link>, 'thongke', <BarChartOutlined />,
-    [getItem(<Link to={"schedule"} onClick={()=>{setPath("thongkedoannhthu");}}>Thống kê doanh thu</Link>, 'thongkedoannhthu', <RiseOutlined />),
-    getItem(<Link to={"chottour"} onClick={()=>{setPath("chottour");}}>Thống kê tour</Link>, 'chottour', <AreaChartOutlined />)])
+    getItem(<Link to={"thongkedoanhthu"} onClick={()=>{setPath("thongkedoanhthu");}}>Thống kê</Link>, 'thongkedoanhthu', <BarChartOutlined />,
+    [getItem(<Link to={"thongkedoanhthu"} onClick={()=>{setPath("thongkedoanhthu");}}>Thống kê doanh thu</Link>, 'thongkedoanhthu', <RiseOutlined />),
+    getItem(<Link to={"thongketour"} onClick={()=>{setPath("thongketour");}}>Thống kê tour</Link>, 'thongketour', <AreaChartOutlined />)])
   ];
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type,content) => {
