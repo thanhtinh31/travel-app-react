@@ -8,6 +8,8 @@ import BaseUrl from "../util/BaseUrl";
 import { Spin } from "antd";
 import isEmpty from "validator/lib/isEmpty";
 import isEmail from "validator/lib/isEmail";
+import isPhone from "validator/lib/isMobilePhone"
+import logo1 from "../assets/logo2.png"
 function Register() {
     const [showpw, setShowpw] = useState(false);
     const [email, setEmail] = useState("");
@@ -32,6 +34,14 @@ function Register() {
       }else if(!isEmail(email)){
         msg.email = "Nhập sai định dạng Email"
       }
+      if(phoneNumber.length<10)
+      {
+        msg.phoneNumber ="Khoong dung dinh dang";
+      }
+      if(phoneNumber.charAt(0)!="0")
+      {
+        msg.phoneNumber ="Khoong dung dinh dang";
+      }
       if(isEmpty(phoneNumber)){
         msg.phoneNumber = "Số điện thoại không được bỏ trống"
       }
@@ -44,6 +54,9 @@ function Register() {
       if(isEmpty(password)){
         msg.password = "Password không được bỏ trống"
       }
+      if(password.length<6){
+        msg.password = "Password tối thiểu 6 kí tự"
+      }
       if(isEmpty(newpassword)){
         msg.newpassword = "Nhập lại mật khẩu của bạn"
       }else if(password!=newpassword){
@@ -54,10 +67,12 @@ function Register() {
       if(Object.keys(msg).length>0) return false
       return true
     }
+
     const handleRegister = async (e) => {
-      const isValid = validateAll()
-    if(!isValid) return
       e.preventDefault();
+      const isValid = validateAll()
+    if(!isValid) return;
+      
       setLoading(true)
       let regObj = { email:email.toLowerCase(), phoneNumber ,address, nameAccount, password , status ,typeAccount };
       const res = await axios.post(BaseUrl+'account/register',regObj);
@@ -99,10 +114,13 @@ function Register() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
           <div className="hidden md:block bg-[url('./assets/login.jpg')] h-[80vh] bg-center bg-cover bg-no-repeat"></div>
           <div className="justify-center mx-auto w-[90%]">
-            <h2 className="font-bold text-3xl dark:text-white mb-4">Đăng ký</h2>
-            <p className="text-[#707070] dark:text-white my-4">
-              Welcome to <strong>Blue House Travel</strong>
+            <h2 className="font-bold text-3xl dark:text-white mb-4 text-center">Đăng ký</h2>
+            <div className="flex items-center justify-center ">
+            <p className="text-[#707070] dark:text-white my-4 mx-3">
+              Chào mừng đến với <strong>Travel App</strong> 
             </p>
+            <img  width={"40px"} src={logo1}/>
+            </div>
             <div>
               <form onSubmit={handleRegister}>
                 <div className="relative z-0 w-full mb-6 group">
@@ -129,6 +147,7 @@ function Register() {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     type="tel"
                     pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                    minLength={10}
                     name="phoneNumber"
                     id="phoneNumber"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -226,7 +245,7 @@ function Register() {
 
                 <div className="flex items-center text-sm font-medium text-blue-500 py-2">
                   <BsArrowRightShort size={25}/>
-                      <Link to="/login">Log in</Link>
+                      <Link to="/login">Đăng nhập</Link>
                   </div>
                 <button type="submit" onClick={handleRegister} className="relative inline-flex w-full items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
 

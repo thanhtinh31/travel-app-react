@@ -42,6 +42,7 @@ import Rating from '../../components/user/Rating';
 import PostRating from '../../components/user/PostRating';
 import Post24h2 from '../../components/user/Post24h2';
 import Request from '../../components/user/Request';
+import ItemTour from '../../components/user/ItemTour';
 function loc_xoa_dau(str) {
   // Gộp nhiều dấu space thành 1 space
   str = str.replace(/\s+/g, ' ');
@@ -80,7 +81,7 @@ function DetailTourPage() {
     const [services,setServices] =useState([{}]);
     const [listRating,setListRating]=useState([])
     const [open1,setOpen1]=useState(false);
-
+    const [item,setItem] =useState([]);
     const [tongquat,setTongquat]=useState({})
     const  navigate = useNavigate()
     const handleBooking = async()=>{
@@ -119,12 +120,12 @@ function DetailTourPage() {
             setTour(res?.data);  
             setHanhtrinh(res?.data.hanhtrinh)
             setImages(res?.data.image);
+            const item1= await axios.get(BaseUrl+'schedule/home');
+            setItem(item1?.data)
             let arr=[{}]
             res?.data.idService.map(async(item)=>{
-              console.log(item)
-              let service= await axios.get(BaseUrl+'service/'+item)
-              console.log(service?.data)
-              arr.push(service?.data)
+            let service= await axios.get(BaseUrl+'service/'+item)
+            arr.push(service?.data)
             })
             console.log(arr)
             setServices(arr)
@@ -287,12 +288,15 @@ function DetailTourPage() {
                       currency: "VND",
                     }).format(tour.price - tour.price * tour.sale)}{" "} /1 người
             </div>
+            {tour.sale==0?<></>:
             <div className="line-through text-md text-[#f8d000]">
+              
             {new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
                     }).format(tour.price)}{" "} / 1 người
             </div>
+}
             <div className="flex justify-around my-4">
               <label for="select-time" className="text-white">
                 Khởi hành
@@ -360,12 +364,27 @@ function DetailTourPage() {
             </div>
           </div>
           <hr className="my-3" />
+          <h2 className=" my-2 font-[600] uppercase text-maintext text-center">Tour giờ chốt</h2>
+          <div className="flex flex-col justify-around items-center">
+          {item.map((i) => {
+            return (<>
+              <div className='my-5'>
+            <ItemTour data={i}/>
+            </div>
+              </>);
+            })}
+            
+            
+          </div>
+          
+          <hr className="my-3" />
+
           <div className="flex justify-around text-mainbg">
             <BsFacebook size={25} />
             <BsInstagram size={25} />
             <BsTwitter size={25} />
+            
           </div>
-          <hr className="my-3" />
 
           
         </div>

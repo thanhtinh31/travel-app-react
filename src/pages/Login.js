@@ -9,7 +9,7 @@ import { LoginSocialFacebook } from 'reactjs-social-login';
 import { Spin } from "antd";
 import isEmpty from "validator/lib/isEmpty"
 import isEmail from "validator/lib/isEmail";
-
+import logo1 from "../assets/logo2.png"
 function Login() {
   const [loading,setLoading]=useState(false)
   const reCaptCha = () => {
@@ -73,10 +73,13 @@ function Login() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
           <div className="hidden md:block bg-[url('./assets/login.jpg')] h-[80vh] bg-center bg-cover bg-no-repeat"></div>
           <div className="justify-center mx-auto w-[90%]">
-            <h2 className="font-bold dark:text-white text-3xl mb-4">Login</h2>
-            <p className="text-[#707070] dark:text-white my-4">
-              Welcome to <strong>Blue House Travel</strong>
+            <h2 className="font-bold dark:text-white text-3xl mb-4 text-center">Đăng nhập</h2>
+            <div className="flex items-center justify-center ">
+            <p className="text-[#707070] dark:text-white my-4 mx-3">
+            Chào mừng đến với <strong>Travel App</strong> 
             </p>
+            <img  width={"40px"} src={logo1}/>
+            </div>
             <div>
               <form onSubmit={handleLogin}>
                 <div className="relative z-0 w-full mb-2 group">
@@ -135,16 +138,16 @@ function Login() {
                         />
                       </div>
                       <label className="ml-2 text-sm font-medium text-gray-900 ">
-                        Remember me
+                        Nhớ mật khẩu
                       </label>
                   </div>
                   <div className="text-sm font-medium text-gray-900">
-                      <Link to="/forgot">Forget password ?</Link>
+                      <Link to="/forgot">Quên mật khẩu ?</Link>
                     </div>
                   </div>
                   <div className="flex items-center text-sm font-medium text-blue-500 py-2">
                   <BsArrowRightShort size={25}/>
-                      <Link to="/register">Sign in</Link>
+                      <Link to="/register">Đăng ký ngay</Link>
                   </div>
                 </div>
                 <button onClick={handleLogin}
@@ -152,7 +155,7 @@ function Login() {
                   className="relative inline-flex w-full items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
                 >
                   <span className="relative px-5 py-2.5 w-full transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Login
+                    Đăng nhập
                   </span>
                 </button>
               </form>
@@ -168,7 +171,7 @@ function Login() {
               >
                 <div className="flex items-center"> 
                 <BsFacebook/>               
-                  <span className="px-2">Sign in with Facebook</span>
+                  <span className="px-2">Đăng nhập bằng with Facebook</span>
                 </div>
               </button>
               </LoginSocialFacebook >
