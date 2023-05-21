@@ -8,17 +8,17 @@ import {
 } from "react-icons/bs";
 import { MdLocationOn, MdMarkEmailRead } from "react-icons/md";
 import { Link } from "react-router-dom";
-import logo from "../../assets/greenhouse_logo.png";
+import logo from "../../assets/logo2.png";
 function Footer() {
   return (
     <div className="bg-mainbg px-2 lg:px-28 text-white font-[500]">
       <div className="grid gap-6 grid-cols-1 md:grid-cols-4 py-6">
         <div className="box">
           <div className="p-2">
-            <img src={logo} width={150} height={150} />
+            <img src={logo}  width={50} />
           </div>
           <p>
-            GreenHouse cam kết mang đến cho quý khách một chiến hành trình thú
+            Travel app cam kết mang đến cho quý khách một chiến hành trình thú
             vị, hấp dẫn và an toàn nhất!
           </p>
           <div className="flex justify-around items-center my-2">

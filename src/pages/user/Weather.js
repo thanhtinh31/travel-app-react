@@ -15,9 +15,12 @@ function Weather(props) {
     `http://api.weatherapi.com/v1/forecast.json?key=89092839d12c403dab884158231304&q=${city}&days=10&aqi=no&alerts=no`;
 
   const [location, setLocation] = useState(
-    () => (props.city||localStorage.getItem("city"))
+    () => {(props.city||localStorage.getItem("city"));
+          
+          }
   );
   useEffect(() => {
+    localStorage.removeItem("city")
     localStorage.setItem("city", JSON.stringify(location));
   }, [location]);
   const [city, setCity] = useState(props.city);

@@ -70,7 +70,7 @@ function App() {
           <Route index element={<HomePage />} />
 
           <Route path="profile" element={<Profile/>} />
-          <Route path="/gioithieu" element={<IntroducePage/>} />
+          <Route path="/introduce" element={<IntroducePage/>} />
           <Route path="weather" element={<Weather/>} />  
           <Route path="home" element={<HomePage/>}/>
           <Route path="detailtour" element={<DetailTourPage />} />
