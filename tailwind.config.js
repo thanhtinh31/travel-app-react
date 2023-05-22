@@ -14,6 +14,9 @@ module.exports = {
         'bg-overlay': 'rgba(0,0,0,0.3)',
       },
     },
+    fontFamily: {
+      signature: ["Great Vibes"],
+    },
   },
   plugins: [],
 };

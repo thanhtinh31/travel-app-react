@@ -38,7 +38,7 @@ function ItemTour(props) {
   return (
     <Link to={"/detailtour?id="+id}>
       {tour?
-     <div className="w-full md:w-80 p-2 bg-slate-200 rounded-sm relative shadow-lg">
+     <div className="w-full md:w-80 p-2 bg-slate-200 rounded-sm relative shadow-lg hover:scale-105">
         <img
           src={tour?tour.image[0].url:""}
           className="w-full h-48"
@@ -52,11 +52,11 @@ function ItemTour(props) {
         <div className="flex items-center justify-center bg-mainbg text-white text-md font-[500] py-1">
           <MdLocationOn size={20} /> <span className="ml-2">{tour.address}</span>
         </div>
-        <h2 className="capitalize font-[500] text-maintext">
+        <h2 className="capitalize font-[700] text-maintext">
         {tour.title}
         </h2>
-        <div className="px-1 text-md font-[500] text-maintext">{tour.inteval}</div>
-        <div className="flex items-center px-1 text-md font-[500] text-maintext">
+        <div className="px-1 text-sm font-[400] text-maintext">{tour.inteval}</div>
+        <div className="flex items-center px-1 text-sm font-[400] text-maintext">
           <span className="mr-2">Phương tiện: </span>
           {tour?tour.vehicle:""}
         </div>
@@ -67,7 +67,7 @@ function ItemTour(props) {
           <BsTicketPerforatedFill size={20} />
           <BsBusFront />
         </div>
-        <div className="text-md font-[500] text-red-600 p-1">
+        <div className="text-base font-[700] text-red-600 p-1">
         {new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",

@@ -10,7 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 const { Search } = Input;
 const Tour = ({ id, title, image ,price,inteval,sale,address ,vehicle}) => (
-  <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md " key={id}>
+  <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md hover:scale-105 min-h-[80px]" key={id}>
   <div className="h-full w-full lg:w-[55%]">
     <Link to={"/detailtour?id="+id}  >
       <img
@@ -112,7 +112,7 @@ function SearchPage() {
     </div>
     <br />
 
-    <h2 className="text-sm md:text-base font-[500] text-maintext my-3 mx-5">
+    <h2 className="text-sm md:text-base font-[600] text-maintext my-3 mx-5 uppercase">
       {tours.length} kết quả cho từ khóa{" "}
       <span className="italic">"{key}"</span>
     </h2>

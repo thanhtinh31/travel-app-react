@@ -43,6 +43,8 @@ import BookingSuccess from "./pages/user/BookingSuccess";
 import MyTour from "./components/user/MyTour";
 import LichTour from "./components/seller/LichTour";
 import RequestPage from "./pages/seller/RequestPage";
+import News from "./pages/user/News";
+import Tinchinh from "./pages/user/Tinchinh";
 
 
 function App() {
@@ -82,6 +84,9 @@ function App() {
           <Route path="history" element={<HistoryBookingPage/>}/>
           <Route path="bookingsuccess" element={<BookingSuccess/>}/>
           <Route path="mytour" element={<MyTour/>}/>
+          <Route path="news" element={<News/>}/>
+          <Route path="tinchinh" element={<Tinchinh/>}/>
+
         </Route>
         <Route path="/admin/" element={<AdminLayout />}>
           <Route index element={<ListCategory />} />

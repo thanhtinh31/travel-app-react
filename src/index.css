@@ -33,7 +33,6 @@ body{
   margin-top: 2rem;
 }
 .single-banner {
-  height: auto;
   position: relative;
   border: 1px solid var(--main-color);
   border-radius: 10px;
@@ -71,7 +70,7 @@ body{
   left: -7px;
   height: 2rem;
   text-align: left;
-  background-color: #acc4cfbd;
+  background-color: rgba(0,0,0,0.5);
 }
 .banner-content::before {
   content: "";
@@ -83,7 +82,7 @@ body{
 }
 .banner-title {
   font-size: 1rem;
-  color: var(--first-color);
+  color: whitesmoke;
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
@@ -153,6 +152,12 @@ body{
 .rate.active{
   color: #fadb14;
   border-color: #fadb14;
+}
+
+.activett{
+  color: #0284c7;
+  font-weight: 600;
+  font-size: 27px;
 }
 
 
