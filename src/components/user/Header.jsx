@@ -140,7 +140,7 @@ function Header() {
     },
     {
       id: 4,
-      title: "Booking",
+      title: "Đặt tour",
       link: "booking",
       path: "filter",
       icon: <TbBrandBooking size={20} />,
@@ -163,7 +163,7 @@ function Header() {
         <div className="">
           <a href="/" className="flex items-center">
             <img src={logo1} className="h-12 mr-3" alt="Flowbite Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-4xl font-signature font-semibold whitespace-nowrap dark:text-white">
               Travel
             </span>
           </a>
@@ -174,7 +174,7 @@ function Header() {
               key={id}
               className={`${
                 id === 1 ? "active" : ""
-              } flex items-center justify-center px-4 mx-1 cursor-pointer capitalize font-medium text-[1.25rem] text-white dark:text-lime-200 hover:scale-105 duration-200 main-text ${link}`}
+              } flex items-center justify-center px-4 mx-1 cursor-pointer capitalize font-medium text-base text-white dark:text-lime-200 hover:scale-105 duration-200 main-text ${link}`}
             >
               <Link
                 onClick={() => setActive(link)}
@@ -184,13 +184,13 @@ function Header() {
                 className="flex items-center"
               >
                 {icon}
-                {link}
+                {title}
               </Link>
             </li>
           ))}
           <li
             key={5}
-            className={`flex items-center justify-center px-4 mx-1 cursor-pointer capitalize font-medium text-[1.25rem] text-white dark:text-lime-200 hover:scale-105 duration-200 main-text news`}
+            className={`hidden xl:flex items-center justify-center px-4 mx-1 cursor-pointer capitalize font-medium text-base text-white dark:text-lime-200 hover:scale-105 duration-200 main-text news`}
           >
             <Link
               onClick={() => setActive("news")}
