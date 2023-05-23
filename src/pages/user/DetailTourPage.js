@@ -32,7 +32,7 @@ import {
 } from "react-icons/md";
 import { AiFillSchedule, AiOutlineFileProtect } from "react-icons/ai";
 import { GiKnifeFork, GiRotaryPhone } from "react-icons/gi";
-import { Button, Modal, Rate, Spin } from 'antd';
+import { Button, Modal, Popover, Rate, Spin } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Post24h from '../../components/user/Post24h';
@@ -78,7 +78,7 @@ function DetailTourPage() {
     const [idSchedule,setIdSchedule] = useState("0");
     const [people,setPeople] =useState(1);
     const [hanhtrinh,setHanhtrinh]=useState([]);
-    const [services,setServices] =useState([{}]);
+    const [services,setServices] =useState([]);
     const [listRating,setListRating]=useState([])
     const [open1,setOpen1]=useState(false);
     const [item,setItem] =useState([]);
@@ -216,12 +216,16 @@ function DetailTourPage() {
             {/* Dịch vụ kèm theo */}
             <h2 className="text-maintext my-2 font-[700]">DỊCH VỤ KÈM THEO</h2>
             <div className="flex ">
-              {services.map((item)=>{if(item.name) return (<>
+              {services?
+              services.map((item)=>{ return (item.name?<>
+               <Popover content={item.describle} title={item.name}>
               <div className="flex" style={{marginRight:'30px'}}>
                 <img src={item.icon} width={30}></img>{" "}
                 <span className="ml-2">{item.name}</span>
               </div>
-              </>);})}
+              </Popover>
+              </>:<></>);}):<></>}
+
               {/* <div className="flex items-center">
                 <GiKnifeFork size={15} />
                 <span className="ml-2">Bữa ăn</span>

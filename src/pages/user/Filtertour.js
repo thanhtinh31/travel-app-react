@@ -7,7 +7,7 @@ import {
     OrderedListOutlined,
     MenuUnfoldOutlined,
   } from "@ant-design/icons";
-  import { Button, Col, Input, Menu, Rate, Row, Select, Skeleton, Space, Spin, Tag } from "antd";
+  import { Badge, Button, Col, Input, Menu, Rate, Row, Select, Skeleton, Space, Spin, Tag } from "antd";
 
   import axios from "axios";
   import { useEffect, useState } from "react";
@@ -23,6 +23,7 @@ import {
   const { Option } = Select;
 
   const Tour = ({ id, title, image,address ,price,inteval,sale }) => (
+    <Badge.Ribbon placement="start" text={sale!=0?"Sale -"+sale*100+" %":""} color="red">
     <div className="flex flex-col lg:flex-row md:h-auto bg-slate-100 shadow-md rounded-md ">
                   <div className="h-full w-full lg:w-[55%]">
                     <Link to={"/detailtour?id="+id} >
@@ -71,6 +72,7 @@ import {
                     
                   </div>
     </div>
+    </Badge.Ribbon>
   )
   
   function getItem(label, key, icon, children, type) {

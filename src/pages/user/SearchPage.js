@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import UserLayout from '../../layout/UserLayout'
 import BaseUrl from '../../util/BaseUrl';
-import { Input, Rate, Skeleton, Space, Spin } from 'antd';
+import { Badge, Input, Rate, Skeleton, Space, Spin } from 'antd';
 import { MdCamera, MdCheckCircle, MdLocalActivity, MdLocalAirport, MdLocationOn, MdOutlineStar } from 'react-icons/md';
 import { FaUtensils } from 'react-icons/fa';
 import { BsBusFront, BsShieldFillCheck, BsTicketPerforatedFill } from 'react-icons/bs';
@@ -10,7 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 const { Search } = Input;
 const Tour = ({ id, title, image ,price,inteval,sale,address ,vehicle}) => (
-  <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md hover:scale-105 min-h-[80px]" key={id}>
+  <Badge.Ribbon placement="start" text={sale!=0?"Sale -"+sale*100+" %":""} color="red">
+  <div className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md " key={id}>
   <div className="h-full w-full lg:w-[55%]">
     <Link to={"/detailtour?id="+id}  >
       <img
@@ -25,7 +26,7 @@ const Tour = ({ id, title, image ,price,inteval,sale,address ,vehicle}) => (
       <a href="">{title}-{inteval}</a>
     </div>
     <div className="px-1 text-md font-[500] flex items-center">
-    <MdLocationOn size={20} color='red'/>   {"  "+address}
+    <MdLocationOn size={20}  color='red'/>   {"  "+address}
     </div>
     {/* <div className="px-1 text-md font-[500]">
       {inteval}{" "}
@@ -62,6 +63,7 @@ const Tour = ({ id, title, image ,price,inteval,sale,address ,vehicle}) => (
     
   </div>
 </div>
+</Badge.Ribbon>
 )
 function SearchPage() {
   const [loading,setLoading]=useState(true);
@@ -112,7 +114,7 @@ function SearchPage() {
     </div>
     <br />
 
-    <h2 className="text-sm md:text-base font-[600] text-maintext my-3 mx-5 uppercase">
+    <h2 className="text-sm md:text-base font-[500] text-maintext my-3 mx-5">
       {tours.length} kết quả cho từ khóa{" "}
       <span className="italic">"{key}"</span>
     </h2>

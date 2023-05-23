@@ -29,7 +29,7 @@ import ItemTour from "../../components/user/ItemTour";
 import Recommend from "../../components/user/Recommend";
 import Hero from "../../components/user/Hero";
 import Post24h from "../../components/user/Post24h";
-import { Col, Rate, Row } from "antd";
+import { Badge, Col, Rate, Row } from "antd";
 import data from "../../data.json";
 function HomePage() {
   const [tour, setTour] = useState([]);
@@ -99,6 +99,7 @@ function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {tour.map((item) => {
             return (
+              <Badge.Ribbon placement="start" text={item.sale!=0?"Sale -"+item.sale*100+" %":""} color="red">
               <div
                 className="flex flex-col lg:flex-row bg-slate-100 shadow-md rounded-md hover:scale-105"
                 key={item.id}
@@ -160,6 +161,7 @@ function HomePage() {
                   </button>
                 </div>
               </div>
+              </Badge.Ribbon>
             );
           })}
         </div>
