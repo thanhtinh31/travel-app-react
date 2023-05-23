@@ -9,10 +9,10 @@ import Dailyforecast from "../../components/Dailyforecast";
 function Weather(props) {
 
   const url_API =
-    "https://api.weatherapi.com/v1/search.json?key=89092839d12c403dab884158231304&q=";
+    "https://api.weatherapi.com/v1/search.json?key=4f80652ef3d54ea2b3f63552232305&q=";
 
   const weatherURL = (city) =>
-    `http://api.weatherapi.com/v1/forecast.json?key=89092839d12c403dab884158231304&q=${city}&days=10&aqi=no&alerts=no`;
+    `http://api.weatherapi.com/v1/forecast.json?key=4f80652ef3d54ea2b3f63552232305&q=${city}&days=14&aqi=no&alerts=no`;
 
   const [location, setLocation] = useState(
     () => {(props.city||localStorage.getItem("city"));
@@ -36,7 +36,7 @@ function Weather(props) {
   const [forecast, setForecast] = useState(false);
 
   const renderUi = async () => {
-    const weatherURL = 'http://api.weatherapi.com/v1/forecast.json?key=89092839d12c403dab884158231304&q='+{city}+'&days=10&aqi=no&alerts=no';
+    const weatherURL = 'http://api.weatherapi.com/v1/forecast.json?key=4f80652ef3d54ea2b3f63552232305&q='+{city}+'&days=14&aqi=no&alerts=no';
     const res = await fetch(weatherURL);
     const data = await res.json();
     console.log(data);

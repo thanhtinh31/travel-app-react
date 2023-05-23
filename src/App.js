@@ -85,7 +85,7 @@ function App() {
           <Route path="bookingsuccess" element={<BookingSuccess/>}/>
           <Route path="mytour" element={<MyTour/>}/>
           <Route path="news" element={<News/>}/>
-          <Route path="tinchinh" element={<Tinchinh/>}/>
+          <Route path="news/tinchinh"  element={<Tinchinh/>}/>
 
         </Route>
         <Route path="/admin/" element={<AdminLayout />}>

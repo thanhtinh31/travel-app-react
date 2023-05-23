@@ -118,7 +118,7 @@ import {
         ),
         getItem(
           <span onClick={() => {setAddress("Ho Chi Minh");fetchData("Ho Chi Minh",null,gt,lt,sort);setIdCategory([])}}>
-            Hồ chí Mình
+            Hồ Chí Minh
           </span>,
           "10"
         ),
