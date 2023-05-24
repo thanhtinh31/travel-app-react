@@ -64,7 +64,7 @@ export default function MyTour() {
         {data.length==0?<Empty />:<></>}
         {data.map((item) => {
           let dayStart=new Date(item.dayStart);
-          if(item.progress==active-1)
+          if(item.progress==active)
           return (
             <div className="destination">
               

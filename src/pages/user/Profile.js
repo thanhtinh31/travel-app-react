@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Checkbox, DatePicker, Form, Input, Select, Upload } from "antd";
+import { Button, Checkbox, DatePicker, Form, Input, Select, Upload, message } from "antd";
 import { PlusOutlined ,LoadingOutlined} from '@ant-design/icons';
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -35,6 +35,9 @@ function Profile() {
 
     };
     const onChangePass = async() => {
+      if(rNewPass!=newPass) message.error('Xác nhận mật khẩu không thành công');
+      else
+      {
       let obj={id:sessionStorage.getItem('user'),oldPass,newPass}
         try{
           const changepass= await axios.post(BaseUrl+'account/changepassword',obj)
@@ -50,8 +53,9 @@ function Profile() {
         }catch{
           toast.error('Lỗi kết nối')
         }
+      }
 
-    };
+  };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

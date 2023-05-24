@@ -18,6 +18,7 @@ import {
   MdClose,
   MdFilterListAlt,
   MdHistory,
+  MdSearch,
   MdHome,
   MdMenu,
 } from "react-icons/md";
@@ -150,7 +151,7 @@ function Header() {
       title: "Tìm kiếm",
       link: "Search",
       path: "search?key=",
-      icon: <MdHistory size={20} />,
+      icon: <MdSearch size={20} />,
     },
   ];
   const logout = (e) => {
