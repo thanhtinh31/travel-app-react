@@ -300,7 +300,7 @@ function DetailTourPage() {
                       currency: "VND",
                     }).format(tour.price)}{" "} / 1 người
             </div>
-}
+            }
             <div className="flex justify-around my-4">
               <label for="select-time" className="text-white">
                 Khởi hành

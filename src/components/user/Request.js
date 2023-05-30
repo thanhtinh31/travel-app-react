@@ -50,6 +50,7 @@ function Request(props) {
         let reg={idAccount:sessionStorage.getItem('user'),email,phone,address,addressStart,dayStart,people,fullName,idTour:props.idTour}
         try{
             const req= await axios.post(BaseUrl+'request',reg)
+            if(req?.data.status)
             message.success('Đặt thành công!')
             setPeople(1);
             setaddressStart("");
