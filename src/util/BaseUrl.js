@@ -1,3 +1,3 @@
 //const BaseUrl="http://localhost:8080/";
-const BaseUrl="https://travel-app-api-with-mongo-db-git-thanhtinhtrinhtk123-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/";
+const BaseUrl="https://api-vv2v.onrender.com/";
 export default BaseUrl
